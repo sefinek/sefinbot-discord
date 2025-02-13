@@ -16,11 +16,11 @@ require('./handlers/event.js')(client, fs);
 
 // Shards error handler
 client.on(Events.ShardError, (err, id) => console.error(`Shard${id} » A websocket connection encountered an error:`, err));
-client.on(Events.ShardDisconnect, (event, id) => console.log(`Shard${id} » Shard disconnected for an unknown reason. Event: ${event}`));
+client.on(Events.ShardDisconnect, (event, id) => console.log(`Shard${id} » Shard disconnected for an unknown reason. Event:`, event));
 client.on(Events.ShardReconnecting, id => console.log(`Shard${id} » Attempting to reconnect to the API...`));
 client.on(Events.ShardResume, (id, events) => {
 	require('./utils/setActivity.js')(client.user);
-	console.log(`Shard${id} » Shard has been successfully resumed. Replayed events: ${events}`);
+	console.log(`Shard${id} » Shard has been successfully resumed. Replayed events:`, events);
 });
 client.on(Events.ShardReady, shard => console.log(`Shard${shard} » Shard has been successfully started`));
 
