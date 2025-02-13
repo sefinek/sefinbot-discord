@@ -1,6 +1,6 @@
 {
   "name": "sefinbot-discord",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Discord bot (not public) dedicated to multiple community servers.",
   "homepage": "https://sefinek.net",
   "bugs": {
@@ -20,18 +20,18 @@
   "dependencies": {
     "@sefinek/cleverbot-free": "^2.1.5",
     "axios": "^1.7.9",
-    "discord.js": "^14.17.3",
+    "discord.js": "^14.18.0",
     "dotenv": "^16.4.7",
     "express": "^5.0.1",
     "express-timeout-handler": "^2.2.2",
     "helmet": "^8.0.0",
     "is-discord-invite": "^3.0.6",
-    "mongoose": "^8.9.5",
+    "mongoose": "^8.10.0",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.18.0",
-    "discord-api-types": "^0.37.116",
-    "globals": "^15.14.0"
+    "@eslint/js": "^9.20.0",
+    "discord-api-types": "^0.37.119",
+    "globals": "^15.15.0"
   }
 }

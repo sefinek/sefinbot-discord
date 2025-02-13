@@ -30,7 +30,7 @@ const production = {
 		farewellDescription: 'Unfortunately, the user with the name {user} has left our server. We hope that you will come back to us soon.',
 
 		banChannelId: '1328500677944803358',
-		banTitle: '⚠️ User {user} has been banned from the server',
+		banTitle: '⚠️ User {user} has been from the server',
 		banDescription: 'The user with the name {user} has been permanently banned from our server due to violations of our rules. We hope that the community remains safe and welcoming for all. Goodbye.',
 
 		// DM
@@ -126,7 +126,7 @@ const production = {
 		farewellDescription: 'Unfortunately, the user with the name {user} has left our server. We hope that you will come back to us soon.',
 
 		banChannelId: '1044714444393029722',
-		banTitle: '⚠️ User {user} has been banned from the server',
+		banTitle: '⚠️ User {user} has been from the server',
 		banDescription: 'The user with the name {user} has been permanently banned from our server due to violations of our rules. We hope that the community remains safe and welcoming for all. Goodbye.',
 
 		// DM
@@ -204,7 +204,7 @@ const production = {
 		farewellDescription: 'Unfortunately, the user with the name {user} has left our server. We hope that you will come back to us soon.',
 
 		banChannelId: '1328507335328661605',
-		banTitle: '⚠️ User {user} has been banned from the server',
+		banTitle: '⚠️ User {user} has been from the server',
 		banDescription: 'The user with the name {user} has been permanently banned from our server due to violations of our rules. We hope that the community remains safe and welcoming for all. Goodbye.',
 
 		// DM
