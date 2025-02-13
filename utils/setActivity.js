@@ -22,6 +22,5 @@ module.exports = client => {
 	};
 
 	setInterval(updateActivityAndStatus, 50000);
-
 	updateActivityAndStatus();
 };

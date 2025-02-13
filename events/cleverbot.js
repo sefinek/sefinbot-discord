@@ -7,7 +7,7 @@ const context = [];
 module.exports = {
 	name: Events.MessageCreate,
 	async execute(msg) {
-		if (msg.author.bot || msg.content?.length <= 1) return;
+		if (!msg.guild || msg.author.bot || msg.content?.length <= 1) return;
 
 		const serverCfg = guilds.getServerConfig(msg.guild.id);
 		if (!serverCfg) return console.warn(`EventC » Server config for ${msg.guild.id} was not found`);

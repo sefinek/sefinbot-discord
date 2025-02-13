@@ -5,7 +5,6 @@ const checkMessage = require('../services/checkMessage.js');
 module.exports = {
 	name: Events.MessageUpdate,
 	async execute(_, newMsg, client) {
-		// Skip processing for messages outside a guild or sent by bots
 		if (!newMsg.guild || newMsg.author.bot) return;
 
 		// Retrieve the server configuration
