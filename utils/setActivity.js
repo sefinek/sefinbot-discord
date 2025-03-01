@@ -21,6 +21,6 @@ module.exports = client => {
 		previousActivityIndex = newActivityIndex;
 	};
 
-	setInterval(updateActivityAndStatus, 66000); // 1,1 minutes
+	setInterval(updateActivityAndStatus, 90000); // 1,5 minutes
 	updateActivityAndStatus();
 };
