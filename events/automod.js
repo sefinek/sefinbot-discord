@@ -7,7 +7,7 @@ module.exports = {
 	name: Events.MessageCreate,
 	async execute(msg, client) {
 		if (!msg.guild || msg.author.bot) return;
-		if (userBlacklist(msg.author.username, msg.author.displayName) && !msg.member.permissions.has(PermissionsBitField.Flags.ManageMessages)) return msg.member.ban({ reason: 'Blacklist' });
+		if (!msg.member.permissions.has(PermissionsBitField.Flags.ManageMessages) && userBlacklist(msg.author.username, msg.author.displayName)) return msg.member.ban({ reason: 'Blacklist' });
 
 		const serverCfg = guilds.getServerConfig(msg.guild.id);
 		if (!serverCfg) return console.warn(`EventM » Server config for ${msg.guild.id} was not found`);

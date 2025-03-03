@@ -6,7 +6,7 @@ module.exports = {
 	name: Events.GuildMemberAdd,
 	async execute(member) {
 		if (member.user.bot) return;
-		if (userBlacklist(member.user.username, member.user.displayName) && !member.permissions.has(PermissionsBitField.Flags.ManageMessages)) return member.ban({ reason: 'Blacklist' });
+		if (!member.permissions.has(PermissionsBitField.Flags.ManageMessages) && userBlacklist(member.user.username, member.user.displayName)) return member.ban({ reason: 'Blacklist' });
 
 		// Fetch server configuration
 		const serverCfg = guilds.getServerConfig(member.guild.id);
