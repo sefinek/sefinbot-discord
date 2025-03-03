@@ -1,11 +1,13 @@
 const { Events, PermissionsBitField, EmbedBuilder } = require('discord.js');
 const guilds = require('../guilds.js');
 const checkMessage = require('../services/checkMessage.js');
+const userBlacklist = require('../services/userBlacklist.js');
 
 module.exports = {
 	name: Events.MessageCreate,
 	async execute(msg, client) {
 		if (!msg.guild || msg.author.bot) return;
+		if (userBlacklist(msg.author.username, msg.author.displayName)) return msg.member.ban({ reason: 'Blacklist' });
 
 		const serverCfg = guilds.getServerConfig(msg.guild.id);
 		if (!serverCfg) return console.warn(`EventM » Server config for ${msg.guild.id} was not found`);
