@@ -1,8 +1,8 @@
-const blacklist = ['manekin', 'kajser23', 'Kaiser', 'delightful_cheetah', 'hitler', 'sefinek'];
-const blacklistRegex = new RegExp(blacklist.map(name => `\b${name}\b`).join('|'), 'i');
+// grex "manekin" "kajser" "delightful_cheetah" "hitler" "sefinek"
+const regex = /delightful_cheetah|manekin|sefinek|(?:hitl|kajs)er/i;
 
 module.exports = (displayUsername, username) => {
-	const isValid = blacklistRegex.test(displayUsername) || blacklistRegex.test(username);
+	const isValid = regex.test(displayUsername) || regex.test(username);
 	if (isValid) console.log('Username detected on the blacklist');
 	return isValid;
 };

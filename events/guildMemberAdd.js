@@ -1,4 +1,4 @@
-const { Events, EmbedBuilder } = require('discord.js');
+const { Events, EmbedBuilder, PermissionsBitField } = require('discord.js');
 const guilds = require('../guilds.js');
 const userBlacklist = require('../services/userBlacklist.js');
 
@@ -6,7 +6,7 @@ module.exports = {
 	name: Events.GuildMemberAdd,
 	async execute(member) {
 		if (member.user.bot) return;
-		if (userBlacklist(member.user.username, member.user.displayName)) return member.ban({ reason: 'Blacklist' });
+		if (userBlacklist(member.user.username, member.user.displayName) && !member.permissions.has(PermissionsBitField.Flags.ManageMessages)) return member.ban({ reason: 'Blacklist' });
 
 		// Fetch server configuration
 		const serverCfg = guilds.getServerConfig(member.guild.id);
