@@ -7,7 +7,9 @@ module.exports = {
 	name: Events.MessageCreate,
 	async execute(msg, client) {
 		if (!msg.guild || msg.author.bot) return;
-		if (!msg.member.permissions.has(PermissionsBitField.Flags.ManageMessages) && userBlacklist(msg.author.username, msg.author.displayName)) return msg.member.ban({ reason: 'Blacklist' });
+		if (!msg.member.permissions.has(PermissionsBitField.Flags.ManageMessages) && userBlacklist(msg.author.username, msg.author.displayName)) {
+			return msg.member.ban({ reason: 'Blacklist (userBlacklist)', deleteMessageSeconds: 604800 });
+		}
 
 		const serverCfg = guilds.getServerConfig(msg.guild.id);
 		if (!serverCfg) return console.warn(`EventM » Server config for ${msg.guild.id} was not found`);
@@ -16,7 +18,7 @@ module.exports = {
 		if (msg.channel.id === serverCfg.botTrapChannelId && !msg.member.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
 			try {
 				await msg.delete();
-				await msg.member.kick({ reason: `Message in 'bot-trap': ${msg.content}` });
+				await msg.member.ban({ reason: `Bot trap: ${msg.content}`, deleteMessageSeconds: 604800 });
 
 				const automodChannel = msg.guild.channels.cache.get(serverCfg.automodChannelId);
 				if (automodChannel) {
@@ -40,15 +42,17 @@ module.exports = {
 		const validationSuccess = await checkMessage(client, msg, 'create', serverCfg);
 		if (!validationSuccess) return;
 
+		if (validationSuccess.category)
+
 		// Add reactions to messages with attachments
-		if (serverCfg.reactionAttachmentChannels?.includes(msg.channel.id) && msg.attachments.size > 0) {
+		{if (serverCfg.reactionAttachmentChannels?.includes(msg.channel.id) && msg.attachments.size > 0) {
 			try {
 				await Promise.all(serverCfg.attachmentReaction.map(reaction => msg.react(reaction)));
 			} catch (err) {
 				console.error(`EventM » Failed to add reactions to message in ${msg.channel.name}:`, err.message);
 			}
 			return;
-		}
+		}}
 
 		// Add approval reactions in specific channels
 		if (serverCfg.reactionApproveChannels?.includes(msg.channel.id)) {

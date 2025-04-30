@@ -4,6 +4,9 @@ const { randomBytes } = require('node:crypto');
 const guilds = require('../guilds.js');
 
 const PATTERNS = [
+	// grex "50$ gift" "e.vg" "u.to" "is.gd" "steamncommunity" "steanmecomrmunity" "casumonster.top"
+	{ regex: /stea(?:nmecomr|mncom)munity|casumonster\.top|50\$ gift|is\.gd|e\.vg|u\.to/i, category: 'Scam', reaction: '🕵️' },
+
 	// grex "kutas" "penis" "chujem" "cipa" "cipka" "cipsko" "cipska" "wagin" "p0rn" "porno" "sex" "seks" "ruchanie" "ruchania" "ruchać" "ruchac" "ruhać" "ruchasz" "ruhasz" "ruhac" "ruchańsko" "ruchansko" "ruchał" "ruchal" "ruchali" "cum" "gangbang" "gengbeng" "hentai" "hentaj" "zboczony" "zboczone" "zboczoną" "zboczona" "dick" "pussy" "porn" "nudes" "nudle" "huj" "naplet" "pedo" "pedofil" "masturbacja" "masturbuje" "masturbowanie" "spuszczanie" "spuszczają" "obciąganie" "obciągasz" "obciaganie" "obciagasz" "ssać" "ssiesz" "berło" "berlo" "berła" "berla"
 	{ regex: /masturb(?:owanie|acja|uje)|(?:spuszczan|obci[aą]gan)ie|s(?:puszczają|sać|ex)|ru(?:cha(?:nsko|ńsko|ni[ae]|li|[cćł])|ha[cć])|obci[aą]gasz|g(?:angba|engbe)ng|zboczon[aeyą]|p(?:edofil|orno|ussy)|(?:ruc?has|ssies)z|ruchal|c(?:hujem|ipa|um)|h(?:enta[ij]|uj)|cipsk[ao]|n(?:aplet|udes)|ber[lł][ao]|(?:peni|kuta|sek)s|wagin|cipka|nudle|p(?:edo|orn)|dick|p0rn/i, category: 'NSFW content', reaction: '😿' },
 
@@ -32,7 +35,7 @@ const PATTERNS = [
 	{ regex: /1[0-5] (?:lat|yo)|1[0-5]lat|9 (?:lat|yo)|1[0-5]yo/i, category: 'Underage' },
 ];
 
-const autoModSend = async (client, msg, event, serverCfg, category, { perms, reaction } = {}) => {
+const AutoModSendBan = async (client, msg, event, serverCfg, category, { perms, reaction } = {}) => {
 	const msgId = randomBytes(3).toString('hex');
 	const amChannel = msg.guild.channels.cache.get(serverCfg.automodChannelId);
 	if (!amChannel) return console.error(`AutoMD » [${msgId}] Channel with ID ${serverCfg.automodChannelId} not found`);
@@ -48,6 +51,10 @@ const autoModSend = async (client, msg, event, serverCfg, category, { perms, rea
 		});
 	} catch (err) {
 		return console.warn(`AutoMD » [${msgId}] Failed to send message to channel ${amChannel.name}:`, err.message);
+	}
+
+	if (category === 'Scam') {
+		await msg.member.ban({ reason: `Scam: ${msg.content}`, deleteMessageSeconds: 604800 });
 	}
 
 	if (category === 'Discord invitation') return;
@@ -136,13 +143,13 @@ module.exports = async (client, msg, event, serverCfg) => {
 			if (infoMsg) await infoMsg.delete();
 		}, 25000);
 
-		await autoModSend(client, msg, event, serverCfg, 'Discord invitation');
+		await AutoModSendBan(client, msg, event, serverCfg, 'Discord invitation');
 		return true;
 	}
 
 	for (const pattern of PATTERNS) {
 		if (pattern.regex.test(msg.content)) {
-			await autoModSend(client, msg, event, serverCfg, pattern.category, { perms: PermissionsBitField.Flags.ManageMessages, reaction: pattern.reaction });
+			await AutoModSendBan(client, msg, event, serverCfg, pattern.category, { perms: PermissionsBitField.Flags.ManageMessages, reaction: pattern.reaction });
 			return true;
 		}
 	}
