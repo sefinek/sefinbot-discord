@@ -12,8 +12,8 @@ app.set('trust proxy', 1);
 
 // Use
 app.use(helmet());
-app.use(express.json({ limit: '12kb' }));
-app.use(express.urlencoded({ limit: '12kb', extended: true }));
+app.use(express.json({ limit: '8kb' }));
+app.use(express.urlencoded({ limit: '8kb', extended: true }));
 
 app.use(timeout());
 app.use(logger);
