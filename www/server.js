@@ -2,7 +2,7 @@ const express = require('express');
 const helmet = require('helmet');
 const timeout = require('./middlewares/timeout.js');
 const logger = require('./middlewares/morgan.js');
-const { notFound, internalError } = require('./middlewares/other/errors.js');
+const { notFound, internalError } = require('./scripts/errors.js');
 
 // Run express instance
 const app = express();

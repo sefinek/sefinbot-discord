@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const MailHistorySchema = new Schema({
+const MailHistory = new Schema({
 	from: { type: String, required: true },
 	to: { type: String, required: true },
 	subject: { type: String, required: true },
@@ -11,7 +11,7 @@ const MailHistorySchema = new Schema({
 	discord: Boolean,
 });
 
-const StellaSubscription = new Schema({
+const SubscriptionSchema = new Schema({
 	userId: { type: String, required: true, unique: true, index: true },
 	patreonId: { type: String, unique: true, sparse: true, index: true },
 
@@ -78,6 +78,13 @@ const StellaSubscription = new Schema({
 		username: { type: String, required: true },
 		emailVerified: { type: Boolean, required: true },
 	},
+	verification: {
+		id: { type: String, required: true, unique: true, sparse: true },
+		required: { type: Boolean, default: false },
+		status: { type: String, default: null },
+		url: String,
+		finishedAt: Date,
+	},
 	discord: {
 		dcUserId: {
 			type: String,
@@ -96,10 +103,10 @@ const StellaSubscription = new Schema({
 				enum: ['zero', 'joining', 'waitingForRoles', 'updatingRoles', 'updatedRoles', 'accountIsCurrentlyLinked'],
 			},
 
-			lastUpdate: { type: Date, default: Date.now },
-			lastFail: { type: Date, default: 0 },
-			lastFailMessage: { type: String, default: null },
-			success: { type: Number },
+			lastUpdate: Date,
+			lastFail: Date,
+			lastFailMessage: String,
+			success: Number,
 			realized: { type: Boolean, default: false },
 		},
 	},
@@ -135,9 +142,9 @@ const StellaSubscription = new Schema({
 		discord: { type: Boolean, default: true },
 	},
 	mails: {
-		type: [MailHistorySchema],
+		type: [MailHistory],
 		default: [],
 	},
 }, { versionKey: false, timestamps: true });
 
-module.exports = model('sm_subscriptions', StellaSubscription);
+module.exports = model('SmSubscription', SubscriptionSchema, 'sm_subscriptions');

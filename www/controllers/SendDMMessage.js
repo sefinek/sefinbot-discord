@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
-const fetchDiscordUser = require('./scripts/fetchDiscordUser.js');
+const fetchDiscordUser = require('../scripts/fetchDiscordUser.js');
 const prefix = '[SendDirectMsg]:';
 
 module.exports = async (req, res) => {

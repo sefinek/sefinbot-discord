@@ -1,4 +1,4 @@
-const StellaSubscription = require('../../../database/models/StellaSubscription');
+const StellaSubscription = require('../../database/models/sm_subscription.model');
 
 module.exports = async (req, res, guildId, subscriberId) => {
 	const db = await StellaSubscription.findOne({ userId: subscriberId });

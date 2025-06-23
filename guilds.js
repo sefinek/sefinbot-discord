@@ -221,6 +221,27 @@ const production = {
 		],
 		approveReaction: '👍',
 	},
+
+
+	// Masne Teściki Botów™
+	'943910440520527873': {
+		// Main
+		automodChannelId: '1188578816310906890',
+
+		// Stats
+		vcMembers: false,
+		vcNew: false,
+		vcOnline: false,
+
+		// Server logs
+		welcomeChannelId: '1150787924351254539',
+		farewellChannelId: '1150787924351254539',
+		banChannelId: '1150787924351254539',
+
+		// Misc
+		cleverBot: true,
+		cleverBotChannelId: '1162955264467669022',
+	},
 };
 
 const development = {

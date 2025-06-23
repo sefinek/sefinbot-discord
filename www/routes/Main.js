@@ -3,8 +3,8 @@ const router = require('express').Router();
 const UpdateDiscordRolesController = require('../controllers/UpdateDiscordRoles.js');
 const RemoveDiscordRolesController = require('../controllers/RemoveDiscordRoles.js');
 const SendDMMessageController = require('../controllers/SendDMMessage.js');
-const SendMsgController = require('../controllers/Channel/SendMsg.js');
-const SengLogController = require('../controllers/Channel/SendLog.js');
+const SendMsgController = require('../Channel/SendMsg.js');
+const SengLogController = require('../Channel/SendLog.js');
 
 // DM
 router.post('/api/v1/discord/subscriber/roles/update', UpdateDiscordRolesController);

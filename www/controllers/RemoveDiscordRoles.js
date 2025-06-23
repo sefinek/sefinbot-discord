@@ -1,4 +1,4 @@
-const fetchDiscordUser = require('./scripts/fetchDiscordUser.js');
+const fetchDiscordUser = require('../scripts/fetchDiscordUser.js');
 
 const prefix = '[RemoveDscRoles]:';
 
