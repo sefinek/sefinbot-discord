@@ -18,20 +18,20 @@
     "up": "ncu -u && npm install && npm update && npm audit fix"
   },
   "dependencies": {
-    "@sefinek/cleverbot-free": "^2.1.5",
+    "@sefinek/cleverbot-free": "^2.1.6",
     "axios": "^1.10.0",
-    "discord.js": "^14.20.0",
-    "dotenv": "^16.5.0",
+    "discord.js": "^14.21.0",
+    "env-native": "^1.1.0",
     "express": "^5.1.0",
     "express-timeout-handler": "^2.2.2",
     "helmet": "^8.1.0",
     "is-discord-invite": "^3.0.6",
-    "mongoose": "^8.16.0",
+    "mongoose": "^8.16.3",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.29.0",
-    "discord-api-types": "^0.38.12",
-    "globals": "^16.2.0"
+    "@eslint/js": "^9.31.0",
+    "discord-api-types": "^0.38.15",
+    "globals": "^16.3.0"
   }
 }
