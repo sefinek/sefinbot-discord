@@ -8,7 +8,7 @@ module.exports = {
 
 		// Start the web server and set bot activity
 		require('../www/server.js')(client);
-		require('../utils/activity.js')(client.user);
+		require('../scripts/setActivity.js')(client.user);
 
 		// Iterate through guild configurations
 		for (const [guildId, config] of Object.entries(guildConfig.data[process.env.NODE_ENV] || {})) {
