@@ -23,23 +23,65 @@ const production = {
 
 		// Server logs
 		welcomeChannelId: '1328500677944803358',
-		welcomeTitle: '👋 Member {user} has joined the server',
-		welcomeDescription: 'Welcome, {user}, to our server!',
+		welcomeContent: (member, memberCount) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#2ECC71')
+					.setAuthor({
+						name: `👋 Member ${member.user.tag} has joined the server`,
+						iconURL: member.user.displayAvatarURL(),
+					})
+					.setDescription(`Welcome, ${member}, to our server!`)
+					.setThumbnail(member.user.displayAvatarURL())
+					.setTimestamp(),
+			],
+		}),
 
 		farewellChannelId: '1328500677944803358',
-		farewellTitle: '😥 Member {user} has left the server',
-		farewellDescription: 'Unfortunately, the user with the name {user} has left our server. We hope that you will come back to us soon.',
+		farewellContent: (member, memberCount) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#E74C3C')
+					.setAuthor({
+						name: `😥 Member ${member.user.tag} has left the server`,
+						iconURL: member.user.displayAvatarURL(),
+					})
+					.setDescription(`Unfortunately, the user with the name ${member} has left our server. We hope that you will come back to us soon.`)
+					.setThumbnail(member.user.displayAvatarURL())
+					.setTimestamp(),
+			],
+		}),
 
 		banChannelId: '1328500677944803358',
-		banTitle: '⚠️ User {user} has been from the server',
-		banDescription: 'The user with the name {user} has been permanently banned from our server due to violations of our rules. We hope that the community remains safe and welcoming for all. Goodbye.',
+		banContent: (user, guild, memberCount) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#992D22')
+					.setAuthor({
+						name: `⚠️ User ${user.tag} has been banned from the server`,
+						iconURL: user.displayAvatarURL(),
+					})
+					.setDescription(`The user with the name <@${user.id}> has been permanently banned from our server due to violations of our rules. We hope that the community remains safe and welcoming for all. Goodbye.`)
+					.setThumbnail(user.displayAvatarURL())
+					.setTimestamp(),
+			],
+		}),
 
 		// DM
 		joinMsgDM: true,
-		joinMsgDMTitle: 'Welcome {userTag} on {guildName}!',
-		joinMsgDMFields: [],
-		joinMsgDMFooter: false,
-		joinMsgDMFooterImage: null,
+		joinMsgDMContent: (member) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#3498DB')
+					.setAuthor({
+						name: `Welcome ${member.user.tag} on ${member.guild.name}!`,
+						iconURL: member.guild.iconURL() || undefined,
+					})
+					.setDescription(`Welcome to our server! We're glad to have you here.`)
+					.setThumbnail(member.user.displayAvatarURL())
+					.setTimestamp(),
+			],
+		}),
 
 		// Reactions
 		reactionApproveChannels: [
@@ -71,23 +113,71 @@ const production = {
 
 		// Server logs
 		welcomeChannelId: '1002327796468699218',
-		welcomeTitle: '👋 Użytkownik {user} dołączył do nas',
-		welcomeDescription: 'Witaj {user} na naszym serwerze! Mamy wielką nadzieje, że zostaniesz u nas na dłuższy czas. Miłego pobytu.\nJesteś naszym {count} gościem. Dziękujemy Ci za dołączenie!',
+		welcomeContent: (member, memberCount) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#00D26A')
+					.setAuthor({
+						name: `👋 Użytkownik ${member.user.tag} dołączył do nas`,
+						iconURL: member.user.displayAvatarURL(),
+					})
+					.setDescription(`Witaj ${member} na naszym serwerze! Mamy wielką nadzieje, że zostaniesz u nas na dłuższy czas. Miłego pobytu.\nJesteś naszym **${memberCount}. gościem**. Dziękujemy Ci za dołączenie!`)
+					.setThumbnail(member.user.displayAvatarURL())
+					.setTimestamp(),
+			],
+		}),
 
 		farewellChannelId: '1002327796468699218',
-		farewellTitle: '😥 Użytkownik {user} opuścił serwer',
-		farewellDescription: 'Niestety osoba {user} wyszła z naszego serwera.\nMamy nadzieję, że jeszcze wrócisz do nas. Wierzymy w Ciebie.\nPo stracie tego członka mamy w sumie {count} osób.',
+		farewellContent: (member, memberCount) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#FF6B6B')
+					.setAuthor({
+						name: `😥 Użytkownik ${member.user.tag} opuścił serwer`,
+						iconURL: member.user.displayAvatarURL(),
+					})
+					.setDescription(`Niestety osoba ${member} wyszła z naszego serwera.\nMamy nadzieję, że jeszcze wrócisz do nas. Wierzymy w Ciebie.\nPo stracie tego członka mamy w sumie **${memberCount} osób**.`)
+					.setThumbnail(member.user.displayAvatarURL())
+					.setTimestamp(),
+			],
+		}),
 
 		banChannelId: '1002327796468699218',
-		banTitle: '⚠️ Użytkownik {user} otrzymał bana',
-		banDescription: 'Osoba z nickiem {user} została zbanowana na naszym serwerze przez jednego z administratorów. Cóż, bywa...\nPo stracie tego osobnika mamy w sumie {count} ludzi.',
+		banContent: (user, guild, memberCount) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#FF4757')
+					.setAuthor({
+						name: `⚠️ Użytkownik ${user.tag} otrzymał bana`,
+						iconURL: user.displayAvatarURL(),
+					})
+					.setDescription(`Osoba z nickiem <@${user.id}> została zbanowana na naszym serwerze przez jednego z administratorów. Cóż, bywa...\nPo stracie tego osobnika mamy w sumie **${memberCount} ludzi**.`)
+					.setThumbnail(user.displayAvatarURL())
+					.setTimestamp(),
+			],
+		}),
 
 		// DM
 		joinMsgDM: true,
-		joinMsgDMTitle: 'Witaj {userTag} na naszym serwerze {guildName}',
-		joinMsgDMFields: [],
-		joinMsgDMFooter: true,
-		joinMsgDMFooterImage: null,
+		joinMsgDMContent: (member) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#0078FF')
+					.setAuthor({
+						name: `Witaj ${member.user.tag} na naszym serwerze ${member.guild.name}`,
+						iconURL: member.guild.iconURL() || undefined,
+					})
+					.setDescription(`Dziękujemy za dołączenie do naszego serwera! Miłego pobytu.`)
+					.setThumbnail(member.user.displayAvatarURL())
+					.setTimestamp(),
+				new EmbedBuilder()
+					.setColor('#15070C')
+					.setFooter({
+						text: 'Copyright 2024-2025 © by Sefinek. All Rights Reserved.',
+						iconURL: member.guild.iconURL() || undefined,
+					}),
+			],
+		}),
 
 		// Reactions
 		reactionApproveChannels: [
@@ -119,46 +209,95 @@ const production = {
 
 		// Server logs
 		welcomeChannelId: '1044714444393029722',
-		welcomeTitle: '👋 Member {user} has joined the server',
-		welcomeDescription: 'Welcome, {user}, to our server! We hope our project captures your interest and motivates you to dive into Genshin Impact. Have fun!',
+		welcomeContent: (member, memberCount) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#9B59B6')
+					.setAuthor({
+						name: `👋 Member ${member.user.tag} has joined the server`,
+						iconURL: member.user.displayAvatarURL(),
+					})
+					.setDescription(`Welcome, ${member}, to our server! We hope our project captures your interest and motivates you to dive into Genshin Impact. Have fun!`)
+					.setThumbnail(member.user.displayAvatarURL())
+					.setTimestamp(),
+			],
+		}),
 
 		farewellChannelId: '1044714444393029722',
-		farewellTitle: '😥 Member {user} has left the server',
-		farewellDescription: 'Unfortunately, the user with the name {user} has left our server. We hope that you will come back to us soon.',
+		farewellContent: (member, memberCount) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#E67E22')
+					.setAuthor({
+						name: `😥 Member ${member.user.tag} has left the server`,
+						iconURL: member.user.displayAvatarURL(),
+					})
+					.setDescription(`Unfortunately, the user with the name ${member} has left our server. We hope that you will come back to us soon.`)
+					.setThumbnail(member.user.displayAvatarURL())
+					.setTimestamp(),
+			],
+		}),
 
 		banChannelId: '1044714444393029722',
-		banTitle: '⚠️ User {user} has been from the server',
-		banDescription: 'The user with the name {user} has been permanently banned from our server due to violations of our rules. We hope that the community remains safe and welcoming for all. Goodbye.',
+		banContent: (user, guild, memberCount) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#C0392B')
+					.setAuthor({
+						name: `⚠️ User ${user.tag} has been banned from the server`,
+						iconURL: user.displayAvatarURL(),
+					})
+					.setDescription(`The user with the name <@${user.id}> has been permanently banned from our server due to violations of our rules. We hope that the community remains safe and welcoming for all. Goodbye.`)
+					.setThumbnail(user.displayAvatarURL())
+					.setTimestamp(),
+			],
+		}),
 
 		// DM
 		joinMsgDM: true,
-		joinMsgDMTitle: 'Welcome {userTag} to our server {guildName}',
-		joinMsgDMFields: [{
-			name: '😻 » What does Genshin Stella Mod offer?',
-			value: `
-1. **Enhanced graphics:** Enjoy improved visuals with shaders for a superior gaming experience.
+		joinMsgDMContent: (member) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#8E44AD')
+					.setAuthor({
+						name: `Welcome ${member.user.tag} to our server ${member.guild.name}`,
+						iconURL: member.guild.iconURL() || undefined,
+					})
+					.addFields([
+						{
+							name: '😻 » What does Genshin Stella Mod offer?',
+							value: `1. **Enhanced graphics:** Enjoy improved visuals with shaders for a superior gaming experience.
 2. **FPS unlock:** Remove the 60 FPS cap for smoother gameplay, especially on monitors with refresh rates above 60Hz.
 3. **3DMigoto support:** Unlocks a wider range of mods, including character model swaps, all in a safe and stable environment.`,
-		}, {
-			name: '🐱 » Why should I use Genshin Stella Mod?',
-			value: `
-1. **Own launcher:** Simply click \`Start game\` in our app to jump right into action with exclusive enhancements!
+						},
+						{
+							name: '🐱 » Why should I use Genshin Stella Mod?',
+							value: `1. **Own launcher:** Simply click \`Start game\` in our app to jump right into action with exclusive enhancements!
 2. **Regular updates:** Our software is continuously updated for compatibility with new game versions, shader improvements, security patches, and more.
 3. **Safety guaranteed:** The application is completely safe and ensures security when injecting processes into the game. However, please remember not to cheat!`,
-		}, {
-			name: '😽 » What benefits will I get by supporting this project?',
-			value: `
-1. **Access to 3DMigoto:** Enjoy the benefits of using ReShade, FPS Unlock, and 3DMigoto together for a more immersive gaming experience.
+						},
+						{
+							name: '😽 » What benefits will I get by supporting this project?',
+							value: `1. **Access to 3DMigoto:** Enjoy the benefits of using ReShade, FPS Unlock, and 3DMigoto together for a more immersive gaming experience.
 2. A curated collection of optimized, **bug-free mods**.
-3. **A shader pack with the latest versions**, all free of bugs. With Stella Plus, **shaders will no longer overlap with the game’s UI**, offering a cleaner, more polished visual experience.
+3. **A shader pack with the latest versions**, all free of bugs. With Stella Plus, **shaders will no longer overlap with the game's UI**, offering a cleaner, more polished visual experience.
 4. **Enhanced security:** The mod is designed with safety in mind, ensuring privacy protection and a robust security system.
-5. **And much more!** Discover all the benefits on the [**official website**](https://sefinek.net/genshin-stella-mod/subscription). Choose the tier that suits you best (we recommend the "\\🌍 Safety Kitten" tier).`,
-		}, {
-			name: '🙀 » We hope to see you in the Stella Mod launcher!',
-			value: `If you have any questions, feel free to message <@${process.env.OWNER}> or visit the <#1056236234160214138> channel.\n\n>> [\`Click here to download now!\`](https://sefinek.net/genshin-stella-mod) <<`,
-		}],
-		joinMsgDMFooter: true,
-		joinMsgDMFooterImage: `https://cdn.sefinek.net/discord/sefibot/images/guildMemberAdd.png?version=${version}`,
+5. **And much more!** Discover all the benefits on the [**official website**](https://sefinek.net/genshin-stella-mod/subscription). Choose the tier that suits you best (we recommend the "🌍 Safety Kitten" tier).`,
+						},
+						{
+							name: '🙀 » We hope to see you in the Stella Mod launcher!',
+							value: `If you have any questions, feel free to message <@${process.env.OWNER}> or visit the <#1056236234160214138> channel.\n\n>> [\`Click here to download now!\`](https://sefinek.net/genshin-stella-mod) <<`,
+						}
+					]),
+				new EmbedBuilder()
+					.setColor('#15070C')
+					.setImage(`https://cdn.sefinek.net/discord/sefibot/images/guildMemberAdd.png?version=${version}`)
+					.setFooter({
+						text: 'Copyright 2024-2025 © by Sefinek. All Rights Reserved.',
+						iconURL: member.guild.iconURL() || undefined,
+					}),
+			],
+		}),
 
 		// Reactions
 		reactionAttachmentChannels: [
@@ -197,23 +336,52 @@ const production = {
 
 		// Server logs
 		welcomeChannelId: '1328507335328661605',
-		welcomeTitle: '👋 Member {user} has joined the server',
-		welcomeDescription: 'Welcome, {user}, to our server!',
+		welcomeContent: (member, memberCount) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#1ABC9C')
+					.setAuthor({
+						name: `👋 Member ${member.user.tag} has joined the server`,
+						iconURL: member.user.displayAvatarURL(),
+					})
+					.setDescription(`Welcome, ${member}, to our server!`)
+					.setThumbnail(member.user.displayAvatarURL())
+					.setTimestamp(),
+			],
+		}),
 
 		farewellChannelId: '1328507335328661605',
-		farewellTitle: '😥 Member {user} has left the server',
-		farewellDescription: 'Unfortunately, the user with the name {user} has left our server. We hope that you will come back to us soon.',
+		farewellContent: (member, memberCount) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#F39C12')
+					.setAuthor({
+						name: `😥 Member ${member.user.tag} has left the server`,
+						iconURL: member.user.displayAvatarURL(),
+					})
+					.setDescription(`Unfortunately, the user with the name ${member} has left our server. We hope that you will come back to us soon.`)
+					.setThumbnail(member.user.displayAvatarURL())
+					.setTimestamp(),
+			],
+		}),
 
 		banChannelId: '1328507335328661605',
-		banTitle: '⚠️ User {user} has been from the server',
-		banDescription: 'The user with the name {user} has been permanently banned from our server due to violations of our rules. We hope that the community remains safe and welcoming for all. Goodbye.',
+		banContent: (user, guild, memberCount) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#E74C3C')
+					.setAuthor({
+						name: `⚠️ User ${user.tag} has been banned from the server`,
+						iconURL: user.displayAvatarURL(),
+					})
+					.setDescription(`The user with the name <@${user.id}> has been permanently banned from our server due to violations of our rules. We hope that the community remains safe and welcoming for all. Goodbye.`)
+					.setThumbnail(user.displayAvatarURL())
+					.setTimestamp(),
+			],
+		}),
 
 		// DM
 		joinMsgDM: false,
-		joinMsgDMTitle: 'Welcome {userTag} on {guildName}!',
-		joinMsgDMFields: [],
-		joinMsgDMFooter: false,
-		joinMsgDMFooterImage: null,
 
 		// Reactions
 		reactionApproveChannels: [
