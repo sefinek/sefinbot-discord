@@ -4,7 +4,7 @@ const guildConfig = require('../guilds.js');
 module.exports = {
 	name: Events.ClientReady,
 	async execute(client) {
-		console.log(`CReady » Bot successfully logged in as ${client.user.tag} [${process.env.BOT_PREFIX}] (${client.guilds.cache.size} guilds)`);
+		console.log(`CReady » Bot successfully logged in as ${client.user.tag} [${process.env.PREFIX}] (${client.guilds.cache.size} guilds)`);
 
 		// Start the web server and set bot activity
 		require('../www/server.js')(client);

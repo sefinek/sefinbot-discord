@@ -12,20 +12,12 @@ module.exports = {
 
 		// Send farewell message
 		const farewellChannel = member.guild.channels.cache.get(serverCfg.farewellChannelId);
-		if (farewellChannel) {
+		if (farewellChannel && serverCfg.farewellContent) {
 			const memberCount = member.guild.members.cache.filter(m => !m.user.bot).size;
 
 			try {
-				await farewellChannel.send({ embeds: [new EmbedBuilder()
-					.setColor('#29A6F9')
-					.setAuthor({ name: serverCfg.farewellTitle.replace('{user}', member.user.tag), iconURL: member.guild.iconURL() })
-					.setDescription(
-						serverCfg.farewellDescription
-							.replace('{user}', member)
-							.replace('{count}', memberCount)
-					)
-					.setThumbnail(member.user.displayAvatarURL())],
-				});
+				const farewellContent = serverCfg.farewellContent(member, memberCount);
+				await farewellChannel.send(farewellContent);
 			} catch (err) {
 				console.warn(`EventR » Failed to send farewell message in channel ID ${serverCfg.farewellChannelId}:`, err.message);
 			}

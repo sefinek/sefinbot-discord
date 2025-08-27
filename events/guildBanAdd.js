@@ -12,14 +12,12 @@ module.exports = {
 
 		// Handle ban notification
 		const banNotificationChannel = guild.channels.cache.get(serverCfg.banChannelId);
-		if (banNotificationChannel) {
+		if (banNotificationChannel && serverCfg.banContent) {
+			const memberCount = guild.members.cache.filter(m => !m.user.bot).size;
+
 			try {
-				await banNotificationChannel.send({ embeds: [new EmbedBuilder()
-					.setColor('#FF0000')
-					.setAuthor({ name: serverCfg.banTitle.replace('{user}', user.tag), iconURL: user.displayAvatarURL() })
-					.setDescription(serverCfg.banDescription.replace('{user}', user))
-					.setThumbnail(user.displayAvatarURL()),
-				] });
+				const banContent = serverCfg.banContent(user, guild, memberCount);
+				await banNotificationChannel.send(banContent);
 			} catch (err) {
 				console.error(`EventB » Failed to send ban notification in channel ID ${serverCfg.banChannelId}:`, err.message);
 			}

@@ -1,3 +1,4 @@
+const { EmbedBuilder } = require('discord.js');
 const { version } = require('./package.json');
 
 const production = {
@@ -154,7 +155,7 @@ const production = {
 5. **And much more!** Discover all the benefits on the [**official website**](https://sefinek.net/genshin-stella-mod/subscription). Choose the tier that suits you best (we recommend the "\\🌍 Safety Kitten" tier).`,
 		}, {
 			name: '🙀 » We hope to see you in the Stella Mod launcher!',
-			value: `If you have any questions, feel free to message <@${process.env.BOT_OWNER}> or visit the <#1056236234160214138> channel.\n\n>> [\`Click here to download now!\`](https://sefinek.net/genshin-stella-mod) <<`,
+			value: `If you have any questions, feel free to message <@${process.env.OWNER}> or visit the <#1056236234160214138> channel.\n\n>> [\`Click here to download now!\`](https://sefinek.net/genshin-stella-mod) <<`,
 		}],
 		joinMsgDMFooter: true,
 		joinMsgDMFooterImage: `https://cdn.sefinek.net/discord/sefibot/images/guildMemberAdd.png?version=${version}`,
@@ -242,11 +243,126 @@ const production = {
 		cleverBot: true,
 		cleverBotChannelId: '1162955264467669022',
 	},
+
+	// Miłosna Grota
+	'1052610210189037598': {
+		// Main
+		botTrapChannelId: null,
+		automodChannelId: '1122003945653547038',
+
+		// Stats
+		vcMembers: true,
+		vcMembersChannel: '1122001070877581373',
+		vcMembersName: '👥・Osoby: {count}',
+
+		vcOnline: true,
+		vcOnlineChannel: '1122001107577737286',
+		vcOnlineName: '🌍・Online: {count}',
+
+		vcNew: true,
+		vcNewChannel: '1122001176444010568',
+		vcNewName: '👋・Nowy: {user}',
+
+		// Server logs
+		welcomeChannelId: '1122001039336423435',
+		welcomeContent: (member, memberCount) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#00D26A')
+					.setAuthor({
+						name: `👋 Użytkownik ${member.user.tag} dołączył do nas`,
+						iconURL: member.user.displayAvatarURL(),
+					})
+					.setDescription(`Witaj ${member} na naszym serwerze! Mamy wielką nadzieje, że zostaniesz u nas na dłuższy czas. Miłego pobytu.\nJesteś naszym **${memberCount}. gościem**. Dziękujemy Ci za dołączenie!`)
+					.setThumbnail(member.user.displayAvatarURL())
+					.setTimestamp(),
+			],
+		}),
+
+		farewellChannelId: '1122001039336423435',
+		farewellContent: (member, memberCount) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#FF6B6B')
+					.setAuthor({
+						name: `😥 Użytkownik ${member.user.tag} opuścił serwer`,
+						iconURL: member.user.displayAvatarURL(),
+					})
+					.setDescription(`Niestety osoba ${member} wyszła z naszego serwera.\nMamy nadzieję, że jeszcze wrócisz do nas. Wierzymy w Ciebie.\nPo stracie tego członka mamy w sumie **${memberCount} osób**.`)
+					.setThumbnail(member.user.displayAvatarURL())
+					.setTimestamp(),
+			],
+		}),
+
+		banChannelId: '1122001039336423435',
+		banContent: (user, guild, memberCount) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#FF4757')
+					.setAuthor({
+						name: `⚠️ Użytkownik ${user.tag} otrzymał bana`,
+						iconURL: user.displayAvatarURL(),
+					})
+					.setDescription(`Osoba z nickiem <@${user.id}> została zbanowana na naszym serwerze przez jednego z administratorów. Bywa...\nPo stracie tego osobnika mamy w sumie **${memberCount} ludzi**.`)
+					.setThumbnail(user.displayAvatarURL())
+					.setTimestamp(),
+			],
+		}),
+
+		// DM
+		joinMsgDM: true,
+		joinMsgDMContent: (member) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#0078FF')
+					.setAuthor({ name: `Witamy serdecznie na ${member.guild.name}`, iconURL: member.guild.iconURL() })
+					.setDescription(`Dziękujemy za dołączenie! Po zweryfikowaniu zapoznaj się z [regulaminem](https://github.com/sefinek/Milosna_Grota/blob/main/Rules.md) serwera.\nNastępnie zachęcam do przywitania się z nami na kanale <#${process.env.CH_GENERALY}>!`)
+					.addFields([
+						{
+							name: '💗 » Czy naprawdę jest to serwer randkowy?',
+							value:
+								'Cóż, otóż tak! Jest to serwer stworzony z myślą o randkach. Dlaczego akurat taka tematyka? Na tego typu serwerach zwykle jest dużo kontekstu do rozmowy. Macie szansę poznać tu swoją drugą połówkę lub przyjaźń na długie lata.',
+						},
+						{
+							name: '😍 » Jesteś może graczem Genshin Impact?',
+							value: 'Jeśli tak, odwiedź projekt [Genshin Stella Mod](https://stella.sefinek.net).\nW zupełności nie pożałujesz, a nawet zyskasz - lepszą grafikę w grze i nie tylko! Zapoznaj się z dostępnymi informacjami na stronie.',
+						},
+						{
+							name: '🎶 » Lubisz może słuchać muzyki?',
+							value: 'Jeśli interesują Cię kanały na których można znaleźć pełno sped upów przeróżnych piosenek, odwiedź: [www.youtube.com/@sefinek](https://www.youtube.com/@sefinek)',
+						},
+						{
+							name: '🤖 » Polecamy godnego zaufania bota Noel. Dodaj go na swój serwer!',
+							value: `> **Oficjalna strona:** ${process.env.URL_NOEL}\n`,
+						},
+						{
+							name: '👋 » Zakończenie',
+							value:
+								`W razie jakichkolwiek pytań, skontaktuj się z <@${process.env.BOT_OWNER}>. Jeśli chcesz miło pogadać lub po prostu się przywitać - również pisz!\n\n` +
+								'~ Życzymy Ci miłego pobytu! Pozdrawiamy.',
+						},
+					]),
+				new EmbedBuilder()
+					.setColor('#15070C')
+					.setImage(`https://cdn.sefinek.net/discord/sefibot/images/guildMemberAdd.png?version=${version}`)
+					.setFooter({ text: 'Copyright 2024-2025 © by Sefinek. All Rights Reserved.', iconURL: member.guild.iconURL() || undefined }),
+			],
+		}),
+
+		// Reactions
+		reactionApproveChannels: [
+			'1002327796468699220',
+			'1002327796468699226',
+		],
+		approveReaction: '✅',
+	},
+
 };
 
 const development = {
 	'943910440520527873': {
 		// Main
+		isDatingServer: true,
 		automodChannelId: '1188578816310906890',
 
 		// Stats
@@ -264,15 +380,93 @@ const development = {
 
 		// Server logs
 		welcomeChannelId: '1150787924351254539',
+		welcomeContent: (member, memberCount) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#FF69B4')
+					.setAuthor({
+						name: `🎉 DEV: ${member.user.tag} dołączył do testów!`,
+						iconURL: member.user.displayAvatarURL(),
+					})
+					.setDescription(`Witaj na serwerze testowym ${member}! 🚀 To jest środowisko deweloperskie dla testowania funkcji bota.\nJesteś **${memberCount} testerem**!`)
+					.addFields([
+						{
+							name: '🔧 Development Mode',
+							value: 'Ta wiadomość pojawia się tylko w trybie deweloperskim.',
+							inline: true,
+						},
+						{
+							name: '🎯 Test Features',
+							value: 'Możesz testować wszystkie funkcje randkowe!',
+							inline: true,
+						},
+					])
+					.setThumbnail(member.user.displayAvatarURL())
+					.setTimestamp(),
+			],
+		}),
+
 		farewellChannelId: '1150787924351254539',
+		farewellContent: (member, memberCount) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#FFA500')
+					.setAuthor({ name: `👋 DEV: ${member.user.tag} opuścił testy`, iconURL: member.user.displayAvatarURL() })
+					.setDescription(`Tester ${member} opuścił serwer deweloperski.\nDziękujemy za pomoc w testowaniu! 🧪\nZostało **${memberCount} testerów**.`)
+					.setFooter({ text: 'Development Environment' })
+					.setThumbnail(member.user.displayAvatarURL())
+					.setTimestamp(),
+			],
+		}),
+
 		banChannelId: '1150787924351254539',
+		banContent: (user, guild, memberCount) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#DC143C')
+					.setAuthor({ name: `⚠️ DEV: ${user.tag} został zbanowany`, iconURL: user.displayAvatarURL() })
+					.setDescription(`Użytkownik <@${user.id}> został zbanowany na serwerze testowym.\nTest funkcji banowania zakończony pomyślnie ✅\nZostało **${memberCount} testerów**.`)
+					.addFields([{
+						name: '🔧 Debug Info',
+						value: `User ID: ${user.id}\nGuild: ${guild.name}`,
+					}])
+					.setThumbnail(user.displayAvatarURL())
+					.setTimestamp(),
+			],
+		}),
 
 		// Misc
 		cleverBot: true,
 		cleverBotChannelId: '943910440990294021',
 
 		// DM
-		joinMsgDMFooter: true,
+		joinMsgDM: true,
+		joinMsgDMContent: (member) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#00FFFF')
+					.setAuthor({
+						name: `🔧 Dev Mode: Witaj na ${member.guild.name}!`,
+						iconURL: member.guild.iconURL() || undefined,
+					})
+					.setDescription(`Hej ${member.user.tag}! 👋\n\nJesteś na **serwerze deweloperskim** - tutaj testujemy nowe funkcje bota przed wdrożeniem na główne serwery.`)
+					.addFields([
+						{
+							name: '🚀 Co możesz tutaj testować?',
+							value: '• Komendy randkowe\n• System Choroszczy\n• Dark web\n• Wszystkie funkcje dating serwera',
+						},
+						{
+							name: '⚡ Development Features',
+							value: 'Niektóre funkcje mogą być niestabilne - to normalne w środowisku testowym!',
+						},
+					])
+					.setFooter({
+						text: 'Development Environment | Test Server',
+						iconURL: member.guild.iconURL() || undefined,
+					})
+					.setTimestamp(),
+			],
+		}),
 	},
 };
 

@@ -14,46 +14,22 @@ module.exports = {
 
 		// Send welcome message to a designated channel
 		const welcomeChannel = member.guild.channels.cache.get(serverCfg.welcomeChannelId);
-		if (welcomeChannel) {
+		if (welcomeChannel && serverCfg.welcomeContent) {
 			const memberCount = member.guild.members.cache.filter(m => !m.user.bot).size;
 
 			try {
-				await welcomeChannel.send({ embeds: [new EmbedBuilder()
-					.setColor('#2EE47B')
-					.setAuthor({ name: serverCfg.welcomeTitle.replace('{user}', member.user.tag), iconURL: member.guild.iconURL() })
-					.setDescription(
-						serverCfg.welcomeDescription
-							.replace('{user}', member)
-							.replace('{count}', memberCount)
-					)
-					.setThumbnail(member.user.displayAvatarURL())],
-				});
+				const welcomeContent = serverCfg.welcomeContent(member, memberCount);
+				await welcomeChannel.send(welcomeContent);
 			} catch (err) {
 				console.warn(`EventA » Failed to send welcome message in channel ID ${serverCfg.welcomeChannelId}:`, err.message);
 			}
 		}
 
 		// Send direct message to the new member
-		if (serverCfg.joinMsgDM) {
+		if (serverCfg.joinMsgDM && serverCfg.joinMsgDMContent) {
 			try {
-				const embeds = [new EmbedBuilder()
-					.setColor('#67190A')
-					.setAuthor({
-						name: serverCfg.joinMsgDMTitle.replace('{userTag}', member.user.tag).replace('{guildName}', member.guild.name),
-						iconURL: member.user.displayAvatarURL(),
-					})
-					.addFields(serverCfg.joinMsgDMFields)];
-
-				if (serverCfg.joinMsgDMFooter) {
-					embeds.push(
-						new EmbedBuilder()
-							.setColor('#15070C')
-							.setImage(serverCfg.joinMsgDMFooterImage)
-							.setFooter({ text: 'Copyright 2024-2025 © by Sefinek. All Rights Reserved.', iconURL: member.guild.iconURL() })
-					);
-				}
-
-				await member.send({ embeds });
+				const dmContent = serverCfg.joinMsgDMContent(member);
+				await member.send(dmContent);
 			} catch (err) {
 				if (err.code === 50007) {
 					console.log('EventA » Failed to send a direct message to the user. They may have disabled direct messages.', err);
