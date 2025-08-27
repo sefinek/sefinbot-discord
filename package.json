@@ -20,18 +20,18 @@
   "dependencies": {
     "@sefinek/cleverbot-free": "^2.1.6",
     "axios": "^1.11.0",
-    "discord.js": "^14.21.0",
+    "discord.js": "^14.22.1",
     "env-native": "^1.1.2",
     "express": "^5.1.0",
     "express-timeout-handler": "^2.2.2",
     "helmet": "^8.1.0",
     "is-discord-invite": "^3.0.6",
-    "mongoose": "^8.16.5",
+    "mongoose": "^8.18.0",
     "morgan": "^1.10.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.32.0",
-    "discord-api-types": "^0.38.17",
+    "@eslint/js": "^9.34.0",
+    "discord-api-types": "^0.38.21",
     "globals": "^16.3.0"
   }
 }
