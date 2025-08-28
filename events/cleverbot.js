@@ -1,6 +1,6 @@
 const { Events } = require('discord.js');
 const CleverBot = require('@sefinek/cleverbot-free');
-const guilds = require('../guilds.js');
+const guilds = require('../config/guilds.js');
 
 const context = [];
 

@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(D:\\Projects\\bots\\bydgobot/**)",
+      "Read(D:\\Projects\\bots\\bydgobot/**)",
+      "Read(D:\\Projects\\bots\\bydgobot/**)",
+      "Read(D:\\Projects\\bots\\bydgobot\\cron/**)",
+      "Bash(sed:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

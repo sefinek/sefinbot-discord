@@ -1,7 +1,7 @@
 const { EmbedBuilder, PermissionsBitField } = require('discord.js');
 const isInvitation = require('is-discord-invite');
 const { randomBytes } = require('node:crypto');
-const guilds = require('../guilds.js');
+const guilds = require('../config/guilds.js');
 
 const PATTERNS = [
 	// grex "50$ gift" "e.vg" "u.to" "is.gd" "steamncommunity" "steanmecomrmunity" "casumonster.top"

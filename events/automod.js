@@ -1,5 +1,5 @@
 const { Events, PermissionsBitField, EmbedBuilder } = require('discord.js');
-const guilds = require('../guilds.js');
+const guilds = require('../config/guilds.js');
 const checkMessage = require('../services/checkMessage.js');
 const userBlacklist = require('../services/userBlacklist.js');
 

@@ -1,5 +1,5 @@
 const { Events } = require('discord.js');
-const guildConfig = require('../guilds.js');
+const guilds = require('../config/guilds.js');
 
 module.exports = {
 	name: Events.ClientReady,
@@ -10,19 +10,14 @@ module.exports = {
 		require('../www/server.js')(client);
 		require('../scripts/setActivity.js')(client.user);
 
-		// Iterate through guild configurations
-		for (const [guildId, config] of Object.entries(guildConfig.data[process.env.NODE_ENV] || {})) {
-			if (!config.vcOnline) continue;
+		// Initialize online count updates for all guilds
+		for (const guild of client.guilds.cache.values()) {
+			const serverConfig = guilds.getServerConfig(guild.id);
+			if (!serverConfig || !serverConfig.vcOnline) continue;
 
-			const guild = client.guilds.cache.get(guildId);
-			if (!guild) {
-				console.error(`CReady » Unable to find guild with ID ${guildId}`);
-				continue;
-			}
-
-			const vcOnlineChannel = guild.channels.cache.get(config.vcOnlineChannel);
+			const vcOnlineChannel = guild.channels.cache.get(serverConfig.vcOnlineChannel);
 			if (!vcOnlineChannel) {
-				console.error(`CReady » Channel with ID ${config.vcOnlineChannel} not found in guild "${guild.name}" (ID: ${guildId})`);
+				console.warn(`CReady » Online count channel ${serverConfig.vcOnlineChannel} not found in guild "${guild.name}" (${guild.id})`);
 				continue;
 			}
 
@@ -31,17 +26,22 @@ module.exports = {
 					const onlineCount = (await guild.members.fetch())
 						.filter(m => !m.user.bot && ['online', 'dnd', 'idle'].includes(m.presence?.status)).size;
 
-					await vcOnlineChannel.setName(`🌍・Online: ${onlineCount}`);
+					const channelName = serverConfig.vcOnlineName.replace('{count}', onlineCount);
+					await vcOnlineChannel.setName(channelName);
+
 					if (process.env.NODE_ENV === 'development') {
-						console.log(`CReady » Successfully updated online count for guild "${guild.name}" to: ${onlineCount}`);
+						console.log(`CReady » Updated online count for "${guild.name}": ${onlineCount}`);
 					}
 				} catch (err) {
-					console.warn(`CReady » An error occurred while updating online count for guild "${guild.name}": ${err.message}`);
+					console.warn(`CReady » Failed to update online count for "${guild.name}": ${err.message}`);
 				}
 			};
 
+			// Initial update and set interval
 			await updateOnlineCountChannel();
 			setInterval(updateOnlineCountChannel, 5 * 60 * 1000); // Update every 5 minutes
 		}
+
+		console.log(`CReady » Online count tracking initialized for ${client.guilds.cache.size} guilds`);
 	},
 };

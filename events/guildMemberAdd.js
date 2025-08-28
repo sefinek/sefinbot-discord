@@ -1,5 +1,5 @@
 const { Events, PermissionsBitField } = require('discord.js');
-const guilds = require('../guilds.js');
+const guilds = require('../config/guilds.js');
 const userBlacklist = require('../services/userBlacklist.js');
 
 module.exports = {

@@ -1,5 +1,5 @@
 const { Events, PermissionsBitField, EmbedBuilder } = require('discord.js');
-const guilds = require('../guilds.js');
+const guilds = require('../config/guilds.js');
 const { admins } = require('../config.js');
 
 module.exports = {
@@ -18,7 +18,7 @@ module.exports = {
 		if (!command) return;
 
 		// Check if command requires dating server
-		if (command.category === '2_dating' && !serverCfg.isDatingServer) {
+		if (command.category === '3_dating' && !serverCfg.isDatingServer) {
 			return msg.reply('<a:error:1127481079620718635> Ta komenda jest dostępna tylko na serwerze randkowym.');
 		}
 

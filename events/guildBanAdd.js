@@ -1,5 +1,5 @@
 const { Events } = require('discord.js');
-const guilds = require('../guilds.js');
+const guilds = require('../config/guilds.js');
 
 module.exports = {
 	name: Events.GuildBanAdd,
