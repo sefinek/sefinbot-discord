@@ -35,7 +35,7 @@ module.exports = {
 					new EmbedBuilder()
 						.setColor('#9B59B6')
 						.setAuthor({ name: `👋 Member ${member.user.tag} has joined the server`, iconURL: member.user.displayAvatarURL() })
-						.setDescription(`Welcome, ${member}, to our server! We hope our project captures your interest and motivates you to dive into Genshin Impact. Have fun!`)
+						.setDescription(`Welcome ${member} to our server! We hope our project grabs your interest and gets you hyped to dive into Genshin Impact. Have fun! You are our ${memberCount}th member.`)
 						.setThumbnail(member.user.displayAvatarURL()),
 				],
 			}),
@@ -47,7 +47,7 @@ module.exports = {
 					new EmbedBuilder()
 						.setColor('#E67E22')
 						.setAuthor({ name: `😥 Member ${member.user.tag} has left the server`, iconURL: member.user.displayAvatarURL() })
-						.setDescription(`Unfortunately, the user with the name ${member} has left our server. We hope that you will come back to us soon.`)
+						.setDescription(`Unfortunately, the user with the name ${member} has left our server. We hope you'll come back soon.`)
 						.setThumbnail(member.user.displayAvatarURL()),
 				],
 			}),
@@ -58,11 +58,8 @@ module.exports = {
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#C0392B')
-						.setAuthor({
-							name: `⚠️ User ${user.tag} has been banned from the server`,
-							iconURL: user.displayAvatarURL(),
-						})
-						.setDescription(`The user with the name <@${user.id}> has been permanently banned from our server due to violations of our rules. We hope that the community remains safe and welcoming for all. Goodbye.`)
+						.setAuthor({ name: `⚠️ User ${user.tag} has been banned from the server`, iconURL: user.displayAvatarURL() })
+						.setDescription(`The user <@${user.id}> has been permanently banned from our server due to rule violations. We hope the community continues to be a safe and welcoming place for everyone. Goodbye.`)
 						.setThumbnail(user.displayAvatarURL()),
 				],
 			}),
