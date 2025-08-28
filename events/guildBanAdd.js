@@ -15,7 +15,7 @@ module.exports = {
 			const memberCount = guild.members.cache.filter(m => !m.user.bot).size;
 
 			try {
-				const banContent = serverCfg.banContent(user, guild, memberCount);
+				const banContent = serverCfg.banContent(user, memberCount);
 				await banNotificationChannel.send(banContent);
 			} catch (err) {
 				console.error(`EventB » Failed to send ban notification in channel ID ${serverCfg.banChannelId}:`, err.message);

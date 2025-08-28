@@ -33,7 +33,7 @@ module.exports = {
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#00D26A')
-						.setAuthor({ name: `👋 Użytkownik ${member.user.tag} dołączył do nas`, iconURL: member.user.displayAvatarURL() })
+						.setAuthor({ name: `👋 Użytkownik ${member.user.tag} dołączył do nas`, iconURL: member.guild.iconURL() })
 						.setDescription(`Witaj ${member} na naszym serwerze! Mamy wielką nadzieje, że zostaniesz u nas na dłuższy czas. Miłego pobytu.\nJesteś naszym **${memberCount}. gościem**. Dziękujemy Ci za dołączenie!`)
 						.setThumbnail(member.user.displayAvatarURL()),
 				],
@@ -45,7 +45,7 @@ module.exports = {
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#FF6B6B')
-						.setAuthor({ name: `😥 Użytkownik ${member.user.tag} opuścił serwer`, iconURL: member.user.displayAvatarURL() })
+						.setAuthor({ name: `😥 Użytkownik ${member.user.tag} opuścił serwer`, iconURL: member.guild.iconURL() })
 						.setDescription(`Niestety osoba ${member} wyszła z naszego serwera.\nMamy nadzieję, że jeszcze wrócisz do nas. Wierzymy w Ciebie.\nPo stracie tego członka mamy w sumie **${memberCount} osób**.`)
 						.setThumbnail(member.user.displayAvatarURL()),
 				],
@@ -53,13 +53,13 @@ module.exports = {
 		},
 		ban: {
 			channelId: '1002327796468699218',
-			content: (user, guild, memberCount) => ({
+			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#FF4757')
-						.setAuthor({ name: `⚠️ Użytkownik ${user.tag} otrzymał bana`, iconURL: user.displayAvatarURL() })
-						.setDescription(`Osoba z nickiem <@${user.id}> została zbanowana na naszym serwerze przez jednego z administratorów. Cóż, bywa...\nPo stracie tego osobnika mamy w sumie **${memberCount} ludzi**.`)
-						.setThumbnail(user.displayAvatarURL()),
+						.setAuthor({ name: `⚠️ Użytkownik ${member.tag} otrzymał bana`, iconURL: member.guild.iconURL() })
+						.setDescription(`Osoba z nickiem <@${member.id}> została zbanowana na naszym serwerze przez jednego z administratorów. Cóż, bywa...\nPo stracie tego osobnika mamy w sumie **${memberCount} ludzi**.`)
+						.setThumbnail(member.displayAvatarURL()),
 				],
 			}),
 		},

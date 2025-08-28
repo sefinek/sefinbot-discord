@@ -34,7 +34,7 @@ module.exports = {
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#FF69B4')
-						.setAuthor({ name: `🎉 DEV: ${member.user.tag} dołączył do testów!`, iconURL: member.user.displayAvatarURL() })
+						.setAuthor({ name: `🎉 DEV: ${member.user.tag} dołączył do testów!`, iconURL: member.guild.iconURL() })
 						.setDescription(`Witaj na serwerze testowym ${member}! 🚀 To jest środowisko deweloperskie dla testowania funkcji bota.\nJesteś **${memberCount} testerem**!`)
 						.addFields([
 							{
@@ -58,7 +58,7 @@ module.exports = {
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#FFA500')
-						.setAuthor({ name: `👋 DEV: ${member.user.tag} opuścił testy`, iconURL: member.user.displayAvatarURL() })
+						.setAuthor({ name: `👋 DEV: ${member.user.tag} opuścił testy`, iconURL: member.guild.iconURL() })
 						.setDescription(`Tester ${member} opuścił serwer deweloperski.\nDziękujemy za pomoc w testowaniu! 🧪\nZostało **${memberCount} testerów**.`)
 						.setFooter({ text: 'Development Environment' })
 						.setThumbnail(member.user.displayAvatarURL()),
@@ -67,14 +67,14 @@ module.exports = {
 		},
 		ban: {
 			channelId: '1150787924351254539',
-			content: (user, guild, memberCount) => ({
+			content: (member, guild, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#DC143C')
-						.setAuthor({ name: `⚠️ DEV: ${user.tag} został zbanowany`, iconURL: user.displayAvatarURL() })
-						.setDescription(`Użytkownik <@${user.id}> został zbanowany na serwerze testowym.\nTest funkcji banowania zakończony pomyślnie ✅\nZostało **${memberCount} testerów**.`)
-						.addFields([{ name: '🔧 Debug Info', value: `User ID: ${user.id}\nGuild: ${guild.name}` }])
-						.setThumbnail(user.displayAvatarURL()),
+						.setAuthor({ name: `⚠️ DEV: ${member.tag} został zbanowany`, iconURL: member.guild.iconURL() })
+						.setDescription(`Użytkownik <@${member.id}> został zbanowany na serwerze testowym.\nTest funkcji banowania zakończony pomyślnie ✅\nZostało **${memberCount} testerów**.`)
+						.addFields([{ name: '🔧 Debug Info', value: `User ID: ${member.id}\nGuild: ${guild.name}` }])
+						.setThumbnail(member.displayAvatarURL()),
 				],
 			}),
 		},
