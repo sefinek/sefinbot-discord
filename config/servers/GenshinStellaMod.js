@@ -47,7 +47,7 @@ module.exports = {
 					new EmbedBuilder()
 						.setColor('#E67E22')
 						.setAuthor({ name: `😥 Member ${member.user.tag} has left the server`, iconURL: member.user.displayAvatarURL() })
-						.setDescription(`Unfortunately, the user with the name ${member} has left our server. We hope you'll come back soon.`)
+						.setDescription(`Unfortunately, the user ${member} has left our server. We hope you'll come back soon.`)
 						.setThumbnail(member.user.displayAvatarURL()),
 				],
 			}),
