@@ -8,11 +8,9 @@ module.exports = {
 		if (member.user.bot) return;
 		if (!member.permissions.has(PermissionsBitField.Flags.ManageMessages) && userBlacklist(member.user.username, member.user.displayName)) return member.ban({ reason: 'Blacklist' });
 
-		// Fetch server configuration
 		const serverCfg = guilds.getServerConfig(member.guild.id);
 		if (!serverCfg) return console.warn(`EventA » Server config for ${member.guild.id} was not found`);
 
-		// Send welcome message to a designated channel
 		const welcomeChannel = member.guild.channels.cache.get(serverCfg.welcomeChannelId);
 		if (welcomeChannel && serverCfg.welcomeContent) {
 			const memberCount = member.guild.members.cache.filter(m => !m.user.bot).size;
@@ -25,7 +23,6 @@ module.exports = {
 			}
 		}
 
-		// Send direct message to the new member
 		if (serverCfg.joinMsgDM && serverCfg.joinMsgDMContent) {
 			try {
 				const dmContent = serverCfg.joinMsgDMContent(member);
@@ -39,18 +36,29 @@ module.exports = {
 			}
 		}
 
-		// Update server stats (voice channels)
 		try {
-			// Update member count channel
 			if (serverCfg.vcMembers && serverCfg.vcMembersChannel) {
 				const memberCountChannel = member.guild.channels.cache.get(serverCfg.vcMembersChannel);
 				if (memberCountChannel) {
 					const updatedMemberCount = member.guild.members.cache.filter(m => !m.user.bot).size;
-					await memberCountChannel.setName(`${serverCfg.vcMembersName.replace('{count}', updatedMemberCount)} ⬆`);
+					const channelNameWithArrow = serverCfg.vcMembersName
+						.replace('{count}', updatedMemberCount)
+						.replace('{arrow}', '⬆');
+					await memberCountChannel.setName(channelNameWithArrow);
+					setTimeout(async () => {
+						try {
+							const currentCount = member.guild.members.cache.filter(m => !m.user.bot).size;
+							const channelNameNoArrow = serverCfg.vcMembersName
+								.replace('{count}', currentCount)
+								.replace('{arrow}', '');
+							await memberCountChannel.setName(channelNameNoArrow);
+						} catch (err) {
+							console.warn('EventA » Failed to reset member count channel name:', err.message);
+						}
+					}, 30000);
 				}
 			}
 
-			// Update new member channel
 			if (serverCfg.vcNew && serverCfg.vcNewChannel) {
 				const newMemberChannel = member.guild.channels.cache.get(serverCfg.vcNewChannel);
 				if (newMemberChannel) await newMemberChannel.setName(`${serverCfg.vcNewName.replace('{user}', member.user.username)}`);
@@ -59,7 +67,6 @@ module.exports = {
 			console.warn('EventA » Failed to update voice channels when a new user joined the server:', err);
 		}
 
-		// Log new member
 		console.log(`EventA » User ${member.user.tag} (${member.id}) has joined the server "${member.guild.name}"`);
 	},
 };

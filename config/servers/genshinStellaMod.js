@@ -16,7 +16,7 @@ module.exports = {
 		members: {
 			enabled: true,
 			channelId: '1044714427263500288',
-			name: '👥・Members: {count}',
+			name: '👥・Members: {count} {arrow}',
 		},
 		online: {
 			enabled: true,

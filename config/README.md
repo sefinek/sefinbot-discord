@@ -76,7 +76,7 @@ module.exports = {
     members: {
       enabled: true,
       channelId: 'channel_id',
-      name: '👥・Members: {count}',
+      name: '👥・Members: {count} {arrow}',
     },
     // ... more voice channels
   },
@@ -127,13 +127,8 @@ module.exports = {
   // Feature flags
   features: {
     isDatingServer: false,
-    cleverBot: true,
     timeBasedModes: false,
     customFeature: true,
-  },
-
-  // Additional configurations
-  additional: {
     cleverBot: {
       enabled: true,
       channelId: 'channel_id',
@@ -158,6 +153,11 @@ if (serverConfig.features.isDatingServer) {
 
 // Access channels
 const generalChannel = serverConfig.channels.general;
+
+// Access cleverBot configuration
+if (serverConfig.cleverBot) {
+  const cleverBotChannelId = serverConfig.cleverBotChannelId;
+}
 
 // Access legacy properties (backward compatibility)
 const welcomeChannelId = serverConfig.welcomeChannelId;
@@ -192,8 +192,21 @@ module.exports = {
   
   // Development-specific settings
   features: {
-    isDatingServer: true, // Enable all features for testing
+    isDatingServer: true,
     developmentMode: true,
+    cleverBot: {
+      enabled: true,
+      channelId: 'channel_id',
+    },
+  },
+  
+  // Voice channels with arrow support
+  voiceChannels: {
+    members: {
+      enabled: true,
+      channelId: 'channel_id',
+      name: '👥・Members: {count} {arrow}',
+    },
   },
 };
 ```

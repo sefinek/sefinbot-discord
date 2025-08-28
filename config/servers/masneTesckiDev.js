@@ -18,7 +18,7 @@ module.exports = {
 		members: {
 			enabled: true,
 			channelId: '1296966242439266377',
-			name: '👥・Members: {count}',
+			name: '👥・Members: {count} {arrow}',
 		},
 		online: {
 			enabled: true,
@@ -119,19 +119,14 @@ module.exports = {
 		},
 	},
 
-	// Additional Configuration
-	additional: {
+	// Features
+	features: {
+		isDatingServer: true, // Dating features enabled for testing
+		timeBasedModes: false,
+		botTesting: true,
 		cleverBot: {
 			enabled: true,
 			channelId: '943910440990294021',
 		},
-	},
-
-	// Features
-	features: {
-		isDatingServer: true, // Dating features enabled for testing
-		cleverBot: true,
-		timeBasedModes: false,
-		botTesting: true,
 	},
 };

@@ -1,6 +1,41 @@
 const { EmbedBuilder } = require('discord.js');
 const { version } = require('../../package.json');
 
+// Channel Configuration - centralized channel IDs
+const channels = {
+	lobby: '1122001039336423435',
+	ogloszenia: '1122002213909299302',
+	oSerwerze: '1122001351564591104',
+	propozycje: '1122002037731774464',
+	generaly: '1279200514499805316',
+	przedstawSie: '1122002428510863451',
+	pokazRyjek: '1122002450807804034',
+	animeIManga: '1122002402120314970',
+	muzyka: '1122003104049668207',
+	fimly: '1122006225429725294',
+	ksiazki: '1122006384796520559',
+	waszeZwierzaki: '1122006125529792636',
+	ogloszeniaRandki: '1122025616947028130',
+	kogosLgbt: '1122002573658968076',
+	chlopaka: '1122002595687432296',
+	dziewczyny: '1122002614712811532',
+	przyjaciela: '1122002634514108437',
+	przyjaciolki: '1122002656324485200',
+	komendy: '1127460762202407023',
+	sixObcy: '1134363191489613854',
+	memy: '1122002472622379129',
+	pokazPulpit: '1122003124387848263',
+	cleverBot: '1162955264467669022',
+	choroszcz: '1122003307418890302',
+	wyroki: '1122003355821162516',
+	bydgoszcz: '1127708709154471987',
+	darkWeb: '1127703301824192694',
+	wspolprace: '1122001371915370496',
+	formularze: '1122003923864141844',
+	weryfikacja1: '1122004110753927200',
+	weryfikacja2: '1122004138209857688',
+};
+
 module.exports = {
 	// Server ID: Miłosna Grota
 	id: '1052610210189037598',
@@ -12,39 +47,7 @@ module.exports = {
 	},
 
 	// Channel Configuration
-	channels: {
-		lobby: '1122001039336423435',
-		ogloszenia: '1122002213909299302',
-		oSerwerze: '1122001351564591104',
-		propozycje: '1122002037731774464',
-		generaly: '1279200514499805316',
-		przedstawSie: '1122002428510863451',
-		pokazRyjek: '1122002450807804034',
-		animeIManga: '1122002402120314970',
-		muzyka: '1122003104049668207',
-		fimly: '1122006225429725294',
-		ksiazki: '1122006384796520559',
-		waszeZwierzaki: '1122006125529792636',
-		ogloszeniaRandki: '1122025616947028130',
-		kogosLgbt: '1122002573658968076',
-		chlopaka: '1122002595687432296',
-		dziewczyny: '1122002614712811532',
-		przyjaciela: '1122002634514108437',
-		przyjaciolki: '1122002656324485200',
-		komendy: '1127460762202407023',
-		sixObcy: '1134363191489613854',
-		memy: '1122002472622379129',
-		pokazPulpit: '1122003124387848263',
-		cleverBot: '1162955264467669022',
-		choroszcz: '1122003307418890302',
-		wyroki: '1122003355821162516',
-		bydgoszcz: '1127708709154471987',
-		darkWeb: '1127703301824192694',
-		wspolprace: '1122001371915370496',
-		formularze: '1122003923864141844',
-		weryfikacja1: '1122004110753927200',
-		weryfikacja2: '1122004138209857688',
-	},
+	channels,
 
 	// Role Configuration
 	roles: {
@@ -65,7 +68,7 @@ module.exports = {
 		members: {
 			enabled: true,
 			channelId: '1122001070877581373',
-			name: '👥・Osoby: {count}',
+			name: '👥・Osoby: {count} {arrow}',
 		},
 		online: {
 			enabled: true,
@@ -87,7 +90,7 @@ module.exports = {
 	// Event Logging
 	events: {
 		welcome: {
-			channelId: '1122001039336423435',
+			channelId: channels.lobby,
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
@@ -103,7 +106,7 @@ module.exports = {
 			}),
 		},
 		farewell: {
-			channelId: '1122001039336423435',
+			channelId: channels.lobby,
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
@@ -119,7 +122,7 @@ module.exports = {
 			}),
 		},
 		ban: {
-			channelId: '1122001039336423435',
+			channelId: channels.lobby,
 			content: (user, guild, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
@@ -181,17 +184,17 @@ module.exports = {
 	reactions: {
 		hearts: {
 			channels: [
-				'1122002450807804034', // pokaz-ryjek
-				'1122002428510863451', // przedstaw-sie
-				'1122006125529792636', // wasze-zwierzaki
-				'1122003124387848263', // pokaz-pulpit
+				channels.pokazRyjek,
+				channels.przedstawSie,
+				channels.waszeZwierzaki,
+				channels.pokazPulpit,
 			],
 			emoji: '❤️',
 		},
 		likeDislike: {
 			channels: [
-				'1122002037731774464', // propozycje
-				'1122002472622379129', // memy
+				channels.propozycje,
+				channels.memy,
 			],
 			emojis: ['👍', '👎'],
 		},
@@ -211,21 +214,21 @@ module.exports = {
 			banner: null,
 			message: '☀️ » **Tryb nocny został wyłączony**\nDzień dobry moi drodzy! Miłego dnia życzę! 😊',
 			rateLimits: {
-				'1279200514499805316': 0, // generaly
-				'1122002428510863451': 1800, // przedstaw-sie (30min)
-				'1122002450807804034': 3600, // pokaz-ryjek (1h)
-				'1122002402120314970': 0, // anime-i-manga
-				'1122003104049668207': 0, // muzyka
-				'1122006225429725294': 0, // fimly
-				'1122006384796520559': 0, // ksiazki
-				'1122006125529792636': 0, // wasze-zwierzaki
-				'1127460762202407023': 0, // komendy
-				'1134363191489613854': 1, // 6obcy
-				'1122003124387848263': 0, // pokaz-pulpit
-				'1162955264467669022': 1, // clever-bot
-				'1122003307418890302': 0, // choroszcz
-				'1127708709154471987': 0, // bydgoszcz
-				'1127703301824192694': 1, // darkweb
+				[channels.generaly]: 0,
+				[channels.przedstawSie]: 1800, // 30min
+				[channels.pokazRyjek]: 3600, // 1h
+				[channels.animeIManga]: 0,
+				[channels.muzyka]: 0,
+				[channels.fimly]: 0,
+				[channels.ksiazki]: 0,
+				[channels.waszeZwierzaki]: 0,
+				[channels.komendy]: 0,
+				[channels.sixObcy]: 1,
+				[channels.pokazPulpit]: 0,
+				[channels.cleverBot]: 1,
+				[channels.choroszcz]: 0,
+				[channels.bydgoszcz]: 0,
+				[channels.darkWeb]: 1,
 			},
 		},
 		afternoon: {
@@ -238,21 +241,21 @@ module.exports = {
 			banner: null,
 			message: '🌙 » **Tryb nocny został włączony**\nMiłej nocki moi mili oraz spokojnego pobytu na serwerze! 😴',
 			rateLimits: {
-				'1279200514499805316': 1, // generaly
-				'1122002428510863451': 3600, // przedstaw-sie (1h)
-				'1122002450807804034': 7200, // pokaz-ryjek (2h)
-				'1122002402120314970': 1, // anime-i-manga
-				'1122003104049668207': 1, // muzyka
-				'1122006225429725294': 2, // fimly
-				'1122006384796520559': 2, // ksiazki
-				'1122006125529792636': 1, // wasze-zwierzaki
-				'1127460762202407023': 1, // komendy
-				'1134363191489613854': 2, // 6obcy
-				'1122003124387848263': 1, // pokaz-pulpit
-				'1162955264467669022': 2, // clever-bot
-				'1122003307418890302': 1, // choroszcz
-				'1127708709154471987': 1, // bydgoszcz
-				'1127703301824192694': 1, // darkweb
+				[channels.generaly]: 1,
+				[channels.przedstawSie]: 3600, // 1h
+				[channels.pokazRyjek]: 7200, // 2h
+				[channels.animeIManga]: 1,
+				[channels.muzyka]: 1,
+				[channels.fimly]: 2,
+				[channels.ksiazki]: 2,
+				[channels.waszeZwierzaki]: 1,
+				[channels.komendy]: 1,
+				[channels.sixObcy]: 2,
+				[channels.pokazPulpit]: 1,
+				[channels.cleverBot]: 2,
+				[channels.choroszcz]: 1,
+				[channels.bydgoszcz]: 1,
+				[channels.darkWeb]: 1,
 			},
 		},
 		papaj: {
@@ -265,8 +268,11 @@ module.exports = {
 	// Features
 	features: {
 		isDatingServer: true,
-		cleverBot: true,
 		timeBasedModes: true,
 		papajMode: true,
+		cleverBot: {
+			enabled: true,
+			channelId: channels.cleverBot,
+		},
 	},
 };

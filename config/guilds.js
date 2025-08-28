@@ -43,7 +43,9 @@ class ServerConfig {
 	get automodChannelId() { return this.config.main?.automodChannelId; }
 
 	// CleverBot compatibility
-	get cleverBotChannelId() { return this.config.additional?.cleverBot?.channelId; }
+	get cleverBotChannelId() {
+		return this.config.features?.cleverBot?.channelId;
+	}
 
 	// Voice channels compatibility
 	get vcMembers() { return this.config.voiceChannels?.members?.enabled; }
@@ -97,7 +99,13 @@ class ServerConfig {
 
 	// Feature checks
 	get isDatingServer() { return this.config.features?.isDatingServer || false; }
-	get cleverBot() { return this.config.features?.cleverBot || false; }
+	get cleverBot() {
+		// Support both boolean and object structure
+		const cleverBotConfig = this.config.features?.cleverBot;
+		if (typeof cleverBotConfig === 'boolean') return cleverBotConfig;
+		if (typeof cleverBotConfig === 'object' && cleverBotConfig) return cleverBotConfig.enabled;
+		return false;
+	}
 	get timeBasedModes() { return this.config.features?.timeBasedModes || false; }
 
 	// Time config compatibility

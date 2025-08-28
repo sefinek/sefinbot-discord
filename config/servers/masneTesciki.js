@@ -49,19 +49,14 @@ module.exports = {
 	// Reaction System (none configured)
 	reactions: {},
 
-	// Additional Configuration
-	additional: {
+	// Features
+	features: {
+		isDatingServer: false,
+		timeBasedModes: false,
+		botTesting: true, // Custom feature for bot testing server
 		cleverBot: {
 			enabled: true,
 			channelId: '1162955264467669022',
 		},
-	},
-
-	// Features
-	features: {
-		isDatingServer: false,
-		cleverBot: true,
-		timeBasedModes: false,
-		botTesting: true, // Custom feature for bot testing server
 	},
 };

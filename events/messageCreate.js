@@ -1,6 +1,6 @@
 const { Events, PermissionsBitField, EmbedBuilder } = require('discord.js');
 const guilds = require('../config/guilds.js');
-const { admins } = require('../config.js');
+const { admins } = require('../config/config.js');
 
 module.exports = {
 	name: Events.MessageCreate,
