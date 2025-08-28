@@ -1,4 +1,4 @@
-const { Events, EmbedBuilder, PermissionsBitField } = require('discord.js');
+const { Events, PermissionsBitField } = require('discord.js');
 const guilds = require('../guilds.js');
 const userBlacklist = require('../services/userBlacklist.js');
 

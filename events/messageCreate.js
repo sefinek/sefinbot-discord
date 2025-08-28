@@ -1,5 +1,5 @@
 const { Events, PermissionsBitField, EmbedBuilder } = require('discord.js');
-const guilds = require('../guilds');
+const guilds = require('../guilds.js');
 const { admins } = require('../config.js');
 
 module.exports = {
