@@ -39,8 +39,7 @@ module.exports = {
 							iconURL: member.user.displayAvatarURL(),
 						})
 						.setDescription(`Welcome, ${member}, to our server! We hope our project captures your interest and motivates you to dive into Genshin Impact. Have fun!`)
-						.setThumbnail(member.user.displayAvatarURL())
-						.setTimestamp(),
+						.setThumbnail(member.user.displayAvatarURL()),
 				],
 			}),
 		},
@@ -55,8 +54,7 @@ module.exports = {
 							iconURL: member.user.displayAvatarURL(),
 						})
 						.setDescription(`Unfortunately, the user with the name ${member} has left our server. We hope that you will come back to us soon.`)
-						.setThumbnail(member.user.displayAvatarURL())
-						.setTimestamp(),
+						.setThumbnail(member.user.displayAvatarURL()),
 				],
 			}),
 		},
@@ -71,8 +69,7 @@ module.exports = {
 							iconURL: user.displayAvatarURL(),
 						})
 						.setDescription(`The user with the name <@${user.id}> has been permanently banned from our server due to violations of our rules. We hope that the community remains safe and welcoming for all. Goodbye.`)
-						.setThumbnail(user.displayAvatarURL())
-						.setTimestamp(),
+						.setThumbnail(user.displayAvatarURL()),
 				],
 			}),
 		},
@@ -87,7 +84,7 @@ module.exports = {
 						.setColor('#8E44AD')
 						.setAuthor({
 							name: `Welcome ${member.user.tag} to our server ${member.guild.name}`,
-							iconURL: member.guild.iconURL() || undefined,
+							iconURL: member.guild.iconURL(),
 						})
 						.addFields([
 							{
@@ -112,7 +109,7 @@ module.exports = {
 						.setImage(`https://cdn.sefinek.net/discord/sefibot/images/guildMemberAdd.png?version=${version}`)
 						.setFooter({
 							text: 'Copyright 2024-2025 © by Sefinek. All Rights Reserved.',
-							iconURL: member.guild.iconURL() || undefined,
+							iconURL: member.guild.iconURL(),
 						}),
 				],
 			}),

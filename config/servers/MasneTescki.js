@@ -48,8 +48,7 @@ module.exports = {
 								inline: true,
 							},
 						])
-						.setThumbnail(member.user.displayAvatarURL())
-						.setTimestamp(),
+						.setThumbnail(member.user.displayAvatarURL()),
 				],
 			}),
 		},
@@ -62,8 +61,7 @@ module.exports = {
 						.setAuthor({ name: `👋 DEV: ${member.user.tag} opuścił testy`, iconURL: member.user.displayAvatarURL() })
 						.setDescription(`Tester ${member} opuścił serwer deweloperski.\nDziękujemy za pomoc w testowaniu! 🧪\nZostało **${memberCount} testerów**.`)
 						.setFooter({ text: 'Development Environment' })
-						.setThumbnail(member.user.displayAvatarURL())
-						.setTimestamp(),
+						.setThumbnail(member.user.displayAvatarURL()),
 				],
 			}),
 		},
@@ -75,12 +73,8 @@ module.exports = {
 						.setColor('#DC143C')
 						.setAuthor({ name: `⚠️ DEV: ${user.tag} został zbanowany`, iconURL: user.displayAvatarURL() })
 						.setDescription(`Użytkownik <@${user.id}> został zbanowany na serwerze testowym.\nTest funkcji banowania zakończony pomyślnie ✅\nZostało **${memberCount} testerów**.`)
-						.addFields([{
-							name: '🔧 Debug Info',
-							value: `User ID: ${user.id}\nGuild: ${guild.name}`,
-						}])
-						.setThumbnail(user.displayAvatarURL())
-						.setTimestamp(),
+						.addFields([{ name: '🔧 Debug Info', value: `User ID: ${user.id}\nGuild: ${guild.name}` }])
+						.setThumbnail(user.displayAvatarURL()),
 				],
 			}),
 		},
@@ -92,7 +86,7 @@ module.exports = {
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#00FFFF')
-						.setAuthor({ name: `🔧 Dev Mode: Witaj na ${member.guild.name}!`, iconURL: member.guild.iconURL() || undefined })
+						.setAuthor({ name: `🔧 Dev Mode: Witaj na ${member.guild.name}!`, iconURL: member.guild.iconURL() })
 						.setDescription(`Hej ${member.user.tag}! 👋\n\nJesteś na **serwerze deweloperskim** - tutaj testujemy nowe funkcje bota przed wdrożeniem na główne serwery.`)
 						.addFields([
 							{
@@ -104,8 +98,7 @@ module.exports = {
 								value: 'Niektóre funkcje mogą być niestabilne - to normalne w środowisku testowym!',
 							},
 						])
-						.setFooter({ text: 'Development Environment | Test Server', iconURL: member.guild.iconURL() || undefined })
-						.setTimestamp(),
+						.setFooter({ text: 'Development Environment | Test Server', iconURL: member.guild.iconURL() }),
 				],
 			}),
 		},

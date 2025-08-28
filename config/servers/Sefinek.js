@@ -33,13 +33,9 @@ module.exports = {
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#2ECC71')
-						.setAuthor({
-							name: `👋 Member ${member.user.tag} has joined the server`,
-							iconURL: member.user.displayAvatarURL(),
-						})
+						.setAuthor({ name: `👋 Member ${member.user.tag} has joined the server`, iconURL: member.user.displayAvatarURL() })
 						.setDescription(`Welcome, ${member}, to our server!`)
-						.setThumbnail(member.user.displayAvatarURL())
-						.setTimestamp(),
+						.setThumbnail(member.user.displayAvatarURL()),
 				],
 			}),
 		},
@@ -49,13 +45,9 @@ module.exports = {
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#E74C3C')
-						.setAuthor({
-							name: `😥 Member ${member.user.tag} has left the server`,
-							iconURL: member.user.displayAvatarURL(),
-						})
+						.setAuthor({ name: `😥 Member ${member.user.tag} has left the server`, iconURL: member.user.displayAvatarURL() })
 						.setDescription(`Unfortunately, the user with the name ${member} has left our server. We hope that you will come back to us soon.`)
-						.setThumbnail(member.user.displayAvatarURL())
-						.setTimestamp(),
+						.setThumbnail(member.user.displayAvatarURL()),
 				],
 			}),
 		},
@@ -65,13 +57,9 @@ module.exports = {
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#992D22')
-						.setAuthor({
-							name: `⚠️ User ${user.tag} has been banned from the server`,
-							iconURL: user.displayAvatarURL(),
-						})
+						.setAuthor({ name: `⚠️ User ${user.tag} has been banned from the server`, iconURL: user.displayAvatarURL() })
 						.setDescription(`The user with the name <@${user.id}> has been permanently banned from our server due to violations of our rules. We hope that the community remains safe and welcoming for all. Goodbye.`)
-						.setThumbnail(user.displayAvatarURL())
-						.setTimestamp(),
+						.setThumbnail(user.displayAvatarURL()),
 				],
 			}),
 		},
@@ -84,13 +72,9 @@ module.exports = {
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#3498DB')
-						.setAuthor({
-							name: `Welcome ${member.user.tag} on ${member.guild.name}!`,
-							iconURL: member.guild.iconURL() || undefined,
-						})
+						.setAuthor({ name: `Welcome ${member.user.tag} on ${member.guild.name}!`, iconURL: member.guild.iconURL() })
 						.setDescription('Welcome to our server! We\'re glad to have you here.')
-						.setThumbnail(member.user.displayAvatarURL())
-						.setTimestamp(),
+						.setThumbnail(member.user.displayAvatarURL()),
 				],
 			}),
 		},
