@@ -24,34 +24,34 @@ module.exports = {
 			const statusColor = missingServers > 0 ? '#FFA500' : '#00D26A';
 			const statusIcon = missingServers > 0 ? '⚠️' : '✅';
 
-			return msg.reply({ 
+			return msg.reply({
 				embeds: [new EmbedBuilder()
 					.setColor(statusColor)
 					.setTitle(`${statusIcon} Configuration Reloaded`)
 					.setDescription(`Successfully reloaded **${configuredServers}** server configurations and cron schedules.`)
 					.addFields([
-						{ 
-							name: '⚡ Performance', 
-							value: `\`${reloadTime}ms\` reload time\n\`Config + Cron\` updated`, 
-							inline: true 
+						{
+							name: '⚡ Performance',
+							value: `\`${reloadTime}ms\` reload time\n\`Config + Cron\` updated`,
+							inline: true,
 						},
-						{ 
-							name: '🌐 Server Status', 
-							value: `**${connectedServers}**/${configuredServers} connected\n${missingServers > 0 ? `\`${missingServers}\` not accessible` : 'All servers online'}`, 
-							inline: true 
+						{
+							name: '🌐 Server Status',
+							value: `**${connectedServers}**/${configuredServers} connected\n${missingServers > 0 ? `\`${missingServers}\` not accessible` : 'All servers online'}`,
+							inline: true,
 						},
 					])
 					.setFooter({ text: 'Use !diag for detailed diagnostics' })
-					.setTimestamp()]
+					.setTimestamp()],
 			});
 		} catch (err) {
 			console.error('ReloadConfig » Error:', err.message);
-			return msg.reply({ 
+			return msg.reply({
 				embeds: [new EmbedBuilder()
 					.setColor('#FF6B6B')
 					.setTitle('❌ Reload Failed')
 					.setDescription(`\`\`\`${err.message}\`\`\``)
-					.setTimestamp()]
+					.setTimestamp()],
 			});
 		}
 	},

@@ -16,7 +16,7 @@ module.exports = {
 				embeds: [new EmbedBuilder()
 					.setColor('#FF6B6B')
 					.setTitle('❌ Missing Command')
-					.setDescription('Please provide a command to execute.')]
+					.setDescription('Please provide a command to execute.')],
 			});
 		}
 
@@ -27,7 +27,7 @@ module.exports = {
 				embeds: [new EmbedBuilder()
 					.setColor('#FF6B6B')
 					.setTitle('❌ Forbidden Command')
-					.setDescription('This command contains dangerous patterns.')]
+					.setDescription('This command contains dangerous patterns.')],
 			});
 		}
 
@@ -36,7 +36,7 @@ module.exports = {
 				.setColor('#4169E1')
 				.setTitle('⏳ Executing...')
 				.setDescription(`\`${command}\``)
-				.setFooter({ text: 'Command execution in progress' })]
+				.setFooter({ text: 'Command execution in progress' })],
 		});
 
 		exec(command, { timeout: 30000 }, async (error, stdout, stderr) => {
@@ -55,7 +55,7 @@ module.exports = {
 					.setColor(color)
 					.setTitle(title)
 					.setDescription(`**Command:** \`${command}\`\n\n${output.slice(0, 3500)}${output.length > 3500 ? '\n*...output truncated*' : ''}`)
-					.setTimestamp()]
+					.setTimestamp()],
 			});
 
 			console.log(`Shell » ${error ? 'Error' : 'Success'}:`, command);

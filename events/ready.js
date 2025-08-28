@@ -47,15 +47,13 @@ module.exports = {
 						const channelName = serverConfig.vcOnlineName.replace('{count}', onlineCount);
 						await vcOnlineChannel.setName(channelName);
 
-						if (process.env.NODE_ENV === 'development') {
-							console.log(`CReady » Updated online count for "${guild.name}": ${onlineCount}`);
-						}
+						if (process.env.NODE_ENV === 'development') console.log(`CReady » Updated online count for "${guild.name}": ${onlineCount}`);
 					} catch (err) {
 						console.warn(`CReady » Failed to update online count for "${guild.name}": ${err.message}`);
 					}
 				};
 
-					await updateOnlineCountChannel();
+				await updateOnlineCountChannel();
 				setInterval(updateOnlineCountChannel, 5 * 60 * 1000); // Update every 5 minutes
 			}
 		}

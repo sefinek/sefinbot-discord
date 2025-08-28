@@ -13,8 +13,8 @@ module.exports = {
 					.setTitle('❌ Missing Arguments')
 					.setDescription('Usage: `!activity <default|custom> [status] [type] [activity]`')
 					.addFields([
-						{ name: 'Examples', value: '`!activity default`\n`!activity custom dnd 1 Choroszcz`', inline: false }
-					])]
+						{ name: 'Examples', value: '`!activity default`\n`!activity custom dnd 1 Choroszcz`', inline: false },
+					])],
 			});
 		}
 
@@ -26,7 +26,7 @@ module.exports = {
 				embeds: [new EmbedBuilder()
 					.setColor('#00D26A')
 					.setTitle('✅ Status Reset')
-					.setDescription('Bot activity has been reset to default.')]
+					.setDescription('Bot activity has been reset to default.')],
 			});
 		}
 
@@ -38,8 +38,8 @@ module.exports = {
 						.setTitle('❌ Invalid Arguments')
 						.setDescription('Usage: `!activity custom <status> <type> <activity>`')
 						.addFields([
-							{ name: 'Example', value: '`!activity custom dnd 1 Choroszcz`', inline: false }
-						])]
+							{ name: 'Example', value: '`!activity custom dnd 1 Choroszcz`', inline: false },
+						])],
 				});
 			}
 
@@ -56,8 +56,8 @@ module.exports = {
 					.addFields([
 						{ name: 'Status', value: `\`${status}\``, inline: true },
 						{ name: 'Type', value: `\`${type}\``, inline: true },
-						{ name: 'Activity', value: `\`${activity}\``, inline: true }
-					])]
+						{ name: 'Activity', value: `\`${activity}\``, inline: true },
+					])],
 			});
 		}
 
@@ -65,7 +65,7 @@ module.exports = {
 			embeds: [new EmbedBuilder()
 				.setColor('#FF6B6B')
 				.setTitle('❌ Invalid Mode')
-				.setDescription('Mode must be `default` or `custom`.')]
+				.setDescription('Mode must be `default` or `custom`.')],
 		});
 	},
 };

@@ -1,5 +1,4 @@
 const { EmbedBuilder, PermissionsBitField } = require('discord.js');
-const { version } = require('../../../package.json');
 
 module.exports = {
 	name: 'sug',
@@ -10,6 +9,6 @@ module.exports = {
 	async execute(client, msg) {
 		await msg.channel.bulkDelete(48, true);
 
-		await msg.channel.send({ embeds: [new EmbedBuilder().setColor('#FEFFFF').setImage(`${process.env.URL_CDN}/discord/bydgobot/suggestions.png?version=${version}`)] });
+		await msg.channel.send({ embeds: [new EmbedBuilder().setColor('#FEFFFF').setImage(`${process.env.URL_CDN}/discord/bydgobot/suggestions.png`)] });
 	},
 };

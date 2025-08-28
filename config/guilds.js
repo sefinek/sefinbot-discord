@@ -127,7 +127,7 @@ const getServerConfig = guildId => {
 	return new ServerConfig(config);
 };
 
-const getAllServerConfigs = () => 
+const getAllServerConfigs = () =>
 	Object.keys(serverConfigs).map(guildId => ({
 		guildId,
 		config: new ServerConfig(serverConfigs[guildId]),

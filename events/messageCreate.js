@@ -27,7 +27,7 @@ module.exports = {
 				embeds: [new EmbedBuilder()
 					.setColor('#FF6B6B')
 					.setTitle('❌ Access Denied')
-					.setDescription('This command is restricted to the bot owner only.')]
+					.setDescription('This command is restricted to the bot owner only.')],
 			});
 		}
 
@@ -37,7 +37,7 @@ module.exports = {
 				embeds: [new EmbedBuilder()
 					.setColor('#FF6B6B')
 					.setTitle('❌ Access Denied')
-					.setDescription('This command is restricted to the bot owner.')]
+					.setDescription('This command is restricted to the bot owner.')],
 			});
 		}
 
@@ -46,7 +46,7 @@ module.exports = {
 				embeds: [new EmbedBuilder()
 					.setColor('#FF6B6B')
 					.setTitle('❌ Access Denied')
-					.setDescription('This command requires **Administrator** or **Manage Messages** permission.')]
+					.setDescription('This command requires **Administrator** or **Manage Messages** permission.')],
 			});
 		}
 
@@ -55,21 +55,21 @@ module.exports = {
 				embeds: [new EmbedBuilder()
 					.setColor('#FF6B6B')
 					.setTitle('❌ Feature Unavailable')
-					.setDescription('Dating commands are only available on dating servers.')]
+					.setDescription('Dating commands are only available on dating servers.')],
 			});
 		}
 
 		// Command-specific permission checks
 		if (command.permissions && !msg.member.permissions.has(command.permissions)) {
-			const permName = Object.keys(PermissionsBitField.Flags).find(key => 
+			const permName = Object.keys(PermissionsBitField.Flags).find(key =>
 				PermissionsBitField.Flags[key] === command.permissions
 			) || 'Required Permission';
-			
+
 			return msg.reply({
 				embeds: [new EmbedBuilder()
 					.setColor('#FF6B6B')
 					.setTitle('❌ Missing Permissions')
-					.setDescription(`You need **${permName}** permission to use this command.`)]
+					.setDescription(`You need **${permName}** permission to use this command.`)],
 			});
 		}
 

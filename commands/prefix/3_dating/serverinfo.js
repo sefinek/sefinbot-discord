@@ -1,5 +1,4 @@
 const { WebhookClient, EmbedBuilder, PermissionsBitField } = require('discord.js');
-const { version } = require('../../../package.json');
 const webhook = process.env.SERVER_INFO ? new WebhookClient({ url: process.env.SERVER_INFO }) : null;
 
 module.exports = {
@@ -12,14 +11,14 @@ module.exports = {
 
 		await msg.channel.bulkDelete(48, true);
 
-		await webhook.send({ embeds: [new EmbedBuilder().setColor('#F50507').setImage(`${process.env.URL_CDN}/discord/bydgobot/server-info/rules.png?version=${version}`)] });
+		await webhook.send({ embeds: [new EmbedBuilder().setColor('#F50507').setImage(`${process.env.URL_CDN}/discord/bydgobot/server-info/rules.png`)] });
 		await webhook.send({ embeds: [new EmbedBuilder()
 			.setColor('#FF3032')
 			.setDescription('Znajdziesz go w naszym repozytorium na GitHub. Umieściliśmy go tam, ponieważ łatwiej się go edytuje w przyszłości. Zapoznaj się z wytycznymi, aby uniknąć niespodzianek. Życzymy miłego czytania. W razie pytań, służymy pomocą.\n\n> [**GitHub:** Milosna_Grota/blob/main/Rules.md](https://github.com/sefinek/Milosna_Grota/blob/main/Rules.md)')
 			.setThumbnail(msg.guild.iconURL())],
 		});
 
-		await webhook.send({ embeds: [new EmbedBuilder().setColor('#F50507').setImage(`${process.env.URL_CDN}/discord/bydgobot/server-info/roles.png?version=${version}`)] });
+		await webhook.send({ embeds: [new EmbedBuilder().setColor('#F50507').setImage(`${process.env.URL_CDN}/discord/bydgobot/server-info/roles.png`)] });
 		await webhook.send({ embeds: [new EmbedBuilder()
 			.setColor('#FF3032')
 			.setDescription(
@@ -29,13 +28,13 @@ module.exports = {
 			)],
 		});
 
-		await webhook.send({ embeds: [new EmbedBuilder().setColor('#F50507').setImage(`${process.env.URL_CDN}/discord/bydgobot/server-info/admins.png?version=${version}`)] });
+		await webhook.send({ embeds: [new EmbedBuilder().setColor('#F50507').setImage(`${process.env.URL_CDN}/discord/bydgobot/server-info/admins.png`)] });
 		await webhook.send({ embeds: [new EmbedBuilder()
 			.setColor('#FF3032')
 			.setDescription('Wpisz polecenie `/admini`, aby dowiedzieć się, kto jest w zarządzie serwera. Możesz również użyć komendy `/serwer`, aby uzyskać liczbę osób zajmujących stanowisko <@&1127462608883171478>, <@&1127475996849877022> oraz pozycję <@&1121994541973647381>.')],
 		});
 
-		await webhook.send({ embeds: [new EmbedBuilder().setColor('#F50507').setImage(`${process.env.URL_CDN}/discord/bydgobot/server-info/server.png?version=${version}`)] });
+		await webhook.send({ embeds: [new EmbedBuilder().setColor('#F50507').setImage(`${process.env.URL_CDN}/discord/bydgobot/server-info/server.png`)] });
 		await webhook.send({ embeds: [new EmbedBuilder()
 			.setColor('#FF3032')
 			.addFields([

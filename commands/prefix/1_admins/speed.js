@@ -7,13 +7,13 @@ module.exports = {
 	cooldown: 10000,
 	async execute(client, msg) {
 		const start = Date.now();
-		
+
 		const speedEmbed = await msg.reply({
 			embeds: [new EmbedBuilder()
 				.setColor('#4169E1')
 				.setTitle('🚀 Speed Test')
 				.setDescription('Testing bot response time...')
-				.setTimestamp()]
+				.setTimestamp()],
 		});
 
 		const responseTime = Date.now() - start;
@@ -26,9 +26,9 @@ module.exports = {
 				.addFields([
 					{ name: '⚡ Response Time', value: `${responseTime}ms`, inline: true },
 					{ name: '🌐 WebSocket Latency', value: `${wsLatency}ms`, inline: true },
-					{ name: '📊 Status', value: responseTime < 100 ? '🟢 Excellent' : responseTime < 200 ? '🟡 Good' : '🟠 Slow', inline: true }
+					{ name: '📊 Status', value: responseTime < 100 ? '🟢 Excellent' : responseTime < 200 ? '🟡 Good' : '🟠 Slow', inline: true },
 				])
-				.setTimestamp()]
+				.setTimestamp()],
 		});
 	},
 };

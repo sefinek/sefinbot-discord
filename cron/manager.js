@@ -18,8 +18,8 @@ class CronManager {
 			return existsSync(fullPath) ? readFileSync(fullPath) : null;
 		};
 
-		const loadBannersByType = (type, files) => 
-			Array.isArray(files) 
+		const loadBannersByType = (type, files) =>
+			Array.isArray(files)
 				? files.map(file => loadBanner(`${type}/${file}`)).filter(Boolean)
 				: loadBanner(files);
 
@@ -28,8 +28,8 @@ class CronManager {
 			if (config?.cronConfig?.enabled) {
 				const { banners } = config.cronConfig;
 				Object.entries(banners).forEach(([type, files]) => {
-					this.bannerCache[type] = type === 'papaj' 
-						? loadBanner(files) 
+					this.bannerCache[type] = type === 'papaj'
+						? loadBanner(files)
 						: loadBannersByType(type, files);
 				});
 			}
@@ -39,8 +39,8 @@ class CronManager {
 	getRandomBanner(type) {
 		const banners = this.bannerCache[type];
 		if (!banners || (Array.isArray(banners) && !banners.length)) return null;
-		return Array.isArray(banners) 
-			? banners[Math.floor(Math.random() * banners.length)] 
+		return Array.isArray(banners)
+			? banners[Math.floor(Math.random() * banners.length)]
 			: banners;
 	}
 

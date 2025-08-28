@@ -16,7 +16,7 @@ module.exports = {
 				embeds: [new EmbedBuilder()
 					.setColor('#FF6B6B')
 					.setTitle('❌ Missing Code')
-					.setDescription('Please provide JavaScript code to evaluate.')]
+					.setDescription('Please provide JavaScript code to evaluate.')],
 			});
 		}
 
@@ -27,7 +27,7 @@ module.exports = {
 				embeds: [new EmbedBuilder()
 					.setColor('#FF6B6B')
 					.setTitle('❌ Forbidden Pattern')
-					.setDescription('This code contains forbidden patterns.')]
+					.setDescription('This code contains forbidden patterns.')],
 			});
 		}
 
@@ -35,7 +35,7 @@ module.exports = {
 			embeds: [new EmbedBuilder()
 				.setColor('#4169E1')
 				.setTitle('⏳ Evaluating...')
-				.setDescription('Please wait while the code is being executed.')]
+				.setDescription('Please wait while the code is being executed.')],
 		});
 
 		try {
@@ -50,7 +50,7 @@ module.exports = {
 						{ name: '📥 Input', value: `\`\`\`js\n${script.slice(0, 1015)}\`\`\`` },
 						{ name: '📤 Output', value: `\`\`\`js\n${output.slice(0, 1015)}\`\`\`` },
 					])
-					.setTimestamp()]
+					.setTimestamp()],
 			});
 
 			console.log('Eval » Success:', script);
@@ -63,7 +63,7 @@ module.exports = {
 						{ name: '📥 Input', value: `\`\`\`js\n${script.slice(0, 1015)}\`\`\`` },
 						{ name: '📤 Error', value: `\`\`\`js\n${err.message.slice(0, 1015)}\`\`\`` },
 					])
-					.setTimestamp()]
+					.setTimestamp()],
 			});
 
 			console.log('Eval » Error:', err.message);
