@@ -109,7 +109,35 @@ class ServerConfig {
 	get timeBasedModes() { return this.config.features?.timeBasedModes || false; }
 
 	// Time config compatibility
+	get cronConfig() {
+		return this.config.cron || null;
+	}
+
 	get timeConfig() {
+		if (this.config.cron) {
+			const { schedules } = this.config.cron;
+			return {
+				dayMode: schedules?.day ? {
+					guildName: schedules.day.name,
+					banner: schedules.day.banner,
+					message: schedules.day.message,
+					rateLimits: schedules.day.rateLimits || {},
+				} : null,
+				afternoonMode: schedules?.afternoon ? {
+					guildName: schedules.afternoon.name,
+					banner: schedules.afternoon.banner,
+					message: schedules.afternoon.message,
+					rateLimits: schedules.afternoon.rateLimits || {},
+				} : null,
+				nightMode: schedules?.night ? {
+					guildName: schedules.night.name,
+					banner: schedules.night.banner,
+					message: schedules.night.message,
+					rateLimits: schedules.night.rateLimits || {},
+				} : null,
+			};
+		}
+
 		if (!this.config.timeModes) return null;
 
 		return {

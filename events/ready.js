@@ -8,6 +8,7 @@ module.exports = {
 
 		require('../www/server.js')(client);
 		require('../scripts/setActivity.js')(client.user);
+		require('../cron/manager.js')(client);
 
 		for (const guild of client.guilds.cache.values()) {
 			const serverConfig = guilds.getServerConfig(guild.id);

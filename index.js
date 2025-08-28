@@ -16,8 +16,6 @@ require('./handlers/command.js')(client);
 require('./handlers/event.js')(client);
 require('./handlers/slash.js')(client);
 
-// Cron Jobs
-require('./cron/main.js')(client);
 
 // Shard events
 client.on(Events.ShardDisconnect, (event, id) => console.warn(`Shard${id} » Disconnected unexpectedly. Event:`, event));

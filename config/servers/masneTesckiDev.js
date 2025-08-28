@@ -119,10 +119,43 @@ module.exports = {
 		},
 	},
 
+	// Cron Configuration - Development Testing
+	cron: {
+		enabled: true,
+		timezone: 'Europe/Warsaw',
+		minimumOnlineMembers: 0, // No minimum for testing
+		banners: {
+			day: ['cat-love-you.gif', 'happy-senko.gif'],
+			afternoon: ['cat_and_fish.jpg'],
+			night: ['cat_boat.jpg', 'sleepy-fox_1.gif'],
+			papaj: 'papiezowa.gif',
+		},
+		schedules: {
+			day: {
+				time: '0 6 * * *', // Daily at 6:00 AM
+				enabled: true,
+				name: 'Dev Server・🌅',
+				randomBanner: true,
+				messageChannel: '1150787924351254539',
+				message: '☀️ **DEV: Day mode activated** - Testing time-based modes!',
+				rateLimits: {},
+			},
+			night: {
+				time: '0 22 * * *', // Daily at 10:00 PM
+				enabled: true,
+				name: 'Dev Server・🌙',
+				randomBanner: true,
+				messageChannel: '1150787924351254539',
+				message: '🌙 **DEV: Night mode activated** - Testing night features!',
+				rateLimits: {},
+			},
+		},
+	},
+
 	// Features
 	features: {
 		isDatingServer: true, // Dating features enabled for testing
-		timeBasedModes: false,
+		timeBasedModes: true, // Enable for cron testing
 		botTesting: true,
 		cleverBot: {
 			enabled: true,
