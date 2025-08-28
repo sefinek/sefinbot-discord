@@ -1,7 +1,6 @@
 const { EmbedBuilder } = require('discord.js');
 const { version } = require('../../package.json');
 
-// Channel Configuration - centralized channel IDs
 const channels = {
 	lobby: '1122001039336423435',
 	ogloszenia: '1122002213909299302',
@@ -37,19 +36,15 @@ const channels = {
 };
 
 module.exports = {
-	// Server ID: Miłosna Grota
 	id: '1052610210189037598',
 
-	// Main Configuration
 	main: {
 		botTrapChannelId: null,
 		automodChannelId: '1122003945653547038',
 	},
 
-	// Channel Configuration
 	channels,
 
-	// Role Configuration
 	roles: {
 		wlasciciel: '1121993700625633300',
 		admin: '1121993865705033738',
@@ -63,7 +58,6 @@ module.exports = {
 		weryfikacja: '1290999297726480475',
 	},
 
-	// Voice Channel Statistics
 	voiceChannels: {
 		members: {
 			enabled: true,
@@ -87,7 +81,6 @@ module.exports = {
 		},
 	},
 
-	// Event Logging
 	events: {
 		welcome: {
 			channelId: channels.lobby,
@@ -139,11 +132,10 @@ module.exports = {
 		},
 	},
 
-	// Direct Messages
 	directMessages: {
 		welcome: {
 			enabled: true,
-			content: (member) => ({
+			content: member => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#0078FF')
@@ -180,7 +172,6 @@ module.exports = {
 		},
 	},
 
-	// Reaction System
 	reactions: {
 		hearts: {
 			channels: [
@@ -207,7 +198,6 @@ module.exports = {
 		},
 	},
 
-	// Cron Configuration
 	cron: {
 		enabled: true,
 		timezone: 'Europe/Warsaw',
@@ -302,7 +292,6 @@ module.exports = {
 		},
 	},
 
-	// Features
 	features: {
 		isDatingServer: true,
 		timeBasedModes: true,

@@ -14,8 +14,7 @@ config/
     ├── genshinStellaMod.js # Genshin Stella Mod
     ├── nekosiaAPI.js   # Nekosia API
     ├── milosnaGrota.js # Miłosna Grota (full config)
-    ├── masneTesciki.js # Masne Teściki Botów™
-    └── masneTesckiDev.js # Development environment
+    ├── masneTesciki.js # Development environment
 ```
 
 ## 🚀 Benefits
@@ -96,7 +95,7 @@ module.exports = {
   directMessages: {
     welcome: {
       enabled: true,
-      content: (member) => ({
+      content: member => ({
         embeds: [/* Discord embed */]
       }),
     },

@@ -1,16 +1,13 @@
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
-	// Server ID: Nekosia API
 	id: '1242596950428094536',
 
-	// Main Configuration
 	main: {
 		botTrapChannelId: null,
 		automodChannelId: '1328507486101045340',
 	},
 
-	// Voice Channel Statistics (all disabled)
 	voiceChannels: {
 		members: {
 			enabled: false,
@@ -23,7 +20,6 @@ module.exports = {
 		},
 	},
 
-	// Event Logging
 	events: {
 		welcome: {
 			channelId: '1328507335328661605',
@@ -75,21 +71,19 @@ module.exports = {
 		},
 	},
 
-	// Direct Messages (disabled)
 	directMessages: {
 		welcome: {
 			enabled: false,
 		},
 	},
 
-	// Reaction System
 	reactions: {
 		approve: {
 			channels: [
 				'1276628914697015337',
 				'1276628998914576404',
 			],
-			emoji: '👍', // Different from other servers (👍 instead of ✅)
+			emoji: '👍',
 		},
 	},
 
@@ -98,6 +92,6 @@ module.exports = {
 		isDatingServer: false,
 		cleverBot: false,
 		timeBasedModes: false,
-		apiServer: true, // Custom feature for API server
+		apiServer: true,
 	},
 };

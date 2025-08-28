@@ -1,16 +1,13 @@
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
-	// Server ID: Pomoc IT - Sefinek
 	id: '1002327795344621669',
 
-	// Main Configuration
 	main: {
 		botTrapChannelId: null,
 		automodChannelId: '1002371687746109490',
 	},
 
-	// Voice Channel Statistics
 	voiceChannels: {
 		members: {
 			enabled: true,
@@ -29,7 +26,6 @@ module.exports = {
 		},
 	},
 
-	// Event Logging
 	events: {
 		welcome: {
 			channelId: '1002327796468699218',
@@ -81,11 +77,10 @@ module.exports = {
 		},
 	},
 
-	// Direct Messages
 	directMessages: {
 		welcome: {
 			enabled: true,
-			content: (member) => ({
+			content: member => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#0078FF')
@@ -107,7 +102,6 @@ module.exports = {
 		},
 	},
 
-	// Reaction System
 	reactions: {
 		approve: {
 			channels: [
@@ -118,11 +112,10 @@ module.exports = {
 		},
 	},
 
-	// Features
 	features: {
 		isDatingServer: false,
 		cleverBot: false,
 		timeBasedModes: false,
-		techSupport: true, // Custom feature for IT support server
+		techSupport: true,
 	},
 };

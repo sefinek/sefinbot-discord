@@ -3,10 +3,12 @@ const { EmbedBuilder } = require('discord.js');
 module.exports = {
 	id: '943910440520527873',
 	environment: 'development',
+
 	main: {
 		botTrapChannelId: null,
 		automodChannelId: '1188578816310906890',
 	},
+
 	voiceChannels: {
 		members: {
 			enabled: true,
@@ -24,6 +26,7 @@ module.exports = {
 			name: '🆕・New: {user}',
 		},
 	},
+
 	events: {
 		welcome: {
 			channelId: '1150787924351254539',
@@ -85,7 +88,7 @@ module.exports = {
 	directMessages: {
 		welcome: {
 			enabled: true,
-			content: (member) => ({
+			content: member => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#00FFFF')
@@ -107,6 +110,7 @@ module.exports = {
 			}),
 		},
 	},
+
 	cron: {
 		enabled: true,
 		timezone: 'Europe/Warsaw',
@@ -138,10 +142,10 @@ module.exports = {
 			},
 		},
 	},
+
 	features: {
 		isDatingServer: true,
 		timeBasedModes: true,
-		botTesting: true,
 		cleverBot: {
 			enabled: true,
 			channelId: '943910440990294021',

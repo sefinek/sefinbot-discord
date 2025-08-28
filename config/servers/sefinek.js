@@ -1,16 +1,13 @@
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
-	// Server ID: Sefinek
 	id: '1305001399494377533',
 
-	// Main Configuration
 	main: {
 		botTrapChannelId: null,
 		automodChannelId: '1328500595908280421',
 	},
 
-	// Voice Channel Statistics
 	voiceChannels: {
 		members: {
 			enabled: true,
@@ -29,7 +26,6 @@ module.exports = {
 		},
 	},
 
-	// Event Logging
 	events: {
 		welcome: {
 			channelId: '1328500677944803358',
@@ -81,11 +77,10 @@ module.exports = {
 		},
 	},
 
-	// Direct Messages
 	directMessages: {
 		welcome: {
 			enabled: true,
-			content: (member) => ({
+			content: member => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#3498DB')
@@ -101,7 +96,6 @@ module.exports = {
 		},
 	},
 
-	// Reaction System
 	reactions: {
 		approve: {
 			channels: [
@@ -112,7 +106,6 @@ module.exports = {
 		},
 	},
 
-	// Features
 	features: {
 		isDatingServer: false,
 		cleverBot: false,

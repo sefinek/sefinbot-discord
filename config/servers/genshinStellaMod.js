@@ -2,16 +2,13 @@ const { EmbedBuilder } = require('discord.js');
 const { version } = require('../../package.json');
 
 module.exports = {
-	// Server ID: Genshin Stella Mod
 	id: '1044713077125435492',
 
-	// Main Configuration
 	main: {
 		botTrapChannelId: '1224420495710228540',
 		automodChannelId: '1044721563628482560',
 	},
 
-	// Voice Channel Statistics
 	voiceChannels: {
 		members: {
 			enabled: true,
@@ -30,7 +27,6 @@ module.exports = {
 		},
 	},
 
-	// Event Logging
 	events: {
 		welcome: {
 			channelId: '1044714444393029722',
@@ -82,11 +78,10 @@ module.exports = {
 		},
 	},
 
-	// Direct Messages
 	directMessages: {
 		welcome: {
 			enabled: true,
-			content: (member) => ({
+			content: member => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#8E44AD')
@@ -124,7 +119,6 @@ module.exports = {
 		},
 	},
 
-	// Reaction System
 	reactions: {
 		attachment: {
 			channels: [
@@ -151,11 +145,10 @@ module.exports = {
 		},
 	},
 
-	// Features
 	features: {
 		isDatingServer: false,
 		cleverBot: false,
 		timeBasedModes: false,
-		stellaMod: true, // Custom feature for this server
+		stellaMod: true,
 	},
 };
