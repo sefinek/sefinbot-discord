@@ -3,12 +3,8 @@ const Members = require('../../../database/models/Members');
 
 module.exports = {
 	name: 'choroszcz',
+	permissions: PermissionsBitField.Flags.SendMessages,
 	execute: async (client, msg, args) => {
-		const serverConfig = getServerConfig(msg.guild.id);
-		if (!serverConfig?.isDatingServer) {
-			return msg.reply('<a:error:1127481079620718635> Ta komenda jest dostępna tylko na serwerze randkowym.');
-		}
-
 		if (!msg.member.roles.cache.has('1127462608883171478') && !msg.member.permissions.has(PermissionsBitField.Flags.Administrator)) return msg.reply('<a:error:1127481079620718635> Nie posiadasz roli Straż Choroszczy.');
 
 		const member = msg.mentions.members.first() || msg.guild.members.cache.get(args[0]) || msg.guild.members.cache.find(m => m.user.username.toLowerCase() === args[0].toLowerCase());

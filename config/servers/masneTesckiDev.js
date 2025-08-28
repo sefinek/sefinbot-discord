@@ -1,19 +1,12 @@
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
-	// Server ID: Masne Teściki Botów™ (Development Environment)
 	id: '943910440520527873',
-
-	// Environment
 	environment: 'development',
-
-	// Main Configuration
 	main: {
 		botTrapChannelId: null,
 		automodChannelId: '1188578816310906890',
 	},
-
-	// Voice Channel Statistics
 	voiceChannels: {
 		members: {
 			enabled: true,
@@ -31,8 +24,6 @@ module.exports = {
 			name: '🆕・New: {user}',
 		},
 	},
-
-	// Event Logging
 	events: {
 		welcome: {
 			channelId: '1150787924351254539',
@@ -91,8 +82,6 @@ module.exports = {
 			}),
 		},
 	},
-
-	// Direct Messages
 	directMessages: {
 		welcome: {
 			enabled: true,
@@ -118,12 +107,10 @@ module.exports = {
 			}),
 		},
 	},
-
-	// Cron Configuration - Development Testing
 	cron: {
 		enabled: true,
 		timezone: 'Europe/Warsaw',
-		minimumOnlineMembers: 0, // No minimum for testing
+		minimumOnlineMembers: 0,
 		banners: {
 			day: ['cat-love-you.gif', 'happy-senko.gif'],
 			afternoon: ['cat_and_fish.jpg'],
@@ -132,7 +119,7 @@ module.exports = {
 		},
 		schedules: {
 			day: {
-				time: '0 6 * * *', // Daily at 6:00 AM
+				time: '0 6 * * *',
 				enabled: true,
 				name: 'Dev Server・🌅',
 				randomBanner: true,
@@ -141,7 +128,7 @@ module.exports = {
 				rateLimits: {},
 			},
 			night: {
-				time: '0 22 * * *', // Daily at 10:00 PM
+				time: '0 22 * * *',
 				enabled: true,
 				name: 'Dev Server・🌙',
 				randomBanner: true,
@@ -151,11 +138,9 @@ module.exports = {
 			},
 		},
 	},
-
-	// Features
 	features: {
-		isDatingServer: true, // Dating features enabled for testing
-		timeBasedModes: true, // Enable for cron testing
+		isDatingServer: true,
+		timeBasedModes: true,
 		botTesting: true,
 		cleverBot: {
 			enabled: true,

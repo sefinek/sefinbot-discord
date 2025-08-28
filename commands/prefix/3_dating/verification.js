@@ -1,9 +1,9 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, PermissionsBitField } = require('discord.js');
 const { version } = require('../../../package.json');
 
 module.exports = {
 	name: 'ver',
-	admin: true,
+	permissions: PermissionsBitField.Flags.ManageMessages,
 	execute: async (client, msg) => {
 		await msg.channel.bulkDelete(48, true);
 

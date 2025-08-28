@@ -1,9 +1,9 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, PermissionsBitField } = require('discord.js');
 // Helper function to format date
 
 module.exports = {
 	name: 'darkweb',
-	admin: true,
+	permissions: PermissionsBitField.Flags.ManageMessages,
 	execute: async (client, msg) => {
 		await msg.channel.bulkDelete(48, true);
 

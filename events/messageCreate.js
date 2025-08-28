@@ -1,6 +1,5 @@
 const { Events, PermissionsBitField, EmbedBuilder } = require('discord.js');
 const guilds = require('../config/guilds.js');
-const { admins } = require('../config/config.js');
 
 module.exports = {
 	name: Events.MessageCreate,
@@ -14,20 +13,64 @@ module.exports = {
 		const args = msg.content.slice(process.env.PREFIX.length).split(/ +/);
 		const cmd = args.shift().toLowerCase();
 
-		const command = client.commands.get(cmd);
+		const command = client.commands.get(cmd) || client.commands.find(c => c.aliases?.includes(cmd));
 		if (!command) return;
 
-		// Check if command requires dating server
-		if (command.category === '3_dating' && !serverCfg.isDatingServer) {
-			return msg.reply('<a:error:1127481079620718635> Ta komenda jest dostępna tylko na serwerze randkowym.');
-		}
-
+		// Check bot permissions
 		if (!msg.guild.members.me.permissions.has(PermissionsBitField.Flags.SendMessages)) {
 			return console.log(`Server » I don't have SendMessages permission on ${msg.guild.name} (${msg.guild.id}). ${msg.author.tag} (${msg.author.id}), command ${command.name}`);
 		}
 
-		if (command.admin && !admins.includes(msg.author.id)) {
-			return console.log(`Server » User ${msg.author.tag} (${msg.author.id}) without permissions attempted to access administrative bot commands on the server ${msg.guild.name} (${msg.guild.id})!`);
+		// Owner-only commands (more restrictive than category)
+		if (command.ownerOnly && msg.author.id !== process.env.OWNER) {
+			return msg.reply({
+				embeds: [new EmbedBuilder()
+					.setColor('#FF6B6B')
+					.setTitle('❌ Access Denied')
+					.setDescription('This command is restricted to the bot owner only.')]
+			});
+		}
+
+		// Category-based permission checks
+		if (command.category === '1_admins' && msg.author.id !== process.env.OWNER) {
+			return msg.reply({
+				embeds: [new EmbedBuilder()
+					.setColor('#FF6B6B')
+					.setTitle('❌ Access Denied')
+					.setDescription('This command is restricted to the bot owner.')]
+			});
+		}
+
+		if (command.category === '2_mods' && !msg.member.permissions.has(PermissionsBitField.Flags.Administrator) && !msg.member.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
+			return msg.reply({
+				embeds: [new EmbedBuilder()
+					.setColor('#FF6B6B')
+					.setTitle('❌ Access Denied')
+					.setDescription('This command requires **Administrator** or **Manage Messages** permission.')]
+			});
+		}
+
+		if (command.category === '3_dating' && !serverCfg.isDatingServer) {
+			return msg.reply({
+				embeds: [new EmbedBuilder()
+					.setColor('#FF6B6B')
+					.setTitle('❌ Feature Unavailable')
+					.setDescription('Dating commands are only available on dating servers.')]
+			});
+		}
+
+		// Command-specific permission checks
+		if (command.permissions && !msg.member.permissions.has(command.permissions)) {
+			const permName = Object.keys(PermissionsBitField.Flags).find(key => 
+				PermissionsBitField.Flags[key] === command.permissions
+			) || 'Required Permission';
+			
+			return msg.reply({
+				embeds: [new EmbedBuilder()
+					.setColor('#FF6B6B')
+					.setTitle('❌ Missing Permissions')
+					.setDescription(`You need **${permName}** permission to use this command.`)]
+			});
 		}
 
 		try {
@@ -36,10 +79,7 @@ module.exports = {
 			require('../scripts/error.js')(EmbedBuilder, msg, err);
 		}
 
-		if (!command.admin) {
-			console.log(`PrfCMD » Command '${command.name}' was used by '${msg.author.tag}' (${msg.author.id}) on the server '${msg.guild.name}' (${msg.guild.id})`);
-		} else {
-			console.log(`AdmCMD » Administrative command '${command.name}' was used by ${msg.author.tag} (${msg.author.id}) on '${msg.guild.name}' (${msg.guild.id})`);
-		}
+		const logPrefix = command.category === '1_admins' ? 'AdmCMD' : 'PrfCMD';
+		console.log(`${logPrefix} » Command '${command.name}' was used by '${msg.author.tag}' (${msg.author.id}) on the server '${msg.guild.name}' (${msg.guild.id})`);
 	},
 };

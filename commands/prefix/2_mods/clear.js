@@ -1,21 +1,54 @@
-const { PermissionsBitField } = require('discord.js');
+const { EmbedBuilder, PermissionsBitField } = require('discord.js');
 
 module.exports = {
 	name: 'clear',
-	execute: async (client, msg, args) => {
-		if (!msg.member.permissions.has(PermissionsBitField.Flags.ManageMessages)) return msg.reply('<a:error:1127481079620718635> Nie posiadasz uprawnień **Zarządzanie wiadomościami**.');
-		if (!args[0]) return msg.reply('<a:error:1127481079620718635> Podaj liczbę wiadomości do usunięcia.');
-		if (isNaN(args[0])) return msg.reply('<a:error:1127481079620718635> Parametr musi być liczbą.');
+	aliases: ['purge', 'delete', 'clean'],
+	description: 'Clear messages from channel',
+	permissions: PermissionsBitField.Flags.ManageMessages,
+	cooldown: 3000,
+	async execute(client, msg, args) {
 
-		await msg.channel.sendTyping();
-
-		try {
-			await msg.channel.bulkDelete(args[0], true);
-		} catch (err) {
-			msg.reply('<a:error:1127481079620718635> Wystąpił błąd podczas usuwania wiadomości.', err.message);
-			return console.warn(err);
+		if (!args[0] || isNaN(args[0])) {
+			return msg.reply({
+				embeds: [new EmbedBuilder()
+					.setColor('#FF6B6B')
+					.setTitle('❌ Invalid Amount')
+					.setDescription('Please provide a valid number of messages to delete.')
+					.addFields([{ name: 'Usage', value: '`!clear <amount>`\n`!clear 10`', inline: false }])]
+			});
 		}
 
-		msg.channel.send(`<a:success:1127481086499377282> Usunięto **${args[0]}** wiadomości na kanale ${msg.channel}.`).then(toDel => setTimeout(() => toDel.delete(), 3000));
+		const amount = parseInt(args[0]);
+		if (amount < 1 || amount > 100) {
+			return msg.reply({
+				embeds: [new EmbedBuilder()
+					.setColor('#FF6B6B')
+					.setTitle('❌ Invalid Range')
+					.setDescription('Amount must be between 1 and 100 messages.')]
+			});
+		}
+
+		try {
+			await msg.channel.sendTyping();
+			const deleted = await msg.channel.bulkDelete(amount, true);
+			
+			const successMsg = await msg.channel.send({
+				embeds: [new EmbedBuilder()
+					.setColor('#00D26A')
+					.setTitle('✅ Messages Cleared')
+					.setDescription(`Successfully deleted **${deleted.size}** messages from ${msg.channel}`)
+					.setFooter({ text: 'This message will be deleted in 5 seconds' })]
+			});
+
+			setTimeout(() => successMsg.delete().catch(() => {}), 5000);
+		} catch (err) {
+			console.warn('Clear » Error:', err.message);
+			return msg.reply({
+				embeds: [new EmbedBuilder()
+					.setColor('#FF6B6B')
+					.setTitle('❌ Clear Failed')
+					.setDescription('Failed to delete messages. They might be older than 14 days.')]
+			});
+		}
 	},
 };

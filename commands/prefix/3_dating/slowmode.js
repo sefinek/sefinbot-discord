@@ -1,13 +1,50 @@
-const { PermissionsBitField } = require('discord.js');
+const { EmbedBuilder, PermissionsBitField } = require('discord.js');
 
 module.exports = {
 	name: 'slowmode',
-	execute: (client, msg, args) => {
-		if (!msg.member.permissions.has(PermissionsBitField.Flags.ManageChannels)) return msg.reply('<a:error:1127481079620718635> Nie posiadasz uprawnień **Zarządzanie kanałami**.');
-		if (isNaN(args[0])) return msg.reply('<a:error:1127481079620718635> Oczekiwano liczby.');
+	aliases: ['slow', 'ratelimit'],
+	description: 'Set channel slowmode',
+	permissions: PermissionsBitField.Flags.ManageChannels,
+	cooldown: 3000,
+	async execute(client, msg, args) {
 
-		if (!args[0]) return msg.channel.setRateLimitPerUser(0).then(() => msg.channel.send('<a:success:1127481086499377282> Wyłączono tryb powolny na tym kanale.'));
+		if (!args[0]) {
+			await msg.channel.setRateLimitPerUser(0);
+			return msg.reply({
+				embeds: [new EmbedBuilder()
+					.setColor('#00D26A')
+					.setTitle('✅ Slowmode Disabled')
+					.setDescription(`Slowmode has been disabled in ${msg.channel}`)]
+			});
+		}
 
-		msg.channel.setRateLimitPerUser(args[0]).then(() => msg.channel.send(`<a:success:1127481086499377282> Zmieniono wartość trybu powolnego na \`${args[0]}s\`; Kanał ${msg.channel};`));
+		const seconds = parseInt(args[0]);
+		if (isNaN(seconds) || seconds < 0 || seconds > 21600) {
+			return msg.reply({
+				embeds: [new EmbedBuilder()
+					.setColor('#FF6B6B')
+					.setTitle('❌ Invalid Time')
+					.setDescription('Slowmode must be between 0 and 21600 seconds (6 hours).')
+					.addFields([{ name: 'Usage', value: '`!slowmode <seconds>`\n`!slowmode 5` or `!slowmode` (to disable)', inline: false }])]
+			});
+		}
+
+		try {
+			await msg.channel.setRateLimitPerUser(seconds);
+			return msg.reply({
+				embeds: [new EmbedBuilder()
+					.setColor('#00D26A')
+					.setTitle('✅ Slowmode Updated')
+					.setDescription(`Slowmode set to **${seconds}** seconds in ${msg.channel}`)]
+			});
+		} catch (err) {
+			console.warn('Slowmode » Error:', err.message);
+			return msg.reply({
+				embeds: [new EmbedBuilder()
+					.setColor('#FF6B6B')
+					.setTitle('❌ Failed to Set Slowmode')
+					.setDescription('Unable to update channel slowmode.')]
+			});
+		}
 	},
 };

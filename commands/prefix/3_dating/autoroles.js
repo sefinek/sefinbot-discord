@@ -1,10 +1,10 @@
-const { WebhookClient, EmbedBuilder } = require('discord.js');
+const { WebhookClient, EmbedBuilder, PermissionsBitField } = require('discord.js');
 const webhook = process.env.AUTO_ROLES ? new WebhookClient({ url: process.env.AUTO_ROLES }) : null;
 const off = true;
 
 module.exports = {
 	name: 'ar',
-	admin: true,
+	permissions: PermissionsBitField.Flags.ManageChannels,
 	execute: async (client, msg) => {
 		if (!webhook) {
 			return msg.reply('❌ Webhook dla auto-ról nie został skonfigurowany.');

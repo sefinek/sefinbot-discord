@@ -1,56 +1,72 @@
 const { EmbedBuilder } = require('discord.js');
 const { inspect } = require('node:util');
 
-// grex "_WEBHOOK" "_URL" "config" "TOKEN" ".env"
 const FORBIDDEN_PATTERNS = /_(?:WEBHOOK|URL)|config|TOKEN|\.env/i;
 
 module.exports = {
 	name: 'eval',
-	admin: true,
-	execute: async (client, msg, args) => {
-		if (msg.author.id !== process.env.BOT_OWNER) {
-			msg.channel.send('\\❎ **Admin Session**\nOnly the bot owner can use this command.');
-			return console.log('EvalCM » Only the bot creator can use the \'eval\' command');
-		}
+	aliases: ['e', 'evaluate'],
+	description: 'Evaluate JavaScript code (owner only)',
+	ownerOnly: true,
+	cooldown: 1000,
+	async execute(client, msg, args) {
 
-		if (!args.length) return msg.channel.send('\\❎ **Admin Session**\nThis command requires arguments.');
+		if (!args.length) {
+			return msg.reply({
+				embeds: [new EmbedBuilder()
+					.setColor('#FF6B6B')
+					.setTitle('❌ Missing Code')
+					.setDescription('Please provide JavaScript code to evaluate.')]
+			});
+		}
 
 		const script = args.join(' ');
 		if (FORBIDDEN_PATTERNS.test(script)) {
-			msg.channel.send('\\❎ **Admin Session**\nThis method is not allowed.');
-			return console.log('EvalCM » ✘ Unauthorized actions:', script);
+			console.log('Eval » Blocked unauthorized action:', script);
+			return msg.reply({
+				embeds: [new EmbedBuilder()
+					.setColor('#FF6B6B')
+					.setTitle('❌ Forbidden Pattern')
+					.setDescription('This code contains forbidden patterns.')]
+			});
 		}
 
-		const loading = await msg.channel.send({ embeds: [new EmbedBuilder().setColor('#4169E1').setAuthor({ name: 'Please wait...', iconURL: process.env.LOA })] });
+		const loading = await msg.reply({
+			embeds: [new EmbedBuilder()
+				.setColor('#4169E1')
+				.setTitle('⏳ Evaluating...')
+				.setDescription('Please wait while the code is being executed.')]
+		});
 
 		try {
 			const evaled = eval(script);
 			const output = inspect(evaled, { depth: 0 });
 
-			loading.edit({
+			await loading.edit({
 				embeds: [new EmbedBuilder()
-					.setColor('#77B255')
+					.setColor('#00D26A')
+					.setTitle('✅ Evaluation Successful')
 					.addFields([
 						{ name: '📥 Input', value: `\`\`\`js\n${script.slice(0, 1015)}\`\`\`` },
 						{ name: '📤 Output', value: `\`\`\`js\n${output.slice(0, 1015)}\`\`\`` },
-					]),
-				],
+					])
+					.setTimestamp()]
 			});
 
-			console.log('EvalCM » ✔ Success:', script);
+			console.log('Eval » Success:', script);
 		} catch (err) {
-			loading.edit({
+			await loading.edit({
 				embeds: [new EmbedBuilder()
-					.setColor('#DD2E44')
+					.setColor('#FF6B6B')
+					.setTitle('❌ Evaluation Failed')
 					.addFields([
 						{ name: '📥 Input', value: `\`\`\`js\n${script.slice(0, 1015)}\`\`\`` },
-						{ name: '📤 Output', value: `\`\`\`js\n${err}\`\`\`` },
-					]),
-				],
+						{ name: '📤 Error', value: `\`\`\`js\n${err.message.slice(0, 1015)}\`\`\`` },
+					])
+					.setTimestamp()]
 			});
 
-			console.log(script);
-			console.log(err.message);
+			console.log('Eval » Error:', err.message);
 		}
 	},
 };

@@ -1,10 +1,10 @@
-const { WebhookClient, EmbedBuilder } = require('discord.js');
+const { WebhookClient, EmbedBuilder, PermissionsBitField } = require('discord.js');
 const { version } = require('../../../package.json');
 const webhook = process.env.SERVER_INFO ? new WebhookClient({ url: process.env.SERVER_INFO }) : null;
 
 module.exports = {
 	name: 'si',
-	admin: true,
+	permissions: PermissionsBitField.Flags.ManageMessages,
 	execute: async (client, msg) => {
 		if (!webhook) {
 			return msg.reply('❌ Webhook dla server info nie został skonfigurowany.');

@@ -1,9 +1,12 @@
 const { PermissionsBitField, EmbedBuilder } = require('discord.js');
-// Helper function to get user from mention, ID, or username
 
 module.exports = {
 	name: 'wystaw',
-	execute: (client, msg, args) => {
+	aliases: ['exhibition', 'sell'],
+	description: 'Put user for sale (Dark weber only)',
+	permissions: PermissionsBitField.Flags.ManageMessages,
+	cooldown: 3000,
+	async execute(client, msg, args) {
 		if (!msg.member.roles.cache.has('1121994541973647381') && !msg.member.permissions.has(PermissionsBitField.Flags.Administrator)) return msg.reply('<a:error:1127481079620718635> Nie posiadasz roli Dark weber.');
 
 		if (!args[0]) return msg.reply(`<a:error:1127481079620718635> **Prawidłowe użycie:** ${process.env.PREFIX}wystaw <@Osoba> <Cena> <Zastosowania>`);

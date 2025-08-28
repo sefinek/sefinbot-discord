@@ -1,8 +1,12 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, PermissionsBitField } = require('discord.js');
 
 module.exports = {
 	name: 'rola',
-	execute: (client, msg, args) => {
+	aliases: ['role'],
+	description: 'Create a role (Dark weber only)',
+	permissions: PermissionsBitField.Flags.ManageRoles,
+	cooldown: 5000,
+	async execute(client, msg, args) {
 		if (!msg.member.roles.cache.has('1121994541973647381')) return msg.reply('<a:error:1127481079620718635> Nie posiadasz roli Dark weber.');
 
 		const member = msg.mentions.members.first();

@@ -3,6 +3,7 @@ const Announcements = require('../../../database/models/Announcements.js');
 
 module.exports = {
 	name: 'ogl',
+	permissions: PermissionsBitField.Flags.SendMessages,
 	execute: async (client, msg, args) => {
 		if (!msg.member.permissions.has(PermissionsBitField.Flags.ManageMessages)) return msg.reply('<a:error:1127481079620718635> Nie posiadasz uprawnień **Zarządzanie wiadomościami**.');
 

@@ -1,27 +1,26 @@
 const { readdirSync } = require('node:fs');
 const { join } = require('node:path');
 
-// Auto-load server configurations
 const loadServerConfigs = () => {
 	const configs = {};
 	const configPath = join(__dirname, 'servers');
 
 	try {
-		const configFiles = readdirSync(configPath).filter(file => file.endsWith('.js'));
-
-		for (const file of configFiles) {
-			try {
-				const config = require(join(configPath, file));
-				if (config.id) {
-					configs[config.id] = config;
-					console.log(`Config » Loaded server config: ${file}`);
-				} else {
-					console.warn(`Config » Server config ${file} missing ID field`);
+		readdirSync(configPath)
+			.filter(file => file.endsWith('.js'))
+			.forEach(file => {
+				try {
+					const config = require(join(configPath, file));
+					if (config.id) {
+						configs[config.id] = config;
+						console.log(`Config » Loaded server config: ${file}`);
+					} else {
+						console.warn(`Config » Server config ${file} missing ID field`);
+					}
+				} catch (err) {
+					console.error(`Config » Failed to load ${file}:`, err.message);
 				}
-			} catch (err) {
-				console.error(`Config » Failed to load ${file}:`, err.message);
-			}
-		}
+			});
 	} catch (err) {
 		console.error('Config » Failed to load server configs:', err.message);
 	}
@@ -29,25 +28,17 @@ const loadServerConfigs = () => {
 	return configs;
 };
 
-// Load all server configurations
 const serverConfigs = loadServerConfigs();
 
-// Server configuration adapter for backward compatibility
 class ServerConfig {
 	constructor(config) {
 		this.config = config;
 	}
 
-	// Legacy compatibility getters
 	get botTrapChannelId() { return this.config.main?.botTrapChannelId; }
 	get automodChannelId() { return this.config.main?.automodChannelId; }
+	get cleverBotChannelId() { return this.config.features?.cleverBot?.channelId; }
 
-	// CleverBot compatibility
-	get cleverBotChannelId() {
-		return this.config.features?.cleverBot?.channelId;
-	}
-
-	// Voice channels compatibility
 	get vcMembers() { return this.config.voiceChannels?.members?.enabled; }
 	get vcMembersChannel() { return this.config.voiceChannels?.members?.channelId; }
 	get vcMembersName() { return this.config.voiceChannels?.members?.name; }
@@ -64,43 +55,32 @@ class ServerConfig {
 	get vcRecordOnlineChannel() { return this.config.voiceChannels?.recordOnline?.channelId; }
 	get vcRecordOnlineName() { return this.config.voiceChannels?.recordOnline?.name; }
 
-	// Events compatibility
 	get welcomeChannelId() { return this.config.events?.welcome?.channelId; }
 	get welcomeContent() { return this.config.events?.welcome?.content; }
-
 	get farewellChannelId() { return this.config.events?.farewell?.channelId; }
 	get farewellContent() { return this.config.events?.farewell?.content; }
-
 	get banChannelId() { return this.config.events?.ban?.channelId; }
 	get banContent() { return this.config.events?.ban?.content; }
 
-	// DM compatibility
 	get joinMsgDM() { return this.config.directMessages?.welcome?.enabled; }
 	get joinMsgDMContent() { return this.config.directMessages?.welcome?.content; }
 
-	// Reactions compatibility
 	get reactionApproveChannels() { return this.config.reactions?.approve?.channels; }
 	get approveReaction() { return this.config.reactions?.approve?.emoji; }
-
 	get reactionAttachmentChannels() { return this.config.reactions?.attachment?.channels; }
 	get attachmentReaction() { return this.config.reactions?.attachment?.emojis; }
-
 	get reactionHeartChannels() { return this.config.reactions?.hearts?.channels; }
 	get heartReaction() { return this.config.reactions?.hearts?.emoji; }
-
 	get reactionLikeDislikeChannels() { return this.config.reactions?.likeDislike?.channels; }
 	get likeDislikeReactions() { return this.config.reactions?.likeDislike?.emojis; }
 
-	// New structured accessors
 	get channels() { return this.config.channels || {}; }
 	get roles() { return this.config.roles || {}; }
 	get features() { return this.config.features || {}; }
 	get timeModes() { return this.config.timeModes || {}; }
 
-	// Feature checks
 	get isDatingServer() { return this.config.features?.isDatingServer || false; }
 	get cleverBot() {
-		// Support both boolean and object structure
 		const cleverBotConfig = this.config.features?.cleverBot;
 		if (typeof cleverBotConfig === 'boolean') return cleverBotConfig;
 		if (typeof cleverBotConfig === 'object' && cleverBotConfig) return cleverBotConfig.enabled;
@@ -108,74 +88,34 @@ class ServerConfig {
 	}
 	get timeBasedModes() { return this.config.features?.timeBasedModes || false; }
 
-	// Time config compatibility
-	get cronConfig() {
-		return this.config.cron || null;
-	}
+	get cronConfig() { return this.config.cron || null; }
 
 	get timeConfig() {
-		if (this.config.cron) {
-			const { schedules } = this.config.cron;
-			return {
-				dayMode: schedules?.day ? {
-					guildName: schedules.day.name,
-					banner: schedules.day.banner,
-					message: schedules.day.message,
-					rateLimits: schedules.day.rateLimits || {},
-				} : null,
-				afternoonMode: schedules?.afternoon ? {
-					guildName: schedules.afternoon.name,
-					banner: schedules.afternoon.banner,
-					message: schedules.afternoon.message,
-					rateLimits: schedules.afternoon.rateLimits || {},
-				} : null,
-				nightMode: schedules?.night ? {
-					guildName: schedules.night.name,
-					banner: schedules.night.banner,
-					message: schedules.night.message,
-					rateLimits: schedules.night.rateLimits || {},
-				} : null,
-			};
-		}
+		if (!this.config.cron) return null;
 
-		if (!this.config.timeModes) return null;
+		const { schedules } = this.config.cron;
+		const createModeConfig = schedule => schedule ? {
+			guildName: schedule.name,
+			banner: schedule.banner,
+			message: schedule.message,
+			rateLimits: schedule.rateLimits || {},
+		} : null;
 
 		return {
-			dayMode: this.config.timeModes.day ? {
-				guildName: this.config.timeModes.day.name,
-				banner: this.config.timeModes.day.banner,
-				message: this.config.timeModes.day.message,
-				rateLimits: this.config.timeModes.day.rateLimits || {},
-			} : null,
-			afternoonMode: this.config.timeModes.afternoon ? {
-				guildName: this.config.timeModes.afternoon.name,
-				banner: this.config.timeModes.afternoon.banner,
-				message: this.config.timeModes.afternoon.message,
-			} : null,
-			nightMode: this.config.timeModes.night ? {
-				guildName: this.config.timeModes.night.name,
-				banner: this.config.timeModes.night.banner,
-				message: this.config.timeModes.night.message,
-				rateLimits: this.config.timeModes.night.rateLimits || {},
-			} : null,
+			dayMode: createModeConfig(schedules?.day),
+			afternoonMode: createModeConfig(schedules?.afternoon),
+			nightMode: createModeConfig(schedules?.night),
 		};
 	}
 }
 
-// Main export functions
 const getServerConfig = guildId => {
 	let config = serverConfigs[guildId];
 
-	// Check for environment-specific config
-	const { NODE_ENV } = process.env;
-	if (NODE_ENV === 'development') {
-		// Look for development-specific config
+	if (process.env.NODE_ENV === 'development') {
 		const devConfigs = Object.values(serverConfigs).filter(cfg => cfg.id === guildId && cfg.environment === 'development');
 		if (devConfigs.length > 0) {
 			config = devConfigs[0];
-			console.log(`Config » Using development config for guild ${guildId}`);
-		} else if (config) {
-			console.log(`Config » Using production config for guild ${guildId} (no dev config found)`);
 		}
 	}
 
@@ -187,24 +127,21 @@ const getServerConfig = guildId => {
 	return new ServerConfig(config);
 };
 
-const getAllServerConfigs = () => {
-	return Object.keys(serverConfigs).map(guildId => ({
+const getAllServerConfigs = () => 
+	Object.keys(serverConfigs).map(guildId => ({
 		guildId,
 		config: new ServerConfig(serverConfigs[guildId]),
 	}));
-};
 
 const reloadConfigs = () => {
-	// Clear require cache for server configs
 	const configPath = join(__dirname, 'servers');
-	const configFiles = readdirSync(configPath).filter(file => file.endsWith('.js'));
+	readdirSync(configPath)
+		.filter(file => file.endsWith('.js'))
+		.forEach(file => {
+			delete require.cache[require.resolve(join(configPath, file))];
+		});
 
-	configFiles.forEach(file => {
-		const fullPath = join(configPath, file);
-		delete require.cache[require.resolve(fullPath)];
-	});
-
-	// Reload configs
+	Object.keys(serverConfigs).forEach(key => delete serverConfigs[key]);
 	Object.assign(serverConfigs, loadServerConfigs());
 	console.log('Config » Server configurations reloaded');
 };
@@ -213,8 +150,6 @@ module.exports = {
 	getServerConfig,
 	getAllServerConfigs,
 	reloadConfigs,
-
-	// Development helpers
-	_getServerConfigs: () => serverConfigs, // For debugging
-	_ServerConfig: ServerConfig, // For testing
+	_getServerConfigs: () => serverConfigs,
+	_ServerConfig: ServerConfig,
 };

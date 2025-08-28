@@ -1,9 +1,10 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, PermissionsBitField } = require('discord.js');
 const Items = require('../../../database/models/items.model');
 const Members = require('../../../database/models/Members');
 
 module.exports = {
 	name: 'miner',
+	permissions: PermissionsBitField.Flags.SendMessages,
 	execute: async (client, msg, args) => {
 		if (!args[0]) {
 			return msg.reply({ embeds: [
