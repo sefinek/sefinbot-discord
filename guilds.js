@@ -2,13 +2,12 @@ const { EmbedBuilder } = require('discord.js');
 const { version } = require('./package.json');
 
 const production = {
-	// Sefinek
 	'1305001399494377533': {
-		// Main
+		// Main Configuration
 		botTrapChannelId: null,
 		automodChannelId: '1328500595908280421',
 
-		// Stats
+		// Voice Channel Stats
 		vcMembers: true,
 		vcMembersChannel: '1328500744361480192',
 		vcMembersName: '👥・Members: {count}',
@@ -21,7 +20,7 @@ const production = {
 		vcNewChannel: '1328500800086999080',
 		vcNewName: '👋・New: {user}',
 
-		// Server logs
+		// Server Event Logs
 		welcomeChannelId: '1328500677944803358',
 		welcomeContent: (member, memberCount) => ({
 			embeds: [
@@ -67,7 +66,7 @@ const production = {
 			],
 		}),
 
-		// DM
+		// Direct Messages
 		joinMsgDM: true,
 		joinMsgDMContent: (member) => ({
 			embeds: [
@@ -77,13 +76,13 @@ const production = {
 						name: `Welcome ${member.user.tag} on ${member.guild.name}!`,
 						iconURL: member.guild.iconURL() || undefined,
 					})
-					.setDescription(`Welcome to our server! We're glad to have you here.`)
+					.setDescription('Welcome to our server! We\'re glad to have you here.')
 					.setThumbnail(member.user.displayAvatarURL())
 					.setTimestamp(),
 			],
 		}),
 
-		// Reactions
+		// Reaction Configuration
 		reactionApproveChannels: [
 			'1305011381959004282',
 			'1305011521855819847',
@@ -157,7 +156,7 @@ const production = {
 			],
 		}),
 
-		// DM
+		// Direct Messages
 		joinMsgDM: true,
 		joinMsgDMContent: (member) => ({
 			embeds: [
@@ -167,7 +166,7 @@ const production = {
 						name: `Witaj ${member.user.tag} na naszym serwerze ${member.guild.name}`,
 						iconURL: member.guild.iconURL() || undefined,
 					})
-					.setDescription(`Dziękujemy za dołączenie do naszego serwera! Miłego pobytu.`)
+					.setDescription('Dziękujemy za dołączenie do naszego serwera! Miłego pobytu.')
 					.setThumbnail(member.user.displayAvatarURL())
 					.setTimestamp(),
 				new EmbedBuilder()
@@ -179,7 +178,7 @@ const production = {
 			],
 		}),
 
-		// Reactions
+		// Reaction Configuration
 		reactionApproveChannels: [
 			'1002327796468699220',
 			'1002327796468699226',
@@ -253,7 +252,7 @@ const production = {
 			],
 		}),
 
-		// DM
+		// Direct Messages
 		joinMsgDM: true,
 		joinMsgDMContent: (member) => ({
 			embeds: [
@@ -287,7 +286,7 @@ const production = {
 						{
 							name: '🙀 » We hope to see you in the Stella Mod launcher!',
 							value: `If you have any questions, feel free to message <@${process.env.OWNER}> or visit the <#1056236234160214138> channel.\n\n>> [\`Click here to download now!\`](https://sefinek.net/genshin-stella-mod) <<`,
-						}
+						},
 					]),
 				new EmbedBuilder()
 					.setColor('#15070C')
@@ -299,7 +298,7 @@ const production = {
 			],
 		}),
 
-		// Reactions
+		// Reaction Configuration
 		reactionAttachmentChannels: [
 			'1290859071066341507',
 			'1153034136529932369',
@@ -383,7 +382,7 @@ const production = {
 		// DM
 		joinMsgDM: false,
 
-		// Reactions
+		// Reaction Configuration
 		reactionApproveChannels: [
 			'1276628914697015337',
 			'1276628998914576404',
@@ -477,7 +476,7 @@ const production = {
 			],
 		}),
 
-		// DM
+		// Direct Messages
 		joinMsgDM: true,
 		joinMsgDMContent: (member) => ({
 			embeds: [
@@ -517,7 +516,7 @@ const production = {
 			],
 		}),
 
-		// Reactions
+		// Reaction Configuration
 		reactionApproveChannels: [
 			'1002327796468699220',
 			'1002327796468699226',
@@ -607,7 +606,7 @@ const development = {
 		cleverBot: true,
 		cleverBotChannelId: '943910440990294021',
 
-		// DM
+		// Direct Messages
 		joinMsgDM: true,
 		joinMsgDMContent: (member) => ({
 			embeds: [
