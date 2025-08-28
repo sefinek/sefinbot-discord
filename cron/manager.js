@@ -117,9 +117,7 @@ class CronManager {
 			console.log(`Cron   » Checking guild: ${guild.name} (${guild.id})`);
 
 			const config = guilds.getServerConfig(guild.id);
-			if (!config?.cronConfig?.enabled) {
-				return console.log(`Cron   » No enabled cronConfig for guild ${guild.name}`);
-			}
+			if (!config?.cronConfig?.enabled) return;
 
 			const { schedules, timezone } = config.cronConfig;
 			console.log(`Cron   » Found ${Object.keys(schedules).length} schedules for ${guild.name}`);
