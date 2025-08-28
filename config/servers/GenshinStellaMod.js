@@ -34,10 +34,7 @@ module.exports = {
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#9B59B6')
-						.setAuthor({
-							name: `👋 Member ${member.user.tag} has joined the server`,
-							iconURL: member.user.displayAvatarURL(),
-						})
+						.setAuthor({ name: `👋 Member ${member.user.tag} has joined the server`, iconURL: member.user.displayAvatarURL() })
 						.setDescription(`Welcome, ${member}, to our server! We hope our project captures your interest and motivates you to dive into Genshin Impact. Have fun!`)
 						.setThumbnail(member.user.displayAvatarURL()),
 				],
@@ -49,10 +46,7 @@ module.exports = {
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#E67E22')
-						.setAuthor({
-							name: `😥 Member ${member.user.tag} has left the server`,
-							iconURL: member.user.displayAvatarURL(),
-						})
+						.setAuthor({ name: `😥 Member ${member.user.tag} has left the server`, iconURL: member.user.displayAvatarURL() })
 						.setDescription(`Unfortunately, the user with the name ${member} has left our server. We hope that you will come back to us soon.`)
 						.setThumbnail(member.user.displayAvatarURL()),
 				],
@@ -100,7 +94,7 @@ module.exports = {
 								value: '1. **Access to 3DMigoto:** Enjoy the benefits of using ReShade, FPS Unlock, and 3DMigoto together for a more immersive gaming experience.\n2. A curated collection of optimized, **bug-free mods**.\n3. **A shader pack with the latest versions**, all free of bugs. With Stella Plus, **shaders will no longer overlap with the game\'s UI**, offering a cleaner, more polished visual experience.\n4. **Enhanced security:** The mod is designed with safety in mind, ensuring privacy protection and a robust security system.\n5. **And much more!** Discover all the benefits on the [**official website**](https://sefinek.net/genshin-stella-mod/subscription). Choose the tier that suits you best (we recommend the "🌍 Safety Kitten" tier).',
 							},
 							{
-								name: '🙀 » We hope to see you in the Stella Mod launcher!',
+								name: '🙀 » We hope to see you in the Stella Mod Launcher!',
 								value: `If you have any questions, feel free to message <@${process.env.OWNER}> or visit the <#1056236234160214138> channel.\n\n>> [\`Click here to download now!\`](https://sefinek.net/genshin-stella-mod) <<`,
 							},
 						]),
