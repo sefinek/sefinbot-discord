@@ -120,7 +120,7 @@ const getServerConfig = guildId => {
 	}
 
 	if (!config) {
-		console.warn(`Config » No configuration found for guild ${guildId}`);
+		if (process.env.NODE_ENV === 'development') console.warn(`Config » No configuration found for guild ${guildId}`);
 		return null;
 	}
 
