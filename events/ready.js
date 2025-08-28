@@ -35,7 +35,7 @@ module.exports = {
 			if (serverConfig.vcOnline && serverConfig.vcOnlineChannel) {
 				const vcOnlineChannel = guild.channels.cache.get(serverConfig.vcOnlineChannel);
 				if (!vcOnlineChannel) {
-					console.warn(`Client » Online count channel ${serverConfig.vcOnlineChannel} not found in guild "${guild.name}" (${guild.id})`);
+					if (process.env.NODE_ENV === 'development') console.warn(`Client » Online count channel ${serverConfig.vcOnlineChannel} not found in guild "${guild.name}" (${guild.id})`);
 					continue;
 				}
 
