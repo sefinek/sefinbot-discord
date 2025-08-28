@@ -15,7 +15,7 @@ for (const file of commandFiles) {
 	if ('data' in command && 'execute' in command) {
 		commands.push(command.data.toJSON());
 	} else {
-		console.warn(`SlashC » The command at ${filePath} is missing a required "data" or "execute" property.`);
+		console.warn(`SlCMD  » The command at ${filePath} is missing a required "data" or "execute" property.`);
 	}
 }
 
@@ -32,6 +32,6 @@ const rest = new REST().setToken(process.env.TOKEN);
 
 		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
 	} catch (err) {
-		console.error('SlashC » An error occurred while reloading application commands:', err);
+		console.error('SlCMD  » An error occurred while reloading application commands:', err);
 	}
 })();

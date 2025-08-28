@@ -25,7 +25,7 @@ module.exports = {
 				const expiredTimestamp = Math.round(expirationTime / 1000);
 				inter.reply({ content: `⏳ **Zwolnij!**\nPosiadasz aktywne ograniczenie czasowe dla komendy \`${command.data.name}\`. Możesz jej ponownie użyć <t:${expiredTimestamp}:R>.`, ephemeral: true });
 
-				return console.log(`SlashC » Interaction '${inter.commandName}' (cooldown ${expiredTimestamp}) was triggered by ${inter.user.tag} (${inter.id}) on the server ${inter.guild.name} (${inter.guild.id})`);
+				return console.log(`SlCMD  » Interaction '${inter.commandName}' (cooldown ${expiredTimestamp}) was triggered by ${inter.user.tag} (${inter.id}) on the server ${inter.guild.name} (${inter.guild.id})`);
 			}
 		}
 
@@ -38,6 +38,6 @@ module.exports = {
 			require('../scripts/error.js')(EmbedBuilder, inter, err);
 		}
 
-		console.log(`SlashC » Interaction '${inter.commandName}' was triggered by ${inter.user.tag} (${inter.id}) on the server ${inter.guild.name} (${inter.guild.id})`);
+		console.log(`SlCMD  » Interaction '${inter.commandName}' was triggered by ${inter.user.tag} (${inter.id}) on the server ${inter.guild.name} (${inter.guild.id})`);
 	},
 };

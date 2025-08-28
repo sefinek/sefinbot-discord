@@ -4,7 +4,7 @@ const guilds = require('../config/guilds.js');
 module.exports = {
 	name: Events.ClientReady,
 	async execute(client) {
-		console.log(`CReady » Bot successfully logged in as ${client.user.tag} [${process.env.PREFIX}] (${client.guilds.cache.size} guilds)`);
+		console.log(`Client » Bot successfully logged in as ${client.user.tag} [${process.env.PREFIX}] (${client.guilds.cache.size} guilds)`);
 
 		require('../www/server.js')(client);
 		require('../scripts/setActivity.js')(client.user);
@@ -24,10 +24,10 @@ module.exports = {
 							.replace('{arrow}', '');
 						await vcMembersChannel.setName(channelName);
 						if (process.env.NODE_ENV === 'development') {
-							console.log(`CReady » Initialized member count for "${guild.name}": ${memberCount}`);
+							console.log(`Client » Initialized member count for "${guild.name}": ${memberCount}`);
 						}
 					} catch (err) {
-						console.warn(`CReady » Failed to initialize member count for "${guild.name}": ${err.message}`);
+						console.warn(`Client » Failed to initialize member count for "${guild.name}": ${err.message}`);
 					}
 				}
 			}
@@ -35,7 +35,7 @@ module.exports = {
 			if (serverConfig.vcOnline && serverConfig.vcOnlineChannel) {
 				const vcOnlineChannel = guild.channels.cache.get(serverConfig.vcOnlineChannel);
 				if (!vcOnlineChannel) {
-					console.warn(`CReady » Online count channel ${serverConfig.vcOnlineChannel} not found in guild "${guild.name}" (${guild.id})`);
+					console.warn(`Client » Online count channel ${serverConfig.vcOnlineChannel} not found in guild "${guild.name}" (${guild.id})`);
 					continue;
 				}
 
@@ -47,9 +47,9 @@ module.exports = {
 						const channelName = serverConfig.vcOnlineName.replace('{count}', onlineCount);
 						await vcOnlineChannel.setName(channelName);
 
-						if (process.env.NODE_ENV === 'development') console.log(`CReady » Updated online count for "${guild.name}": ${onlineCount}`);
+						if (process.env.NODE_ENV === 'development') console.log(`Client » Updated online count for "${guild.name}": ${onlineCount}`);
 					} catch (err) {
-						console.warn(`CReady » Failed to update online count for "${guild.name}": ${err.message}`);
+						console.warn(`Client » Failed to update online count for "${guild.name}": ${err.message}`);
 					}
 				};
 
@@ -58,6 +58,6 @@ module.exports = {
 			}
 		}
 
-		console.log(`CReady » Online count tracking initialized for ${client.guilds.cache.size} guilds`);
+		console.log(`Client » Online count tracking initialized for ${client.guilds.cache.size} guilds`);
 	},
 };

@@ -36,5 +36,5 @@ module.exports = client => {
 
 	// Start the server
 	const { PORT } = process.env;
-	app.listen(PORT, () => process.send ? process.send('ready') : console.log(`ExprJS » API running on http://127.0.0.1:${PORT}`));
+	app.listen(PORT, () => process.send ? process.send('ready') : console.log(`Web    » API running on http://127.0.0.1:${PORT}`));
 };
