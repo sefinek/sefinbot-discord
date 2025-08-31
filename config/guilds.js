@@ -76,6 +76,8 @@ class ServerConfig {
 	get reactionLikeDislikeChannels() { return this.config.reactions?.likeDislike?.channels; }
 	get likeDislikeReactions() { return this.config.reactions?.likeDislike?.emojis; }
 
+	get reactions() { return this.config.reactions || {}; }
+
 	get verificationEnabled() { return this.config.verification?.enabled || false; }
 	get unverifiedRoleId() { return this.config.verification?.unverifiedRoleId; }
 	get verifiedRoleId() { return this.config.verification?.verifiedRoleId; }

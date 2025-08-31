@@ -31,7 +31,7 @@ const getVerificationInfo = asyncHandler(async (req, res) => {
 
 	// Check server configuration
 	const serverConfig = getServerConfig(verification.guildId);
-	if (!serverConfig?.verificationEnabled) {
+	if (!serverConfig?.verification?.enabled) {
 		return res.status(400).json(createErrorResponse(400, 'Verification not enabled for this server', 'VERIFICATION_DISABLED'));
 	}
 
@@ -71,25 +71,25 @@ const completeVerification = asyncHandler(async (req, res) => {
 
 	// Check server configuration
 	const serverConfig = getServerConfig(verification.guildId);
-	if (!serverConfig?.verificationEnabled) {
+	if (!serverConfig?.verification?.enabled) {
 		return res.status(400).json(createErrorResponse(400, 'Verification not enabled on this server', 'VERIFICATION_DISABLED'));
 	}
 
 	// Check if member still has unverified role
-	if (!member.roles.cache.has(serverConfig.unverifiedRoleId)) {
+	if (!member.roles.cache.has(serverConfig.verification.unverifiedRoleId)) {
 		return res.status(400).json(createErrorResponse(400, 'User is already verified or does not have unverified role', 'ALREADY_VERIFIED'));
 	}
 
 	// Update roles efficiently
 	const roleChanges = [];
-	const unverifiedRole = guild.roles.cache.get(serverConfig.unverifiedRoleId);
-	const verifiedRole = guild.roles.cache.get(serverConfig.verifiedRoleId);
+	const unverifiedRole = guild.roles.cache.get(serverConfig.verification.unverifiedRoleId);
+	const verifiedRole = guild.roles.cache.get(serverConfig.verification.verifiedRoleId);
 
-	if (unverifiedRole && member.roles.cache.has(serverConfig.unverifiedRoleId)) {
+	if (unverifiedRole && member.roles.cache.has(serverConfig.verification.unverifiedRoleId)) {
 		roleChanges.push(member.roles.remove(unverifiedRole));
 	}
 
-	if (verifiedRole && !member.roles.cache.has(serverConfig.verifiedRoleId)) {
+	if (verifiedRole && !member.roles.cache.has(serverConfig.verification.verifiedRoleId)) {
 		roleChanges.push(member.roles.add(verifiedRole));
 	}
 
@@ -116,18 +116,12 @@ const completeVerification = asyncHandler(async (req, res) => {
 	// Send verification success DM (non-blocking)
 	const sendVerificationSuccessDM = async () => {
 		try {
-			if (!serverConfig.verificationSuccessDM) {
-				console.log(`Verification » Verification success DM disabled for guild ${guild.name}`);
+			if (!serverConfig.verification?.messages?.success?.content) {
+				console.log(`Verification » No verification success DM configured for guild ${guild.name}`);
 				return;
 			}
 
-			const dmContent = serverConfig.verificationSuccessDMContent;
-			if (!dmContent) {
-				console.log(`Verification » No verification success DM content configured for guild ${guild.name}`);
-				return;
-			}
-
-			const messageContent = dmContent(member, guild);
+			const messageContent = serverConfig.verification.messages.success.content(member, guild);
 			await member.send(messageContent);
 			console.log(`Verification » Sent verification success DM to ${member.user.tag}`);
 		} catch (dmErr) {
@@ -174,7 +168,7 @@ const getServerStats = asyncHandler(async (req, res) => {
 
 	for (const guild of client.guilds.cache.values()) {
 		const serverConfig = getServerConfig(guild.id);
-		if (serverConfig?.verificationEnabled) {
+		if (serverConfig?.verification?.enabled) {
 			verificationEnabledServers.push({ id: guild.id, name: guild.name, memberCount: guild.memberCount });
 		}
 	}

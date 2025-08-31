@@ -10,31 +10,31 @@ module.exports = {
 		const serverCfg = guilds.getServerConfig(guild.id);
 		if (!serverCfg) return console.warn(`EventB » Server config for ${guild.id} was not found`);
 
-		const banNotificationChannel = guild.channels.cache.get(serverCfg.banChannelId);
-		if (banNotificationChannel && serverCfg.banContent) {
+		const banNotificationChannel = guild.channels.cache.get(serverCfg.events?.ban?.channelId);
+		if (banNotificationChannel && serverCfg.events?.ban?.content) {
 			const memberCount = guild.members.cache.filter(m => !m.user.bot).size;
 
 			try {
-				const banContent = serverCfg.banContent(user, memberCount);
+				const banContent = serverCfg.events.ban.content(user, guild, memberCount);
 				await banNotificationChannel.send(banContent);
 			} catch (err) {
-				console.error(`EventB » Failed to send ban notification in channel ID ${serverCfg.banChannelId}:`, err.message);
+				console.error(`EventB » Failed to send ban notification in channel ID ${serverCfg.events.ban.channelId}:`, err.message);
 			}
 		}
 
-		if (serverCfg.vcMembers && serverCfg.vcMembersChannel) {
-			const memberCountChannel = guild.channels.cache.get(serverCfg.vcMembersChannel);
+		if (serverCfg.voiceChannels?.members?.enabled && serverCfg.voiceChannels?.members?.channelId) {
+			const memberCountChannel = guild.channels.cache.get(serverCfg.voiceChannels.members.channelId);
 			if (memberCountChannel) {
 				try {
 					const memberCount = guild.members.cache.filter(m => !m.user.bot).size;
-					const channelNameWithArrow = serverCfg.vcMembersName
+					const channelNameWithArrow = serverCfg.voiceChannels.members.name
 						.replace('{count}', memberCount)
 						.replace('{arrow}', '⬇');
 					await memberCountChannel.setName(channelNameWithArrow);
 					setTimeout(async () => {
 						try {
 							const currentCount = guild.members.cache.filter(m => !m.user.bot).size;
-							const channelNameNoArrow = serverCfg.vcMembersName
+							const channelNameNoArrow = serverCfg.voiceChannels.members.name
 								.replace('{count}', currentCount)
 								.replace('{arrow}', '');
 							await memberCountChannel.setName(channelNameNoArrow);

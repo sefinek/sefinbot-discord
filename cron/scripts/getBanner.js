@@ -5,9 +5,7 @@ const bannerPath = path.join(__dirname, '../../assets/banners');
 
 const safeBannerRead = filePath => {
 	try {
-		if (existsSync(filePath)) {
-			return readFileSync(filePath);
-		}
+		if (existsSync(filePath)) return readFileSync(filePath);
 		console.warn(`Banner » File not found: ${filePath}`);
 		return null;
 	} catch (err) {

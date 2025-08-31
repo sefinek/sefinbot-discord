@@ -25,16 +25,12 @@ module.exports = async client => {
 			reason: 'Automated afternoon mode activation',
 		};
 
-		if (afternoonBanner) {
-			editOptions.banner = afternoonBanner;
-		}
+		if (afternoonBanner) editOptions.banner = afternoonBanner;
 
 		await milosnaGrotaGuild.edit(editOptions);
 
 		// Send message if configured
-		if (mainChannel && afternoonMode.message) {
-			await mainChannel.send(afternoonMode.message);
-		}
+		if (mainChannel && afternoonMode.message) await mainChannel.send(afternoonMode.message);
 
 		console.log(`Cron   » Afternoon mode activated successfully for ${milosnaGrotaGuild.name}`);
 

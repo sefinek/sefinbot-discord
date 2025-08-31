@@ -1,11 +1,30 @@
 const { EmbedBuilder } = require('discord.js');
 
+const channels = {
+	generaly: '943910440990294021',
+	przedstawSie: '943910440990294022',
+	pokazRyjek: '943910440990294023',
+	waszeZwierzaki: '943910440990294024',
+	pokazPulpit: '943910440990294025',
+	propozycje: '943910441241944064',
+	memy: '943910441241944065',
+	cleverBot: '943910441241944066',
+};
+
+const roles = {
+	unverified: '1411308251143733290',
+	verified: '1411308185889017896',
+};
+
 module.exports = {
 	id: '943910440520527873',
 	environment: 'development',
 
 	botTrapChannelId: null,
 	automodChannelId: '1188578816310906890',
+
+	channels,
+	roles,
 
 	voiceChannels: {
 		members: {
@@ -27,7 +46,7 @@ module.exports = {
 
 	events: {
 		welcome: {
-			channelId: '1150787924351254539',
+			channelId: channels.generaly,
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
@@ -51,7 +70,7 @@ module.exports = {
 			}),
 		},
 		farewell: {
-			channelId: '1150787924351254539',
+			channelId: channels.generaly,
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
@@ -64,7 +83,7 @@ module.exports = {
 			}),
 		},
 		ban: {
-			channelId: '1150787924351254539',
+			channelId: channels.generaly,
 			content: (member, guild, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
@@ -99,23 +118,6 @@ module.exports = {
 					],
 				}),
 			},
-			verificationSuccess: {
-				enabled: true,
-				content: (member, guild) => ({
-					embeds: [
-						new EmbedBuilder()
-							.setColor('#27ae60')
-							.setTitle('✅ Dev: Verification Complete!')
-							.setDescription(`Welcome to **${guild.name}** test server! Your account has been successfully verified.`)
-							.addFields([
-								{ name: '🧪 Test Environment', value: 'You now have access to all testing channels and development features!', inline: false },
-								{ name: '🚀 Available Features', value: '• Dating system testing\n• CleverBot integration\n• Time-based modes\n• All premium features', inline: false },
-							])
-							.setFooter({ text: `${guild.name} • Development Environment • Welcome!`, iconURL: guild.iconURL() })
-							.setTimestamp(),
-					],
-				}),
-			},
 		},
 	},
 
@@ -135,7 +137,7 @@ module.exports = {
 				time: '0 6 * * *',
 				name: 'Dev Server・🌅',
 				randomBanner: true,
-				messageChannel: '1150787924351254539',
+				messageChannel: channels.generaly,
 				message: '☀️ **DEV: Day mode activated** - Testing time-based modes!',
 				rateLimits: {},
 			},
@@ -144,38 +146,228 @@ module.exports = {
 				time: '0 22 * * *',
 				name: 'Dev Server・🌙',
 				randomBanner: true,
-				messageChannel: '1150787924351254539',
+				messageChannel: channels.generaly,
 				message: '🌙 **DEV: Night mode activated** - Testing night features!',
 				rateLimits: {},
 			},
 		},
 	},
 
+	reactions: {
+		pokazRyjek: {
+			channels: [channels.pokazRyjek],
+			requiresAttachment: true,
+			emojis: ['😍', '😐', '🤢'],
+			createThread: true,
+			threadConfig: {
+				nameTemplate: author => `${author.globalName || author.username}: Komentarze`,
+				autoArchiveDuration: 24 * 60, // 1 day
+				reason: author => `Zdjęcie użytkownika ${author.tag} (${author.id}).`,
+				startMessage: {
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#FF69B4')
+							.setDescription('Tutaj możesz skomentować to zdjęcie! 📸✨')
+							.setFooter({ text: 'Komentarze do zdjęcia' })
+							.setTimestamp(),
+					],
+				},
+			},
+			errorMessage: 'Na tym kanale możesz publikować tylko zdjęcia! 📸',
+		},
+		przedstawSie: {
+			channels: [channels.przedstawSie],
+			minLength: 20, // Shorter for testing
+			emojis: ['❤️'],
+			createThread: true,
+			threadConfig: {
+				nameTemplate: author => `${author.globalName || author.username}: Komentarze`,
+				autoArchiveDuration: 24 * 60, // 1 day
+				reason: author => `Przedstawienie się użytkownika ${author.tag} (${author.id}).`,
+				startMessage: {
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#00D26A')
+							.setDescription('Tutaj pozostali użytkownicy mogą skomentować niniejszą wiadomość.\nPamiętaj, że każdy członek serwera jest zobowiązany do przestrzegania wytycznych.')
+							.setFooter({ text: 'Wątek do komentarzy' })
+							.setTimestamp(),
+					],
+				},
+			},
+			errorMessage: (minLength) => `Twoje przedstawienie się jest za krótkie! Napisz co najmniej ${minLength} znaków, aby inni mogli Cię lepiej poznać. ✍️`,
+		},
+		waszeZwierzaki: {
+			channels: [channels.waszeZwierzaki],
+			requiresAttachment: true,
+			emojis: ['🐾', '❤️', '😍'],
+			createThread: true,
+			threadConfig: {
+				nameTemplate: author => `${author.globalName || author.username}: O zwierzaku`,
+				autoArchiveDuration: 24 * 60, // 1 day
+				reason: author => `Zdjęcie zwierzaka użytkownika ${author.tag} (${author.id}).`,
+				startMessage: {
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#8B4513')
+							.setDescription('Jakie słodkie zwierzątko! 🐾 Opowiedz nam o nim więcej!')
+							.setFooter({ text: 'O zwierzaku' })
+							.setTimestamp(),
+					],
+				},
+			},
+			errorMessage: 'Na tym kanale dzielimy się zdjęciami naszych zwierzątek! 🐾📸',
+		},
+		pokazPulpit: {
+			channels: [channels.pokazPulpit],
+			requiresAttachment: true,
+			emojis: ['👍', '👎'],
+			errorMessage: 'Na tym kanale pokazujemy screenshoty naszych pulpitów! 💻📸',
+		},
+		propozycje: {
+			channels: [channels.propozycje],
+			emojis: ['👍', '💭', '👎'],
+			createThread: true,
+			threadConfig: {
+				nameTemplate: author => `${author.globalName || author.username}: Dyskusja`,
+				autoArchiveDuration: 3 * 24 * 60, // 3 days
+				reason: author => `Propozycja użytkownika ${author.tag} (${author.id}).`,
+				startMessage: {
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#4A90E2')
+							.setDescription('Tutaj możesz przedyskutować tę propozycję!\nPamiętaj o konstruktywnej krytyce i szacunku dla innych opinii.')
+							.setFooter({ text: 'Dyskusja propozycji' })
+							.setTimestamp(),
+					],
+				},
+			},
+		},
+		likeDislike: {
+			channels: [
+				channels.memy,
+			],
+			emojis: ['👍', '👎'],
+		},
+	},
+
 	verification: {
 		enabled: true,
-		unverifiedRoleId: '1411308251143733290',
-		verifiedRoleId: '1411308185889017896',
+		unverifiedRoleId: roles.unverified,
+		verifiedRoleId: roles.verified,
+		timeouts: {
+			tokenExpiry: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
+			tokenCooldown: 5 * 60 * 1000, // 5 minutes cooldown between token requests
+			reminderInterval: 6 * 60 * 60 * 1000, // 6 hours between reminders
+			kickWarningAfter: 3 * 24 * 60 * 60 * 1000, // 3 days before kick warning
+			kickAfter: 4 * 24 * 60 * 60 * 1000, // 4 days before actual kick
+		},
 		content: guild => ({
 			embeds: [
 				new EmbedBuilder()
 					.setColor('#FF69B4')
-					.setTitle('🔧 DEV: Server Verification Required')
-					.setDescription(`**Development Environment** 🚀\n\nWelcome to the **${guild.name}** test server!\n\nThis is a development environment for testing bot features. Please verify your account to access all testing channels and features.`)
+					.setTitle('🔧 DEV: Wymagana weryfikacja serwera')
+					.setDescription(`**Środowisko deweloperskie** 🚀\n\nWitaj na serwerze testowym **${guild.name}**!\n\nTo jest środowisko deweloperskie do testowania funkcji bota. Zweryfikuj swoje konto, aby uzyskać dostęp do wszystkich kanałów testowych i funkcji.`)
 					.addFields([
-						{ name: '🧪 Testing Server', value: 'This is a development environment where we test new bot features before releasing them to production servers.', inline: false },
-						{ name: '🚀 Quick Dev Verification', value: 'Complete hCaptcha verification - this process is the same as on production servers!', inline: false },
-						{ name: '🔒 Secure Testing', value: 'Your verification data is protected and treated the same as production data.', inline: false },
-						{ name: '⚡ What you can test', value: '• Dating features\n• Verification system\n• Time-based modes\n• CleverBot integration\n• All premium features', inline: false },
+						{ name: '🧪 Serwer testowy', value: 'To jest środowisko deweloperskie, gdzie testujemy nowe funkcje bota przed wydaniem na serwery produkcyjne.', inline: false },
+						{ name: '🚀 Szybka weryfikacja deweloperska', value: 'Ukończ weryfikację hCaptcha - ten proces jest taki sam jak na serwerach produkcyjnych!', inline: false },
+						{ name: '🔒 Bezpieczne testowanie', value: 'Twoje dane weryfikacyjne są chronione i traktowane tak samo jak dane produkcyjne.', inline: false },
+						{ name: '⚡ Co możesz testować', value: '• Funkcje randkowe\n• System weryfikacji\n• Tryby czasowe\n• Integracja CleverBot\n• Wszystkie funkcje premium', inline: false },
 					])
-					.setFooter({ text: `${guild.name} • Development Environment • Click below to verify`, iconURL: guild.iconURL() })
+					.setFooter({ text: `${guild.name} • Środowisko deweloperskie • Kliknij poniżej aby się zweryfikować`, iconURL: guild.iconURL() })
 					.setThumbnail(guild.iconURL())
 					.setTimestamp(),
 			],
 		}),
 		button: {
-			label: '🔧 Verify (Dev)',
+			label: '🔧 Zweryfikuj (Dev)',
 			emoji: '✅',
 			style: 'Primary',
+		},
+		messages: {
+			tokenMessage: {
+				content: (guild, verificationUrl) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#FF69B4')
+							.setTitle('🔧 DEV: Weryfikacja Discord')
+							.setDescription(`**Środowisko deweloperskie** 🚀\n\nAby uzyskać dostęp do serwera testowego **${guild.name}**, ukończ proces weryfikacji.`)
+							.addFields([
+								{ name: '🔗 Link weryfikacyjny', value: `[Kliknij tutaj aby się zweryfikować](${verificationUrl})`, inline: false },
+								{ name: '⏰ Wygasa za', value: '24 godziny', inline: true },
+								{ name: '🧪 Funkcja testowa', value: 'To testuje ten sam system weryfikacji używany na serwerach produkcyjnych', inline: true },
+							])
+							.setFooter({ text: 'Zachowaj ten link w tajemnicy • Test weryfikacji deweloperskiej', iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
+			reminder: {
+				content: (member, guild) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#FF6B35')
+							.setTitle('⚠️ DEV: Verification Required')
+							.setDescription(`Hello ${member.user.username}!\n\nYour verification link for the **${guild.name}** test server has expired. You need to verify your account to continue testing features.`)
+							.addFields([
+								{ name: '🔗 How to verify', value: 'Click the verification button in the server to get a new verification link.', inline: false },
+								{ name: '🧪 Testing Environment', value: 'This is a development server where we test verification features.', inline: false },
+								{ name: '⏰ Important', value: 'If you don\'t verify within 4 days, you will be removed (testing auto-kick feature).', inline: false },
+							])
+							.setFooter({ text: `${guild.name} • Development Environment • Verification Required`, iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
+			kickWarning: {
+				content: (member, guild) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#E74C3C')
+							.setTitle('🚨 DEV: Final Warning - Account Removal')
+							.setDescription(`**DEVELOPMENT TEST NOTICE**\n\nHello ${member.user.username},\n\nYou have been on the **${guild.name}** test server for over 3 days without completing verification. **You have 24 hours to verify or you will be removed (testing auto-kick feature).**`)
+							.addFields([
+								{ name: '🔗 Verify NOW', value: 'Click the verification button in the test server immediately to get your verification link.', inline: false },
+								{ name: '⏰ Time Remaining', value: 'Less than 24 hours before automatic removal (testing feature)', inline: false },
+								{ name: '🧪 Development Note', value: 'This is a test of the automated warning system used on production servers.', inline: false },
+							])
+							.setFooter({ text: `${guild.name} • Development Environment • Final Warning`, iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
+			kickMessage: {
+				content: (member, guild) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#992D22')
+							.setTitle('👋 DEV: Removed from Test Server')
+							.setDescription(`Hello ${member.user.username},\n\nYou have been removed from the **${guild.name}** test server because you did not complete verification within the 4-day testing period.`)
+							.addFields([
+								{ name: '🔄 Want to test again?', value: 'You can rejoin the test server anytime, but you\'ll need to complete verification within 4 days.', inline: false },
+								{ name: '🧪 Development Test', value: 'This was a test of the automated removal system used on production servers.', inline: false },
+								{ name: '❓ Questions?', value: 'Contact the development team if you have questions about testing procedures.', inline: false },
+							])
+							.setFooter({ text: `${guild.name} • Development Environment • Account Removed`, iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
+			success: {
+				content: (member, guild) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#27ae60')
+							.setTitle('✅ Dev: Weryfikacja ukończona!')
+							.setDescription(`Witaj na serwerze testowym **${guild.name}**! Twoje konto zostało pomyślnie zweryfikowane.`)
+							.addFields([
+								{ name: '🧪 Środowisko testowe', value: 'Masz teraz dostęp do wszystkich kanałów testowych i funkcji deweloperskich!', inline: false },
+								{ name: '🚀 Dostępne funkcje', value: '• Testowanie systemu randkowego\n• Integracja CleverBot\n• Tryby czasowe\n• Wszystkie funkcje premium', inline: false },
+							])
+							.setFooter({ text: `${guild.name} • Środowisko deweloperskie • Witamy!`, iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
 		},
 	},
 
@@ -184,7 +376,7 @@ module.exports = {
 		timeBasedModes: true,
 		cleverBot: {
 			enabled: true,
-			channelId: '943910440990294021',
+			channelId: channels.cleverBot,
 		},
 	},
 };

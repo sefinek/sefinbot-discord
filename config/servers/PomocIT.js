@@ -1,10 +1,25 @@
 const { EmbedBuilder } = require('discord.js');
 
+const channels = {
+	welcome: '1002327796468699218',
+	automod: '1002371687746109490',
+	support1: '1002327796468699220',
+	support2: '1002327796468699226',
+};
+
+const roles = {
+	unverified: '1328449400000000000',
+	verified: '1328449500000000000',
+};
+
 module.exports = {
 	id: '1002327795344621669',
 
 	botTrapChannelId: null,
-	automodChannelId: '1002371687746109490',
+	automodChannelId: channels.automod,
+
+	channels,
+	roles,
 
 	voiceChannels: {
 		members: {
@@ -26,7 +41,7 @@ module.exports = {
 
 	events: {
 		welcome: {
-			channelId: '1002327796468699218',
+			channelId: channels.welcome,
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
@@ -38,7 +53,7 @@ module.exports = {
 			}),
 		},
 		farewell: {
-			channelId: '1002327796468699218',
+			channelId: channels.welcome,
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
@@ -50,7 +65,7 @@ module.exports = {
 			}),
 		},
 		ban: {
-			channelId: '1002327796468699218',
+			channelId: channels.welcome,
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
@@ -83,10 +98,129 @@ module.exports = {
 	reactions: {
 		approve: {
 			channels: [
-				'1002327796468699220',
-				'1002327796468699226',
+				channels.support1,
+				channels.support2,
 			],
 			emoji: '✅',
+		},
+	},
+
+	verification: {
+		enabled: true,
+		unverifiedRoleId: roles.unverified,
+		verifiedRoleId: roles.verified,
+		timeouts: {
+			tokenExpiry: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
+			tokenCooldown: 5 * 60 * 1000, // 5 minutes cooldown between token requests
+			reminderInterval: 6 * 60 * 60 * 1000, // 6 hours between reminders
+			kickWarningAfter: 3 * 24 * 60 * 60 * 1000, // 3 days before kick warning
+			kickAfter: 4 * 24 * 60 * 60 * 1000, // 4 days before actual kick
+		},
+		content: guild => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#00D26A')
+					.setTitle('🔐 Weryfikacja na serwerze IT')
+					.setDescription(`Witaj na **${guild.name}**!\n\nAby uzyskać dostęp do wszystkich kanałów i funkcji, ukończ proces weryfikacji klikając przycisk poniżej.`)
+					.addFields([
+						{ name: '🛡️ Dlaczego weryfikacja?', value: 'Weryfikacja pomaga utrzymać naszą społeczność IT bezpieczną przed botami i spamem.', inline: false },
+						{ name: '⚡ Szybki proces', value: 'Ukończ weryfikację hCaptcha w przeglądarce - zajmie to tylko kilka sekund!', inline: false },
+						{ name: '🔒 Bezpieczne i prywatne', value: 'Twoje dane są chronione, a proces jest całkowicie bezpieczny.', inline: false },
+						{ name: '💻 Wsparcie IT', value: 'Po weryfikacji uzyskasz dostęp do kanałów pomocy technicznej i wsparcia IT.', inline: false },
+					])
+					.setFooter({ text: `${guild.name} • Kliknij przycisk poniżej aby się zweryfikować`, iconURL: guild.iconURL() })
+					.setThumbnail(guild.iconURL())
+					.setTimestamp(),
+			],
+		}),
+		button: {
+			label: 'Zweryfikuj się',
+			emoji: '✅',
+			style: 'Primary',
+		},
+		messages: {
+			tokenMessage: {
+				content: (guild, verificationUrl) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#00D26A')
+							.setTitle('🔐 Weryfikacja Discord')
+							.setDescription(`Aby uzyskać dostęp do **${guild.name}**, ukończ proces weryfikacji.`)
+							.addFields([
+								{ name: '🔗 Link weryfikacyjny', value: `[Kliknij tutaj aby się zweryfikować](${verificationUrl})`, inline: false },
+								{ name: '⏰ Wygasa za', value: '24 godziny', inline: true },
+								{ name: '🛡️ Bezpieczeństwo', value: 'Ukończ wyzwanie hCaptcha', inline: true },
+							])
+							.setFooter({ text: 'Zachowaj ten link w tajemnicy • Wymagana weryfikacja', iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
+			reminder: {
+				content: (member, guild) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#FF6B35')
+							.setTitle('⚠️ Wymagana weryfikacja')
+							.setDescription(`Cześć ${member.user.username}!\n\nTwój link weryfikacyjny dla **${guild.name}** wygasł. Musisz zweryfikować swoje konto, aby dalej korzystać z serwera.`)
+							.addFields([
+								{ name: '🔗 Jak się zweryfikować', value: 'Kliknij przycisk weryfikacji na serwerze, aby otrzymać nowy link weryfikacyjny.', inline: false },
+								{ name: '⏰ Ważne', value: 'Jeśli nie zweryfikujesz się w ciągu 4 dni od dołączenia, zostaniesz usunięty z serwera.', inline: false },
+							])
+							.setFooter({ text: `${guild.name} • Wymagana weryfikacja`, iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
+			kickWarning: {
+				content: (member, guild) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#E74C3C')
+							.setTitle('🚨 Ostatnie ostrzeżenie - Usunięcie konta')
+							.setDescription(`**WAŻNE POWIADOMIENIE**\n\nCześć ${member.user.username},\n\nJesteś na **${guild.name}** już ponad 3 dni bez ukończenia weryfikacji. **Masz 24 godziny na zweryfikowanie konta lub zostaniesz usunięty z serwera.**`)
+							.addFields([
+								{ name: '🔗 Zweryfikuj się TERAZ', value: 'Natychmiast kliknij przycisk weryfikacji na serwerze, aby otrzymać link weryfikacyjny.', inline: false },
+								{ name: '⏰ Pozostały czas', value: 'Mniej niż 24 godziny do automatycznego usunięcia', inline: false },
+								{ name: '❓ Potrzebujesz pomocy?', value: 'Skontaktuj się z moderatorami serwera, jeśli masz problem z weryfikacją.', inline: false },
+							])
+							.setFooter({ text: `${guild.name} • Ostatnie ostrzeżenie`, iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
+			kickMessage: {
+				content: (member, guild) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#992D22')
+							.setTitle('👋 Usunięto z serwera')
+							.setDescription(`Cześć ${member.user.username},\n\nZostałeś usunięty z **${guild.name}**, ponieważ nie ukończyłeś weryfikacji w wymaganym 4-dniowym okresie.`)
+							.addFields([
+								{ name: '🔄 Chcesz wrócić?', value: 'Możesz dołączyć ponownie do serwera w każdej chwili, ale będziesz musiał ukończyć weryfikację w ciągu 4 dni.', inline: false },
+								{ name: '❓ Pytania?', value: 'Skontaktuj się z moderatorami serwera, jeśli masz pytania dotyczące tej polityki.', inline: false },
+							])
+							.setFooter({ text: `${guild.name} • Konto usunięte`, iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
+			success: {
+				content: (member, guild) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#27ae60')
+							.setTitle('✅ Weryfikacja ukończona!')
+							.setDescription(`Witaj na **${guild.name}**! Twoje konto zostało pomyślnie zweryfikowane.`)
+							.addFields([
+								{ name: '🎉 Dostęp przyznany', value: 'Masz teraz pełny dostęp do wszystkich kanałów serwera i funkcji wsparcia IT.', inline: false },
+								{ name: '📝 Zasady serwera', value: 'Upewnij się, że przeczytałeś zasady serwera i wytyczne dotyczące wsparcia technicznego.', inline: false },
+							])
+							.setFooter({ text: `${guild.name} • Witamy!`, iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
 		},
 	},
 

@@ -1,10 +1,25 @@
 const { EmbedBuilder } = require('discord.js');
 
+const channels = {
+	welcome: '1328500677944803358',
+	automod: '1328500595908280421',
+	approve1: '1305011381959004282',
+	approve2: '1305011521855819847',
+};
+
+const roles = {
+	unverified: '1328500000000000000',
+	verified: '1411308185889017896',
+};
+
 module.exports = {
 	id: '1305001399494377533',
 
 	botTrapChannelId: null,
-	automodChannelId: '1328500595908280421',
+	automodChannelId: channels.automod,
+
+	channels,
+	roles,
 
 	voiceChannels: {
 		members: {
@@ -26,7 +41,7 @@ module.exports = {
 
 	events: {
 		welcome: {
-			channelId: '1328500677944803358',
+			channelId: channels.welcome,
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
@@ -38,7 +53,7 @@ module.exports = {
 			}),
 		},
 		farewell: {
-			channelId: '1328500677944803358',
+			channelId: channels.welcome,
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
@@ -50,7 +65,7 @@ module.exports = {
 			}),
 		},
 		ban: {
-			channelId: '1328500677944803358',
+			channelId: channels.welcome,
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
@@ -74,31 +89,14 @@ module.exports = {
 					],
 				}),
 			},
-			verificationSuccess: {
-				enabled: true,
-				content: (member, guild) => ({
-					embeds: [
-						new EmbedBuilder()
-							.setColor('#27ae60')
-							.setTitle('✅ Verification Complete!')
-							.setDescription(`Welcome to **${guild.name}**! Your account has been successfully verified.`)
-							.addFields([
-								{ name: '🎉 Access Granted', value: 'You now have full access to all server channels and features.', inline: false },
-								{ name: '📝 Server Rules', value: 'Please make sure to read the server rules and guidelines.', inline: false },
-							])
-							.setFooter({ text: `${guild.name} • Welcome!`, iconURL: guild.iconURL() })
-							.setTimestamp(),
-					],
-				}),
-			},
 		},
 	},
 
 	reactions: {
 		approve: {
 			channels: [
-				'1305011381959004282',
-				'1305011521855819847',
+				channels.approve1,
+				channels.approve2,
 			],
 			emoji: '✅',
 		},
@@ -106,8 +104,15 @@ module.exports = {
 
 	verification: {
 		enabled: true,
-		unverifiedRoleId: '1328500000000000000',
-		verifiedRoleId: '1411308185889017896',
+		unverifiedRoleId: roles.unverified,
+		verifiedRoleId: roles.verified,
+		timeouts: {
+			tokenExpiry: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
+			tokenCooldown: 5 * 60 * 1000, // 5 minutes cooldown between token requests
+			reminderInterval: 6 * 60 * 60 * 1000, // 6 hours between reminders
+			kickWarningAfter: 3 * 24 * 60 * 60 * 1000, // 3 days before kick warning
+			kickAfter: 4 * 24 * 60 * 60 * 1000, // 4 days before actual kick
+		},
 		content: guild => ({
 			embeds: [
 				new EmbedBuilder()
@@ -128,6 +133,90 @@ module.exports = {
 			label: 'Verify Account',
 			emoji: '✅',
 			style: 'Primary',
+		},
+		messages: {
+			tokenMessage: {
+				content: (guild, verificationUrl) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#3498DB')
+							.setTitle('🔐 Discord Server Verification')
+							.setDescription(`To gain access to **${guild.name}**, please complete the verification process.`)
+							.addFields([
+								{ name: '🔗 Verification Link', value: `[Click here to verify](${verificationUrl})`, inline: false },
+								{ name: '⏰ Expires in', value: '24 hours', inline: true },
+								{ name: '🛡️ Security', value: 'Complete hCaptcha challenge', inline: true },
+							])
+							.setFooter({ text: 'Keep this link private • Verification required for server access', iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
+			reminder: {
+				content: (member, guild) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#FF6B35')
+							.setTitle('⚠️ Verification Required')
+							.setDescription(`Hello ${member.user.username}!\n\nYour verification link for **${guild.name}** has expired. You need to verify your account to continue accessing the server.`)
+							.addFields([
+								{ name: '🔗 How to verify', value: 'Click the verification button in the server to get a new verification link.', inline: false },
+								{ name: '⏰ Important', value: 'If you don\'t verify within 4 days of joining, you will be removed from the server.', inline: false },
+							])
+							.setFooter({ text: `${guild.name} • Verification Required`, iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
+			kickWarning: {
+				content: (member, guild) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#E74C3C')
+							.setTitle('🚨 Final Warning - Account Removal')
+							.setDescription(`**IMPORTANT NOTICE**\n\nHello ${member.user.username},\n\nYou have been on **${guild.name}** for over 3 days without completing verification. **You have 24 hours to verify your account or you will be removed from the server.**`)
+							.addFields([
+								{ name: '🔗 Verify NOW', value: 'Click the verification button in the server immediately to get your verification link.', inline: false },
+								{ name: '⏰ Time Remaining', value: 'Less than 24 hours before automatic removal', inline: false },
+								{ name: '❓ Need Help?', value: 'Contact server moderators if you\'re having trouble with verification.', inline: false },
+							])
+							.setFooter({ text: `${guild.name} • Final Warning`, iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
+			kickMessage: {
+				content: (member, guild) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#992D22')
+							.setTitle('👋 Removed from Server')
+							.setDescription(`Hello ${member.user.username},\n\nYou have been removed from **${guild.name}** because you did not complete verification within the required 4-day period.`)
+							.addFields([
+								{ name: '🔄 Want to rejoin?', value: 'You can rejoin the server anytime, but you\'ll need to complete verification within 4 days.', inline: false },
+								{ name: '❓ Questions?', value: 'Contact server moderators if you have any questions about this policy.', inline: false },
+							])
+							.setFooter({ text: `${guild.name} • Account Removed`, iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
+			success: {
+				content: (member, guild) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#27ae60')
+							.setTitle('✅ Verification Complete!')
+							.setDescription(`Welcome to **${guild.name}**! Your account has been successfully verified.`)
+							.addFields([
+								{ name: '🎉 Access Granted', value: 'You now have full access to all server channels and features.', inline: false },
+								{ name: '📝 Server Rules', value: 'Please make sure to read the server rules and guidelines.', inline: false },
+							])
+							.setFooter({ text: `${guild.name} • Welcome!`, iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
 		},
 	},
 

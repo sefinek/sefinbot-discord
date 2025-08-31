@@ -14,7 +14,7 @@ module.exports = {
 
 		const serverConfig = getServerConfig(msg.guild.id);
 
-		if (!serverConfig || !serverConfig.verificationEnabled) {
+		if (!serverConfig || !serverConfig.verification?.enabled) {
 			return msg.reply('❌ Verification is not enabled on this server.');
 		}
 
@@ -26,16 +26,16 @@ module.exports = {
 			}
 
 			// Check if roles exist
-			const unverifiedRole = msg.guild.roles.cache.get(serverConfig.unverifiedRoleId);
-			const verifiedRole = msg.guild.roles.cache.get(serverConfig.verifiedRoleId);
+			const unverifiedRole = msg.guild.roles.cache.get(serverConfig.verification.unverifiedRoleId);
+			const verifiedRole = msg.guild.roles.cache.get(serverConfig.verification.verifiedRoleId);
 
 			if (!unverifiedRole || !verifiedRole) {
 				return msg.reply('❌ Verification roles not found. Please check server configuration.');
 			}
 
 			// Build content from server configuration
-			const verificationContent = serverConfig.verificationContent;
-			const buttonConfig = serverConfig.verificationButton;
+			const verificationContent = serverConfig.verification.content;
+			const buttonConfig = serverConfig.verification.button;
 
 			// Get verification message content
 			const messageContent = verificationContent ? verificationContent(msg.guild) : {
@@ -48,8 +48,6 @@ module.exports = {
 						.setTimestamp(),
 				],
 			};
-
-			const embed = messageContent.embeds[0];
 
 			const button = new ButtonBuilder()
 				.setCustomId('verify_account')
@@ -84,7 +82,6 @@ module.exports = {
 			await msg.reply({ embeds: [setupEmbed] });
 
 			console.log(`Verification » Setup message created in ${msg.guild.name} (${msg.guild.id}) - Channel: ${msg.channel.id}`);
-
 		} catch (err) {
 			console.error('Verification » Error setting up verification message:', err);
 			return msg.reply('❌ An error occurred while setting up verification. Please try again.');

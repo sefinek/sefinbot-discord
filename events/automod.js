@@ -39,28 +39,6 @@ module.exports = {
 		}
 
 		// Validate message
-		const validationSuccess = await checkMessage(client, msg, 'create', serverCfg);
-		if (!validationSuccess) return;
-
-		if (validationSuccess.category)
-
-		// Add reactions to messages with attachments
-		{if (serverCfg.reactionAttachmentChannels?.includes(msg.channel.id) && msg.attachments.size > 0) {
-			try {
-				await Promise.all(serverCfg.attachmentReaction.map(reaction => msg.react(reaction)));
-			} catch (err) {
-				console.error(`EventM » Failed to add reactions to message in ${msg.channel.name}:`, err.message);
-			}
-			return;
-		}}
-
-		// Add approval reactions in specific channels
-		if (serverCfg.reactionApproveChannels?.includes(msg.channel.id)) {
-			try {
-				await msg.react(serverCfg.approveReaction);
-			} catch (err) {
-				console.error(`EventM » Failed to add approval reaction to message in ${msg.channel.name}:`, err.message);
-			}
-		}
+		await checkMessage(client, msg, 'create', serverCfg);
 	},
 };

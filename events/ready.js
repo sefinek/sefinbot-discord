@@ -14,12 +14,12 @@ module.exports = {
 			const serverConfig = guilds.getServerConfig(guild.id);
 			if (!serverConfig) continue;
 
-			if (serverConfig.vcMembers && serverConfig.vcMembersChannel) {
-				const vcMembersChannel = guild.channels.cache.get(serverConfig.vcMembersChannel);
+			if (serverConfig.voiceChannels?.members?.enabled && serverConfig.voiceChannels?.members?.channelId) {
+				const vcMembersChannel = guild.channels.cache.get(serverConfig.voiceChannels.members.channelId);
 				if (vcMembersChannel) {
 					try {
 						const memberCount = guild.members.cache.filter(m => !m.user.bot).size;
-						const channelName = serverConfig.vcMembersName
+						const channelName = serverConfig.voiceChannels.members.name
 							.replace('{count}', memberCount)
 							.replace('{arrow}', '');
 						await vcMembersChannel.setName(channelName);
@@ -29,10 +29,10 @@ module.exports = {
 				}
 			}
 
-			if (serverConfig.vcOnline && serverConfig.vcOnlineChannel) {
-				const vcOnlineChannel = guild.channels.cache.get(serverConfig.vcOnlineChannel);
+			if (serverConfig.voiceChannels?.online?.enabled && serverConfig.voiceChannels?.online?.channelId) {
+				const vcOnlineChannel = guild.channels.cache.get(serverConfig.voiceChannels.online.channelId);
 				if (!vcOnlineChannel) {
-					if (process.env.NODE_ENV === 'development') console.warn(`Client » Online count channel ${serverConfig.vcOnlineChannel} not found in guild "${guild.name}" (${guild.id})`);
+					if (process.env.NODE_ENV === 'development') console.warn(`Client » Online count channel ${serverConfig.voiceChannels.online.channelId} not found in guild "${guild.name}" (${guild.id})`);
 					continue;
 				}
 
@@ -41,7 +41,7 @@ module.exports = {
 						const onlineCount = (await guild.members.fetch())
 							.filter(m => !m.user.bot && ['online', 'dnd', 'idle'].includes(m.presence?.status)).size;
 
-						const channelName = serverConfig.vcOnlineName.replace('{count}', onlineCount);
+						const channelName = serverConfig.voiceChannels.online.name.replace('{count}', onlineCount);
 						await vcOnlineChannel.setName(channelName);
 					} catch (err) {
 						console.warn(`Client » Failed to update online count for "${guild.name}": ${err.message}`);

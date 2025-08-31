@@ -12,7 +12,7 @@ module.exports = {
 			if (inter.customId === 'verify_account') {
 				const serverConfig = getServerConfig(inter.guild.id);
 
-				if (!serverConfig || !serverConfig.verificationEnabled) {
+				if (!serverConfig || !serverConfig.verification?.enabled) {
 					return inter.reply({
 						content: '❌ Verification is not enabled on this server.',
 						flags: MessageFlags.Ephemeral,
@@ -21,7 +21,7 @@ module.exports = {
 
 				const member = inter.member;
 
-				if (!member.roles.cache.has(serverConfig.unverifiedRoleId)) {
+				if (!member.roles.cache.has(serverConfig.verification.unverifiedRoleId)) {
 					return inter.reply({
 						content: '✅ You are already verified on this server.',
 						flags: MessageFlags.Ephemeral,
@@ -30,15 +30,16 @@ module.exports = {
 
 				try {
 					// Check if user is not generating tokens too frequently
+					const cooldownTime = serverConfig.verification?.timeouts?.tokenCooldown || (5 * 60 * 1000);
 					const existingStatus = await VerificationStatus.findOne({
 						userId: member.id,
 						guildId: inter.guild.id,
-						updatedAt: { $gt: new Date(Date.now() - 5 * 60 * 1000) }, // 5 minutes cooldown
+						updatedAt: { $gt: new Date(Date.now() - cooldownTime) },
 					}).lean();
 
 					if (existingStatus && existingStatus.token && !existingStatus.tokenUsed) {
 						return inter.reply({
-							content: '⏱️ Please wait 5 minutes before requesting a new verification link.',
+							content: `⏱️ Please wait ${Math.ceil(cooldownTime / 60000)} minutes before requesting a new verification link.`,
 							flags: MessageFlags.Ephemeral,
 						});
 					}
@@ -48,7 +49,8 @@ module.exports = {
 
 					const verificationToken = crypto.randomBytes(64).toString('hex');
 					const verificationUrl = `http${process.env.NODE_ENV === 'production' ? 's://sefinek.net' : '://127.0.0.1:4030'}/verify/${verificationToken}`;
-					const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+					const tokenExpiryTime = serverConfig.verification?.timeouts?.tokenExpiry || (24 * 60 * 60 * 1000);
+					const expiresAt = new Date(Date.now() + tokenExpiryTime);
 
 					// Update verification status with token
 					await VerificationStatus.findOneAndUpdate(
@@ -67,22 +69,18 @@ module.exports = {
 						{ upsert: true, new: true }
 					);
 
-					const embed = new EmbedBuilder()
-						.setColor('#3498DB')
-						.setTitle('🔐 Discord Server Verification')
-						.setDescription(`To gain access to **${inter.guild.name}**, please complete the verification process.`)
-						.addFields(
-							{ name: '🔗 Verification Link', value: `[Click here to verify](${verificationUrl})`, inline: false },
-							{ name: '⏰ Expires in', value: '24 hours', inline: true },
-							{ name: '🛡️ Security', value: 'Complete hCaptcha challenge', inline: true }
-						)
-						.setFooter({ text: 'Keep this link private • Verification required for server access', iconURL: inter.guild.iconURL() })
-						.setTimestamp();
-
-					await inter.reply({
-						embeds: [embed],
-						flags: MessageFlags.Ephemeral,
-					});
+					if (serverConfig.verification?.messages?.tokenMessage?.content) {
+						const tokenContent = serverConfig.verification.messages.tokenMessage.content(inter.guild, verificationUrl);
+						await inter.reply({
+							...tokenContent,
+							flags: MessageFlags.Ephemeral,
+						});
+					} else {
+						await inter.reply({
+							content: `🔗 Your verification link: ${verificationUrl}\n⏰ Expires in ${Math.ceil(tokenExpiryTime / (60 * 60 * 1000))} hours`,
+							flags: MessageFlags.Ephemeral,
+						});
+					}
 
 					console.log(`Verification » Generated verification link for ${member.user.tag} (${member.id}) in guild ${inter.guild.id}`);
 				} catch (err) {

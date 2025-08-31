@@ -1,5 +1,4 @@
 const { CronJob } = require('cron');
-const { EmbedBuilder } = require('discord.js');
 const VerificationStatus = require('../database/models/verification.model.js');
 const { getServerConfig } = require('../config/guilds.js');
 
@@ -34,44 +33,48 @@ class VerificationJobs {
 		console.log('Verification » Cron jobs stopped');
 	}
 
+	async processVerificationUsers(userStatuses, messageType, actionCallback) {
+		for (const userStatus of userStatuses) {
+			try {
+				const { guild, serverConfig, member } = await this.getVerificationContext(userStatus);
+				if (!guild || !serverConfig || !member) continue;
+
+				await actionCallback(userStatus, member, guild, serverConfig);
+			} catch (err) {
+				console.error(`Verification » Failed to process ${messageType} for user ${userStatus.userId}:`, err.message);
+			}
+		}
+	}
+
+	async getVerificationContext(userStatus) {
+		const guild = this.client.guilds.cache.get(userStatus.guildId);
+		if (!guild) return {};
+
+		const serverConfig = getServerConfig(userStatus.guildId);
+		if (!serverConfig?.verification?.enabled) return {};
+
+		const member = await guild.members.fetch(userStatus.userId).catch(() => null);
+		if (!member) {
+			await VerificationStatus.deleteOne({ _id: userStatus._id });
+			return {};
+		}
+
+		return { guild, serverConfig, member };
+	}
+
 	async sendVerificationReminders() {
 		try {
 			const usersNeedingReminder = await VerificationStatus.findUsersNeedingReminder();
 			console.log(`Verification » Found ${usersNeedingReminder.length} users needing reminder`);
 
-			for (const userStatus of usersNeedingReminder) {
-				try {
-					const guild = this.client.guilds.cache.get(userStatus.guildId);
-					if (!guild) continue;
-
-					const serverConfig = getServerConfig(userStatus.guildId);
-					if (!serverConfig?.verificationEnabled) continue;
-
-					const member = await guild.members.fetch(userStatus.userId).catch(() => null);
-					if (!member) {
-						await VerificationStatus.deleteOne({ _id: userStatus._id });
-						continue;
-					}
-
-					const embed = new EmbedBuilder()
-						.setColor('#FF6B35')
-						.setTitle('⚠️ Verification Required')
-						.setDescription(`Hello ${member.user.username}!\n\nYour verification link for **${guild.name}** has expired. You need to verify your account to continue accessing the server.`)
-						.addFields(
-							{ name: '🔗 How to verify', value: 'Click the verification button in the server to get a new verification link.', inline: false },
-							{ name: '⏰ Important', value: 'If you don\'t verify within 4 days of joining, you will be removed from the server.', inline: false }
-						)
-						.setFooter({ text: `${guild.name} • Verification Required`, iconURL: guild.iconURL() })
-						.setTimestamp();
-
-					await member.send({ embeds: [embed] });
-					await userStatus.sendReminder();
-
-					console.log(`Verification » Sent reminder to ${member.user.tag} in ${guild.name}`);
-				} catch (err) {
-					console.error(`Verification » Failed to send reminder to user ${userStatus.userId}:`, err.message);
+			await this.processVerificationUsers(usersNeedingReminder, 'reminder', async (userStatus, member, guild, serverConfig) => {
+				if (serverConfig.verification?.messages?.reminder?.content) {
+					const reminderContent = serverConfig.verification.messages.reminder.content(member, guild);
+					await member.send(reminderContent);
 				}
-			}
+				await userStatus.sendReminder();
+				console.log(`Verification » Sent reminder to ${member.user.tag} in ${guild.name}`);
+			});
 		} catch (err) {
 			console.error('Verification » Error in sendVerificationReminders:', err);
 		}
@@ -82,40 +85,14 @@ class VerificationJobs {
 			const usersForWarning = await VerificationStatus.findUsersForKickWarning();
 			console.log(`Verification » Found ${usersForWarning.length} users needing kick warning`);
 
-			for (const userStatus of usersForWarning) {
-				try {
-					const guild = this.client.guilds.cache.get(userStatus.guildId);
-					if (!guild) continue;
-
-					const serverConfig = getServerConfig(userStatus.guildId);
-					if (!serverConfig?.verificationEnabled) continue;
-
-					const member = await guild.members.fetch(userStatus.userId).catch(() => null);
-					if (!member) {
-						await VerificationStatus.deleteOne({ _id: userStatus._id });
-						continue;
-					}
-
-					const embed = new EmbedBuilder()
-						.setColor('#E74C3C')
-						.setTitle('🚨 Final Warning - Account Removal')
-						.setDescription(`**IMPORTANT NOTICE**\n\nHello ${member.user.username},\n\nYou have been on **${guild.name}** for over 3 days without completing verification. **You have 24 hours to verify your account or you will be removed from the server.**`)
-						.addFields(
-							{ name: '🔗 Verify NOW', value: 'Click the verification button in the server immediately to get your verification link.', inline: false },
-							{ name: '⏰ Time Remaining', value: 'Less than 24 hours before automatic removal', inline: false },
-							{ name: '❓ Need Help?', value: 'Contact server moderators if you\'re having trouble with verification.', inline: false }
-						)
-						.setFooter({ text: `${guild.name} • Final Warning`, iconURL: guild.iconURL() })
-						.setTimestamp();
-
-					await member.send({ embeds: [embed] });
-					await userStatus.sendKickWarning();
-
-					console.log(`Verification » Sent kick warning to ${member.user.tag} in ${guild.name}`);
-				} catch (err) {
-					console.error(`Verification » Failed to send kick warning to user ${userStatus.userId}:`, err.message);
+			await this.processVerificationUsers(usersForWarning, 'kick warning', async (userStatus, member, guild, serverConfig) => {
+				if (serverConfig.verification?.messages?.kickWarning?.content) {
+					const warningContent = serverConfig.verification.messages.kickWarning.content(member, guild);
+					await member.send(warningContent);
 				}
-			}
+				await userStatus.sendKickWarning();
+				console.log(`Verification » Sent kick warning to ${member.user.tag} in ${guild.name}`);
+			});
 		} catch (err) {
 			console.error('Verification » Error in sendKickWarnings:', err);
 		}
@@ -126,45 +103,20 @@ class VerificationJobs {
 			const usersToKick = await VerificationStatus.findUsersToKick();
 			console.log(`Verification » Found ${usersToKick.length} users to kick`);
 
-			for (const userStatus of usersToKick) {
+			await this.processVerificationUsers(usersToKick, 'kick', async (userStatus, member, guild, serverConfig) => {
 				try {
-					const guild = this.client.guilds.cache.get(userStatus.guildId);
-					if (!guild) continue;
-
-					const serverConfig = getServerConfig(userStatus.guildId);
-					if (!serverConfig?.verificationEnabled) continue;
-
-					const member = await guild.members.fetch(userStatus.userId).catch(() => null);
-					if (!member) {
-						await VerificationStatus.deleteOne({ _id: userStatus._id });
-						continue;
+					if (serverConfig.verification?.messages?.kickMessage?.content) {
+						const kickContent = serverConfig.verification.messages.kickMessage.content(member, guild);
+						await member.send(kickContent);
 					}
-
-					const embed = new EmbedBuilder()
-						.setColor('#992D22')
-						.setTitle('👋 Removed from Server')
-						.setDescription(`Hello ${member.user.username},\n\nYou have been removed from **${guild.name}** because you did not complete verification within the required 4-day period.`)
-						.addFields(
-							{ name: '🔄 Want to rejoin?', value: 'You can rejoin the server anytime, but you\'ll need to complete verification within 4 days.', inline: false },
-							{ name: '❓ Questions?', value: 'Contact server moderators if you have any questions about this policy.', inline: false }
-						)
-						.setFooter({ text: `${guild.name} • Account Removed`, iconURL: guild.iconURL() })
-						.setTimestamp();
-
-					try {
-						await member.send({ embeds: [embed] });
-					} catch (dmErr) {
-						console.warn(`Verification » Could not DM ${member.user.tag} before kick:`, dmErr.message);
-					}
-
-					await member.kick('Failed to complete verification within 4 days');
-					await VerificationStatus.deleteOne({ _id: userStatus._id });
-
-					console.log(`Verification » Kicked ${member.user.tag} from ${guild.name} for not verifying`);
-				} catch (err) {
-					console.error(`Verification » Failed to kick user ${userStatus.userId}:`, err.message);
+				} catch (dmErr) {
+					console.warn(`Verification » Could not DM ${member.user.tag} before kick:`, dmErr.message);
 				}
-			}
+
+				await member.kick('Failed to complete verification within 4 days');
+				await VerificationStatus.deleteOne({ _id: userStatus._id });
+				console.log(`Verification » Kicked ${member.user.tag} from ${guild.name} for not verifying`);
+			});
 		} catch (err) {
 			console.error('Verification » Error in kickUnverifiedUsers:', err);
 		}

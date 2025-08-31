@@ -1,11 +1,33 @@
 const { EmbedBuilder } = require('discord.js');
 const { version } = require('../../package.json');
 
+const channels = {
+	botTrap: '1224420495710228540',
+	welcome: '1044714444393029722',
+
+	announcementsPlus: '1065275114687570011',
+	earlyAccessPlus: '1181323568794063110',
+
+	support: '1056236234160214138',
+	announcements: '1044714926104653844',
+	changelogs: '1044715003783168030',
+
+	automod: '1044721563628482560',
+};
+
+const roles = {
+	unverified: '1044720000000000000',
+	verified: '1044720100000000000',
+};
+
 module.exports = {
 	id: '1044713077125435492',
 
-	botTrapChannelId: '1224420495710228540',
-	automodChannelId: '1044721563628482560',
+	botTrapChannelId: channels.botTrap,
+	automodChannelId: channels.automod,
+
+	channels,
+	roles,
 
 	voiceChannels: {
 		members: {
@@ -27,7 +49,7 @@ module.exports = {
 
 	events: {
 		welcome: {
-			channelId: '1044714444393029722',
+			channelId: channels.welcome,
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
@@ -39,7 +61,7 @@ module.exports = {
 			}),
 		},
 		farewell: {
-			channelId: '1044714444393029722',
+			channelId: channels.welcome,
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
@@ -51,7 +73,7 @@ module.exports = {
 			}),
 		},
 		ban: {
-			channelId: '1044714444393029722',
+			channelId: channels.welcome,
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
@@ -85,7 +107,7 @@ module.exports = {
 								},
 								{
 									name: '🙀 » We hope to see you in the Stella Mod Launcher!',
-									value: `If you have any questions, feel free to message <@${process.env.OWNER}> or visit the <#1056236234160214138> channel.\n\n>> [\`Click here to download now!\`](https://sefinek.net/genshin-stella-mod) <<`,
+									value: `If you have any questions, feel free to message <@${process.env.OWNER}> or visit the <#${channels.support}> channel.\n\n>> [\`Click here to download now!\`](https://sefinek.net/genshin-stella-mod) <<`,
 								},
 							]),
 						new EmbedBuilder()
@@ -99,35 +121,141 @@ module.exports = {
 	},
 
 	reactions: {
-		attachment: {
+		likeDislike: {
 			channels: [
-				'1290859071066341507',
-				'1153034136529932369',
-				'1153020585413193799',
-				'1105553290093138100',
+				channels.announcementsPlus,
+				channels.earlyAccessPlus,
+				channels.announcements,
+				channels.changelogs,
 			],
-			emojis: ['👍', '👎'],
+			emojis: ['✅'],
 		},
-		approve: {
-			channels: [
-				'1065275114687570011',
-				'1099221153622528010',
-				'1181323568794063110',
-				'1176188888339984405',
-				'1155636598684270592',
-				'1100031120600481842',
-				'1044714926104653844',
-				'1044715003783168030',
-				'1044715895081156639',
+	},
+
+	verification: {
+		enabled: true,
+		unverifiedRoleId: roles.unverified,
+		verifiedRoleId: roles.verified,
+		timeouts: {
+			tokenExpiry: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
+			tokenCooldown: 5 * 60 * 1000, // 5 minutes cooldown between token requests
+			reminderInterval: 6 * 60 * 60 * 1000, // 6 hours between reminders
+			kickWarningAfter: 3 * 24 * 60 * 60 * 1000, // 3 days before kick warning
+			kickAfter: 4 * 24 * 60 * 60 * 1000, // 4 days before actual kick
+		},
+		content: guild => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#2EE47A')
+					.setTitle('🔐 Genshin Stella Mod Verification Required')
+					.setDescription(`Welcome to **${guild.name}**!\n\nTo gain access to all channels and features of our Genshin Impact modding community, please complete the verification process by clicking the button below.`)
+					.addFields([
+						{ name: '🛡️ Why verify?', value: 'Verification helps keep our modding community safe from bots and ensures quality discussions about Stella Mod.', inline: false },
+						{ name: '⚡ Quick Process', value: 'Complete hCaptcha verification in your browser - takes just a few seconds!', inline: false },
+						{ name: '🔒 Secure & Private', value: 'Your data is protected and the process is completely secure.', inline: false },
+						{ name: '🎮 Stella Mod Access', value: 'After verification, you\'ll gain access to mod downloads, support channels, and the community.', inline: false },
+					])
+					.setFooter({ text: `${guild.name} • Click the button below to verify`, iconURL: guild.iconURL() })
+					.setThumbnail(guild.iconURL())
+					.setTimestamp(),
 			],
-			emoji: '✅',
+		}),
+		button: {
+			label: 'Verify for Stella Mod',
+			emoji: '⭐',
+			style: 'Primary',
+		},
+		messages: {
+			tokenMessage: {
+				content: (guild, verificationUrl) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#2EE47A')
+							.setTitle('🔐 Genshin Stella Mod Verification')
+							.setDescription(`To gain access to **${guild.name}** and our Genshin Impact modding community, please complete the verification process.`)
+							.addFields([
+								{ name: '🔗 Verification Link', value: `[Click here to verify](${verificationUrl})`, inline: false },
+								{ name: '⏰ Expires in', value: '24 hours', inline: true },
+								{ name: '🛡️ Security', value: 'Complete hCaptcha challenge', inline: true },
+							])
+							.setFooter({ text: 'Keep this link private • Stella Mod verification', iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
+			reminder: {
+				content: (member, guild) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#FF6B35')
+							.setTitle('⚠️ Verification Required - Stella Mod')
+							.setDescription(`Hello ${member.user.username}!\n\nYour verification link for **${guild.name}** has expired. You need to verify your account to continue accessing our Genshin Impact modding community.`)
+							.addFields([
+								{ name: '🔗 How to verify', value: 'Click the verification button in the server to get a new verification link.', inline: false },
+								{ name: '⏰ Important', value: 'If you don\'t verify within 4 days of joining, you will be removed from the server.', inline: false },
+							])
+							.setFooter({ text: `${guild.name} • Verification Required`, iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
+			kickWarning: {
+				content: (member, guild) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#E74C3C')
+							.setTitle('🚨 Final Warning - Account Removal')
+							.setDescription(`**IMPORTANT NOTICE**\n\nHello ${member.user.username},\n\nYou have been on **${guild.name}** for over 3 days without completing verification. **You have 24 hours to verify your account or you will be removed from the server.**`)
+							.addFields([
+								{ name: '🔗 Verify NOW', value: 'Click the verification button in the server immediately to get your verification link.', inline: false },
+								{ name: '⏰ Time Remaining', value: 'Less than 24 hours before automatic removal', inline: false },
+								{ name: '❓ Need Help?', value: 'Contact server moderators if you\'re having trouble with verification.', inline: false },
+							])
+							.setFooter({ text: `${guild.name} • Final Warning`, iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
+			kickMessage: {
+				content: (member, guild) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#992D22')
+							.setTitle('👋 Removed from Stella Mod Server')
+							.setDescription(`Hello ${member.user.username},\n\nYou have been removed from **${guild.name}** because you did not complete verification within the required 4-day period.`)
+							.addFields([
+								{ name: '🔄 Want to rejoin?', value: 'You can rejoin the Stella Mod server anytime, but you\'ll need to complete verification within 4 days.', inline: false },
+								{ name: '❓ Questions?', value: 'Contact server moderators if you have any questions about this policy.', inline: false },
+							])
+							.setFooter({ text: `${guild.name} • Account Removed`, iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
+			success: {
+				content: (member, guild) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#27ae60')
+							.setTitle('✅ Stella Mod Verification Complete!')
+							.setDescription(`Welcome to **${guild.name}**! Your account has been successfully verified.`)
+							.addFields([
+								{ name: '🎉 Access Granted', value: 'You now have full access to all Stella Mod channels and downloads.', inline: false },
+								{ name: '🎮 Get Started', value: 'Check out our mod downloads and join the community discussions!', inline: false },
+								{ name: '📝 Server Rules', value: 'Please make sure to read the server rules and modding guidelines.', inline: false },
+							])
+							.setFooter({ text: `${guild.name} • Welcome to the community!`, iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
 		},
 	},
 
 	features: {
 		isDatingServer: false,
-		cleverBot: false,
 		timeBasedModes: false,
-		stellaMod: true,
+		papajMode: false,
+		cleverBot: { enabled: false },
 	},
 };
