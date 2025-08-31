@@ -5,6 +5,8 @@ const RemoveDiscordRolesController = require('../controllers/RemoveDiscordRoles.
 const SendDMMessageController = require('../controllers/SendDMMessage.js');
 const SendMsgController = require('../Channel/SendMsg.js');
 const SengLogController = require('../Channel/SendLog.js');
+const { validateSefinekToken, ensureBotClient } = require('../middlewares/auth.js');
+const VerificationController = require('../controllers/VerificationController.js');
 
 // DM
 router.post('/api/v1/discord/subscriber/roles/update', UpdateDiscordRolesController);
@@ -14,5 +16,11 @@ router.post('/api/v1/discord/subscriber/send-direct-msg', SendDMMessageControlle
 // Channel
 router.post('/api/v1/discord/channel/send-msg', SendMsgController); // Genshin Stella Mod server
 router.post('/api/v1/discord/channel/send-log', SengLogController); // Logs for my test server
+
+// Verification API
+router.get('/api/v1/health', VerificationController.healthCheck);
+router.get('/api/v1/verification/stats', validateSefinekToken, ensureBotClient, VerificationController.getServerStats);
+router.get('/api/v1/verification/tokens/:token', validateSefinekToken, ensureBotClient, VerificationController.getVerificationInfo);
+router.patch('/api/v1/verification/tokens/:token', validateSefinekToken, ensureBotClient, VerificationController.completeVerification);
 
 module.exports = router;

@@ -38,10 +38,8 @@ const channels = {
 module.exports = {
 	id: '1052610210189037598',
 
-	main: {
-		botTrapChannelId: null,
-		automodChannelId: '1122003945653547038',
-	},
+	botTrapChannelId: null,
+	automodChannelId: '1122003945653547038',
 
 	channels,
 
@@ -118,45 +116,44 @@ module.exports = {
 				],
 			}),
 		},
-	},
-
-	directMessages: {
-		welcome: {
-			enabled: true,
-			content: member => ({
-				embeds: [
-					new EmbedBuilder()
-						.setColor('#0078FF')
-						.setAuthor({ name: `Witamy serdecznie na ${member.guild.name}`, iconURL: member.guild.iconURL() })
-						.setDescription(`Dziękujemy za dołączenie! Po zweryfikowaniu zapoznaj się z [regulaminem](https://github.com/sefinek/Milosna_Grota/blob/main/Rules.md) serwera.\nNastępnie zachęcam do przywitania się z nami na kanale <#${process.env.CH_GENERALY}>!`)
-						.addFields([
-							{
-								name: '💗 » Czy naprawdę jest to serwer randkowy?',
-								value: 'Cóż, otóż tak! Jest to serwer stworzony z myślą o randkach. Dlaczego akurat taka tematyka? Na tego typu serwerach zwykle jest dużo kontekstu do rozmowy. Macie szansę poznać tu swoją drugą połówkę lub przyjaźń na długie lata.',
-							},
-							{
-								name: '😍 » Jesteś może graczem Genshin Impact?',
-								value: 'Jeśli tak, odwiedź projekt [Genshin Stella Mod](https://stella.sefinek.net).\nW zupełności nie pożałujesz, a nawet zyskasz - lepszą grafikę w grze i nie tylko! Zapoznaj się z dostępnymi informacjami na stronie.',
-							},
-							{
-								name: '🎶 » Lubisz może słuchać muzyki?',
-								value: 'Jeśli interesują Cię kanały na których można znaleźć pełno sped upów przeróżnych piosenek, odwiedź: [www.youtube.com/@sefinek](https://www.youtube.com/@sefinek)',
-							},
-							{
-								name: '🤖 » Polecamy godnego zaufania bota Noel. Dodaj go na swój serwer!',
-								value: `> **Oficjalna strona:** ${process.env.URL_NOEL}\n`,
-							},
-							{
-								name: '👋 » Zakończenie',
-								value: `W razie jakichkolwiek pytań, skontaktuj się z <@${process.env.BOT_OWNER}>. Jeśli chcesz miło pogadać lub po prostu się przywitać - również pisz!\n\n~ Życzymy Ci miłego pobytu! Pozdrawiamy.`,
-							},
-						]),
-					new EmbedBuilder()
-						.setColor('#15070C')
-						.setImage(`https://cdn.sefinek.net/discord/sefibot/images/guildMemberAdd.png?version=${version}`)
-						.setFooter({ text: 'Copyright 2024-2025 © by Sefinek. All Rights Reserved.', iconURL: member.guild.iconURL() }),
-				],
-			}),
+		directMessages: {
+			welcome: {
+				enabled: true,
+				content: member => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#0078FF')
+							.setAuthor({ name: `Witamy serdecznie na ${member.guild.name}`, iconURL: member.guild.iconURL() })
+							.setDescription(`Dziękujemy za dołączenie! Po zweryfikowaniu zapoznaj się z [regulaminem](https://github.com/sefinek/Milosna_Grota/blob/main/Rules.md) serwera.\nNastępnie zachęcam do przywitania się z nami na kanale <#${process.env.CH_GENERALY}>!`)
+							.addFields([
+								{
+									name: '💗 » Czy naprawdę jest to serwer randkowy?',
+									value: 'Cóż, otóż tak! Jest to serwer stworzony z myślą o randkach. Dlaczego akurat taka tematyka? Na tego typu serwerach zwykle jest dużo kontekstu do rozmowy. Macie szansę poznać tu swoją drugą połówkę lub przyjaźń na długie lata.',
+								},
+								{
+									name: '😍 » Jesteś może graczem Genshin Impact?',
+									value: 'Jeśli tak, odwiedź projekt [Genshin Stella Mod](https://stella.sefinek.net).\nW zupełności nie pożałujesz, a nawet zyskasz - lepszą grafikę w grze i nie tylko! Zapoznaj się z dostępnymi informacjami na stronie.',
+								},
+								{
+									name: '🎶 » Lubisz może słuchać muzyki?',
+									value: 'Jeśli interesują Cię kanały na których można znaleźć pełno sped upów przeróżnych piosenek, odwiedź: [www.youtube.com/@sefinek](https://www.youtube.com/@sefinek)',
+								},
+								{
+									name: '🤖 » Polecamy godnego zaufania bota Noel. Dodaj go na swój serwer!',
+									value: `> **Oficjalna strona:** ${process.env.URL_NOEL}\n`,
+								},
+								{
+									name: '👋 » Zakończenie',
+									value: `W razie jakichkolwiek pytań, skontaktuj się z <@${process.env.BOT_OWNER}>. Jeśli chcesz miło pogadać lub po prostu się przywitać - również pisz!\n\n~ Życzymy Ci miłego pobytu! Pozdrawiamy.`,
+								},
+							]),
+						new EmbedBuilder()
+							.setColor('#15070C')
+							.setImage(`https://cdn.sefinek.net/discord/sefibot/images/guildMemberAdd.png?version=${version}`)
+							.setFooter({ text: 'Copyright 2024-2025 © by Sefinek. All Rights Reserved.', iconURL: member.guild.iconURL() }),
+					],
+				}),
+			},
 		},
 	},
 
@@ -198,8 +195,8 @@ module.exports = {
 		},
 		schedules: {
 			day: {
-				time: '30 6 * * *',
 				enabled: true,
+				time: '30 6 * * *',
 				name: 'Miłosna Grota・😻',
 				randomBanner: true,
 				messageChannel: channels.generaly,
@@ -223,8 +220,8 @@ module.exports = {
 				},
 			},
 			afternoon: {
-				time: '30 17 * * *',
 				enabled: true,
+				time: '30 17 * * *',
 				name: 'Miłosna Grota・😽',
 				randomBanner: true,
 				messageChannel: null,
@@ -232,8 +229,8 @@ module.exports = {
 				rateLimits: {},
 			},
 			night: {
-				time: '30 23 * * *',
 				enabled: true,
+				time: '30 23 * * *',
 				name: 'Miłosna Grota・😴',
 				randomBanner: true,
 				messageChannel: channels.generaly,
@@ -257,8 +254,8 @@ module.exports = {
 				},
 			},
 			papajStart: {
-				time: '37 21 * * *',
 				enabled: true,
+				time: '37 21 * * *',
 				name: 'Miłosna Grota・🙏',
 				randomBanner: false,
 				messageChannel: channels.generaly,
@@ -267,8 +264,8 @@ module.exports = {
 				ignoreOnlineCheck: true,
 			},
 			papajEnd: {
-				time: '38 21 * * *',
 				enabled: true,
+				time: '38 21 * * *',
 				name: 'Miłosna Grota・😴',
 				randomBanner: true,
 				bannerType: 'night',

@@ -35,8 +35,8 @@ class ServerConfig {
 		this.config = config;
 	}
 
-	get botTrapChannelId() { return this.config.main?.botTrapChannelId; }
-	get automodChannelId() { return this.config.main?.automodChannelId; }
+	get botTrapChannelId() { return this.config.botTrapChannelId; }
+	get automodChannelId() { return this.config.automodChannelId; }
 	get cleverBotChannelId() { return this.config.features?.cleverBot?.channelId; }
 
 	get vcMembers() { return this.config.voiceChannels?.members?.enabled; }
@@ -62,8 +62,10 @@ class ServerConfig {
 	get banChannelId() { return this.config.events?.ban?.channelId; }
 	get banContent() { return this.config.events?.ban?.content; }
 
-	get joinMsgDM() { return this.config.directMessages?.welcome?.enabled; }
-	get joinMsgDMContent() { return this.config.directMessages?.welcome?.content; }
+	get joinMsgDM() { return this.config.events?.directMessages?.welcome?.enabled; }
+	get joinMsgDMContent() { return this.config.events?.directMessages?.welcome?.content; }
+	get verificationSuccessDM() { return this.config.events?.directMessages?.verificationSuccess?.enabled; }
+	get verificationSuccessDMContent() { return this.config.events?.directMessages?.verificationSuccess?.content; }
 
 	get reactionApproveChannels() { return this.config.reactions?.approve?.channels; }
 	get approveReaction() { return this.config.reactions?.approve?.emoji; }
@@ -73,6 +75,12 @@ class ServerConfig {
 	get heartReaction() { return this.config.reactions?.hearts?.emoji; }
 	get reactionLikeDislikeChannels() { return this.config.reactions?.likeDislike?.channels; }
 	get likeDislikeReactions() { return this.config.reactions?.likeDislike?.emojis; }
+
+	get verificationEnabled() { return this.config.verification?.enabled || false; }
+	get unverifiedRoleId() { return this.config.verification?.unverifiedRoleId; }
+	get verifiedRoleId() { return this.config.verification?.verifiedRoleId; }
+	get verificationContent() { return this.config.verification?.content; }
+	get verificationButton() { return this.config.verification?.button; }
 
 	get channels() { return this.config.channels || {}; }
 	get roles() { return this.config.roles || {}; }

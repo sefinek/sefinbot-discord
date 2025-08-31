@@ -3,10 +3,8 @@ const { EmbedBuilder } = require('discord.js');
 module.exports = {
 	id: '1242596950428094536',
 
-	main: {
-		botTrapChannelId: null,
-		automodChannelId: '1328507486101045340',
-	},
+	botTrapChannelId: null,
+	automodChannelId: '1328507486101045340',
 
 	voiceChannels: {
 		members: {
@@ -57,11 +55,10 @@ module.exports = {
 				],
 			}),
 		},
-	},
-
-	directMessages: {
-		welcome: {
-			enabled: false,
+		directMessages: {
+			welcome: {
+				enabled: false,
+			},
 		},
 	},
 

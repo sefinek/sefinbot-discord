@@ -1,6 +1,7 @@
 const { Events, PermissionsBitField } = require('discord.js');
 const guilds = require('../config/guilds.js');
 const userBlacklist = require('../services/userBlacklist.js');
+const VerificationStatus = require('../database/models/verification.model.js');
 
 module.exports = {
 	name: Events.GuildMemberAdd,
@@ -65,6 +66,25 @@ module.exports = {
 			}
 		} catch (err) {
 			console.warn('EventA » Failed to update voice channels when a new user joined the server:', err);
+		}
+
+		if (serverCfg.verificationEnabled && serverCfg.unverifiedRoleId) {
+			try {
+				const unverifiedRole = member.guild.roles.cache.get(serverCfg.unverifiedRoleId);
+				if (unverifiedRole) {
+					await member.roles.add(unverifiedRole);
+
+					await VerificationStatus.create({
+						userId: member.id,
+						guildId: member.guild.id,
+						joinedAt: member.joinedAt || new Date(),
+					});
+
+					console.log(`EventA » Added unverified role and created verification status for ${member.user.tag} (${member.id})`);
+				}
+			} catch (err) {
+				console.warn(`EventA » Failed to add unverified role to ${member.user.tag}:`, err.message);
+			}
 		}
 
 		console.log(`EventA » User ${member.user.tag} (${member.id}) has joined the server "${member.guild.name}"`);

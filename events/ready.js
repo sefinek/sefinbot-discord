@@ -23,9 +23,6 @@ module.exports = {
 							.replace('{count}', memberCount)
 							.replace('{arrow}', '');
 						await vcMembersChannel.setName(channelName);
-						if (process.env.NODE_ENV === 'development') {
-							console.log(`Client » Initialized member count for "${guild.name}": ${memberCount}`);
-						}
 					} catch (err) {
 						console.warn(`Client » Failed to initialize member count for "${guild.name}": ${err.message}`);
 					}
@@ -46,8 +43,6 @@ module.exports = {
 
 						const channelName = serverConfig.vcOnlineName.replace('{count}', onlineCount);
 						await vcOnlineChannel.setName(channelName);
-
-						if (process.env.NODE_ENV === 'development') console.log(`Client » Updated online count for "${guild.name}": ${onlineCount}`);
 					} catch (err) {
 						console.warn(`Client » Failed to update online count for "${guild.name}": ${err.message}`);
 					}

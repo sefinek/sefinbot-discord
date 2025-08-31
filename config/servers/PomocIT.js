@@ -3,10 +3,8 @@ const { EmbedBuilder } = require('discord.js');
 module.exports = {
 	id: '1002327795344621669',
 
-	main: {
-		botTrapChannelId: null,
-		automodChannelId: '1002371687746109490',
-	},
+	botTrapChannelId: null,
+	automodChannelId: '1002371687746109490',
 
 	voiceChannels: {
 		members: {
@@ -63,23 +61,22 @@ module.exports = {
 				],
 			}),
 		},
-	},
-
-	directMessages: {
-		welcome: {
-			enabled: true,
-			content: member => ({
-				embeds: [
-					new EmbedBuilder()
-						.setColor('#0078FF')
-						.setAuthor({ name: `Witaj ${member.user.tag} na naszym serwerze ${member.guild.name}`, iconURL: member.guild.iconURL() })
-						.setDescription('Dziękujemy za dołączenie do naszego serwera! Miłego pobytu.')
-						.setThumbnail(member.user.displayAvatarURL()),
-					new EmbedBuilder()
-						.setColor('#15070C')
-						.setFooter({ text: 'Copyright 2024-2025 © by Sefinek. All Rights Reserved.', iconURL: member.guild.iconURL() }),
-				],
-			}),
+		directMessages: {
+			welcome: {
+				enabled: true,
+				content: member => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#0078FF')
+							.setAuthor({ name: `Witaj ${member.user.tag} na naszym serwerze ${member.guild.name}`, iconURL: member.guild.iconURL() })
+							.setDescription('Dziękujemy za dołączenie do naszego serwera! Miłego pobytu.')
+							.setThumbnail(member.user.displayAvatarURL()),
+						new EmbedBuilder()
+							.setColor('#15070C')
+							.setFooter({ text: 'Copyright 2024-2025 © by Sefinek. All Rights Reserved.', iconURL: member.guild.iconURL() }),
+					],
+				}),
+			},
 		},
 	},
 

@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
 	} catch (err) {
 		if (err.code === 50007) {
 			console.log(prefix, err.message);
-			res.status(200).send({ success: true, status: 200, message: err.message });
+			res.send({ success: true, status: 200, message: err.message });
 		} else {
 			console.error(prefix, err);
 			res.status(500).send({ success: false, status: 500, message: err });

@@ -21,7 +21,7 @@ app.use(logger);
 
 module.exports = client => {
 	// Discord
-	app.post(/(.*)/, (req, res, next) => {
+	app.use(/(.*)/, (req, res, next) => {
 		req.bot = client;
 		next();
 	});

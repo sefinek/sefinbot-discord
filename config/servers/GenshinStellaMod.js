@@ -4,10 +4,8 @@ const { version } = require('../../package.json');
 module.exports = {
 	id: '1044713077125435492',
 
-	main: {
-		botTrapChannelId: '1224420495710228540',
-		automodChannelId: '1044721563628482560',
-	},
+	botTrapChannelId: '1224420495710228540',
+	automodChannelId: '1044721563628482560',
 
 	voiceChannels: {
 		members: {
@@ -64,40 +62,39 @@ module.exports = {
 				],
 			}),
 		},
-	},
-
-	directMessages: {
-		welcome: {
-			enabled: true,
-			content: member => ({
-				embeds: [
-					new EmbedBuilder()
-						.setColor('#8E44AD')
-						.setAuthor({ name: `Welcome ${member.user.tag} to our server ${member.guild.name}`, iconURL: member.guild.iconURL() })
-						.addFields([
-							{
-								name: '😻 » What does Genshin Stella Mod offer?',
-								value: '1. **Enhanced graphics:** Enjoy improved visuals with shaders for a superior gaming experience.\n2. **FPS unlock:** Remove the 60 FPS cap for smoother gameplay, especially on monitors with refresh rates above 60Hz.\n3. **3DMigoto support:** Unlocks a wider range of mods, including character model swaps, all in a safe and stable environment.',
-							},
-							{
-								name: '🐱 » Why should I use Genshin Stella Mod?',
-								value: '1. **Own launcher:** Simply click `Start game` in our app to jump right into action with exclusive enhancements!\n2. **Regular updates:** Our software is continuously updated for compatibility with new game versions, shader improvements, security patches, and more.\n3. **Safety guaranteed:** The application is completely safe and ensures security when injecting processes into the game. However, please remember not to cheat!',
-							},
-							{
-								name: '😽 » What benefits will I get by supporting this project?',
-								value: '1. **Access to 3DMigoto:** Enjoy the benefits of using ReShade, FPS Unlock, and 3DMigoto together for a more immersive gaming experience.\n2. A curated collection of optimized, **bug-free mods**.\n3. **A shader pack with the latest versions**, all free of bugs. With Stella Plus, **shaders will no longer overlap with the game\'s UI**, offering a cleaner, more polished visual experience.\n4. **Enhanced security:** The mod is designed with safety in mind, ensuring privacy protection and a robust security system.\n5. **And much more!** Discover all the benefits on the [**official website**](https://sefinek.net/genshin-stella-mod/subscription). Choose the tier that suits you best (we recommend the "🌍 Safety Kitten" tier).',
-							},
-							{
-								name: '🙀 » We hope to see you in the Stella Mod Launcher!',
-								value: `If you have any questions, feel free to message <@${process.env.OWNER}> or visit the <#1056236234160214138> channel.\n\n>> [\`Click here to download now!\`](https://sefinek.net/genshin-stella-mod) <<`,
-							},
-						]),
-					new EmbedBuilder()
-						.setColor('#15070C')
-						.setImage(`https://cdn.sefinek.net/discord/sefibot/images/guildMemberAdd.png?version=${version}`)
-						.setFooter({ text: 'Copyright 2024-2025 © by Sefinek. All Rights Reserved.', iconURL: member.guild.iconURL() }),
-				],
-			}),
+		directMessages: {
+			welcome: {
+				enabled: true,
+				content: member => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#8E44AD')
+							.setAuthor({ name: `Welcome ${member.user.tag} to our server ${member.guild.name}`, iconURL: member.guild.iconURL() })
+							.addFields([
+								{
+									name: '😻 » What does Genshin Stella Mod offer?',
+									value: '1. **Enhanced graphics:** Enjoy improved visuals with shaders for a superior gaming experience.\n2. **FPS unlock:** Remove the 60 FPS cap for smoother gameplay, especially on monitors with refresh rates above 60Hz.\n3. **3DMigoto support:** Unlocks a wider range of mods, including character model swaps, all in a safe and stable environment.',
+								},
+								{
+									name: '🐱 » Why should I use Genshin Stella Mod?',
+									value: '1. **Own launcher:** Simply click `Start game` in our app to jump right into action with exclusive enhancements!\n2. **Regular updates:** Our software is continuously updated for compatibility with new game versions, shader improvements, security patches, and more.\n3. **Safety guaranteed:** The application is completely safe and ensures security when injecting processes into the game. However, please remember not to cheat!',
+								},
+								{
+									name: '😽 » What benefits will I get by supporting this project?',
+									value: '1. **Access to 3DMigoto:** Enjoy the benefits of using ReShade, FPS Unlock, and 3DMigoto together for a more immersive gaming experience.\n2. A curated collection of optimized, **bug-free mods**.\n3. **A shader pack with the latest versions**, all free of bugs. With Stella Plus, **shaders will no longer overlap with the game\'s UI**, offering a cleaner, more polished visual experience.\n4. **Enhanced security:** The mod is designed with safety in mind, ensuring privacy protection and a robust security system.\n5. **And much more!** Discover all the benefits on the [**official website**](https://sefinek.net/genshin-stella-mod/subscription). Choose the tier that suits you best (we recommend the "🌍 Safety Kitten" tier).',
+								},
+								{
+									name: '🙀 » We hope to see you in the Stella Mod Launcher!',
+									value: `If you have any questions, feel free to message <@${process.env.OWNER}> or visit the <#1056236234160214138> channel.\n\n>> [\`Click here to download now!\`](https://sefinek.net/genshin-stella-mod) <<`,
+								},
+							]),
+						new EmbedBuilder()
+							.setColor('#15070C')
+							.setImage(`https://cdn.sefinek.net/discord/sefibot/images/guildMemberAdd.png?version=${version}`)
+							.setFooter({ text: 'Copyright 2024-2025 © by Sefinek. All Rights Reserved.', iconURL: member.guild.iconURL() }),
+					],
+				}),
+			},
 		},
 	},
 

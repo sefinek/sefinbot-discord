@@ -30,7 +30,7 @@ module.exports = {
 						.replace('{count}', updatedCount)
 						.replace('{arrow}', '⬇');
 					await vcMembersChannel.setName(channelNameWithArrow);
-					console.log(`EventR » Updated voice channel member count for guild "${member.guild.name}" to: ${updatedCount}`);
+
 					setTimeout(async () => {
 						try {
 							const currentCount = member.guild.members.cache.filter(m => !m.user.bot).size;
