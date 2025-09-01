@@ -96,7 +96,7 @@ See the existing server configurations in `/config/servers/` for real-world exam
 - **mongoose** - MongoDB object modeling
 - **cron** - Scheduled task management
 - **axios** - HTTP client
-- **@sefinek/cleverbot-free** - AI chat integration
+- **@sefinek/cleverbot-free** - Chat integration
 
 ---
 
