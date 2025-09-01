@@ -26,7 +26,6 @@ require('./handlers/command.js')(client);
 require('./handlers/event.js')(client);
 require('./handlers/slash.js')(client);
 
-
 // Shard events
 client.on(Events.ShardDisconnect, (event, id) => console.warn(`Shard${id} » Disconnected unexpectedly. Event:`, event));
 client.on(Events.ShardResume, async (id, events) => {

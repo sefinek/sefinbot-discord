@@ -158,6 +158,7 @@ module.exports = {
 		},
 	},
 
+	// TODO: Old API, migrate to new one
 	reactions: {
 		pokazRyjek: {
 			channels: [channels.pokazRyjek],
@@ -333,8 +334,8 @@ module.exports = {
 
 	verification: {
 		enabled: true,
-		unverifiedRoleId: roles.randkowicz, // randkowicz role (unverified users)
-		verifiedRoleId: roles.weryfikacja, // weryfikacja role (verified users)
+		unverifiedRoleId: roles.randkowicz,
+		verifiedRoleId: roles.weryfikacja,
 		timeouts: {
 			tokenExpiry: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
 			tokenCooldown: 5 * 60 * 1000, // 5 minutes cooldown between token requests
