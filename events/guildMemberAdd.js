@@ -63,11 +63,11 @@ module.exports = {
 			if (serverCfg.voiceChannels?.newest?.enabled && serverCfg.voiceChannels?.newest?.channelId) {
 				const newMemberChannel = member.guild.channels.cache.get(serverCfg.voiceChannels.newest.channelId);
 				if (newMemberChannel) {
-			const channelName = typeof serverCfg.voiceChannels.newest.name === 'function'
-				? serverCfg.voiceChannels.newest.name(member.user.username)
-				: serverCfg.voiceChannels.newest.name;
-			await newMemberChannel.setName(channelName);
-		}
+					const channelName = typeof serverCfg.voiceChannels.newest.name === 'function'
+						? serverCfg.voiceChannels.newest.name(member.user.username)
+						: serverCfg.voiceChannels.newest.name;
+					await newMemberChannel.setName(channelName);
+				}
 			}
 		} catch (err) {
 			console.warn('EventA » Failed to update voice channels when a new user joined the server:', err);
