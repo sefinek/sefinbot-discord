@@ -19,9 +19,9 @@ module.exports = {
 				if (vcMembersChannel) {
 					try {
 						const memberCount = guild.members.cache.filter(m => !m.user.bot).size;
-						const channelName = serverConfig.voiceChannels.members.name
-							.replace('{count}', memberCount)
-							.replace('{arrow}', '');
+						const channelName = typeof serverConfig.voiceChannels.members.name === 'function'
+							? serverConfig.voiceChannels.members.name(memberCount, '')
+							: serverConfig.voiceChannels.members.name;
 						await vcMembersChannel.setName(channelName);
 					} catch (err) {
 						console.warn(`Client » Failed to initialize member count for "${guild.name}": ${err.message}`);
@@ -41,7 +41,9 @@ module.exports = {
 						const onlineCount = (await guild.members.fetch())
 							.filter(m => !m.user.bot && ['online', 'dnd', 'idle'].includes(m.presence?.status)).size;
 
-						const channelName = serverConfig.voiceChannels.online.name.replace('{count}', onlineCount);
+						const channelName = typeof serverConfig.voiceChannels.online.name === 'function'
+							? serverConfig.voiceChannels.online.name(onlineCount)
+							: serverConfig.voiceChannels.online.name;
 						await vcOnlineChannel.setName(channelName);
 					} catch (err) {
 						console.warn(`Client » Failed to update online count for "${guild.name}": ${err.message}`);

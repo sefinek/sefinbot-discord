@@ -8,12 +8,13 @@ const channels = {
 };
 
 const roles = {
-	unverified: '1328507700000000000',
 	verified: '1328507800000000000',
+	unverified: '1328507700000000000',
 };
 
 module.exports = {
 	id: '1242596950428094536',
+	dev: false,
 
 	botTrapChannelId: null,
 	automodChannelId: channels.automod,
@@ -204,6 +205,13 @@ module.exports = {
 				}),
 			},
 		},
+	},
+
+	cron: {
+		enabled: false,
+		timezone: 'Europe/Warsaw',
+		minimumOnlineMembers: 0,
+		schedules: {},
 	},
 
 	// Features

@@ -123,7 +123,7 @@ const getServerConfig = guildId => {
 	let config = serverConfigs[guildId];
 
 	if (process.env.NODE_ENV === 'development') {
-		const devConfigs = Object.values(serverConfigs).filter(cfg => cfg.id === guildId && cfg.environment === 'development');
+		const devConfigs = Object.values(serverConfigs).filter(cfg => cfg.id === guildId && cfg.dev === true);
 		if (devConfigs.length > 0) {
 			config = devConfigs[0];
 		}

@@ -9,12 +9,6 @@ config/
 ├── guilds.js           # Main config loader with backward compatibility
 ├── README.md           # This documentation
 └── servers/            # Individual server configurations
-    ├── sefinek.js      # Sefinek server
-    ├── pomocIT.js      # Pomoc IT - Sefinek
-    ├── genshinStellaMod.js # Genshin Stella Mod
-    ├── nekosiaAPI.js   # Nekosia API
-    ├── milosnaGrota.js # Miłosna Grota (full config)
-    ├── masneTesciki.js # Development environment
 ```
 
 ## 🚀 Benefits
@@ -47,14 +41,12 @@ module.exports = {
   // Required: Discord server ID
   id: '1234567890123456789',
   
-  // Optional: Environment (defaults to 'production')
-  environment: 'development',
+  // Optional: Development environment flag
+  dev: false,
   
   // Main server settings
-  main: {
-    botTrapChannelId: 'channel_id_or_null',
-    automodChannelId: 'channel_id',
-  },
+  botTrapChannelId: 'channel_id_or_null',
+  automodChannelId: 'channel_id',
 
   // Channel IDs organized by purpose
   channels: {
@@ -65,8 +57,8 @@ module.exports = {
 
   // Role IDs organized by purpose  
   roles: {
-    admin: 'role_id',
-    moderator: 'role_id',
+    verified: 'role_id',
+    unverified: 'role_id',
     // ... more roles
   },
 
@@ -75,7 +67,7 @@ module.exports = {
     members: {
       enabled: true,
       channelId: 'channel_id',
-      name: '👥・Members: {count} {arrow}',
+      name: (count, arrow) => `👥・Members: ${count} ${arrow || ''}`,
     },
     // ... more voice channels
   },
@@ -101,14 +93,28 @@ module.exports = {
     },
   },
 
-  // Reaction system
-  reactions: {
-    hearts: {
+  // Flexible Reaction System
+  reactions: [
+    {
+      name: 'photo-reactions',
+      enabled: true,
       channels: ['channel_id1', 'channel_id2'],
-      emoji: '❤️',
+      emojis: ['😍', '😐', '🤢'],
+      thread: {
+        enabled: true,
+        nameTemplate: author => `${author.globalName || author.username}: Comments`,
+        autoArchiveDuration: 24 * 60, // minutes
+        reason: author => `Photo by ${author.tag}`,
+        startMessage: {
+          embeds: [/* Discord embed for thread start */]
+        }
+      },
+      validation: {
+        onlyImages: { message: 'Only images allowed in this channel! 📸' },
+      },
     },
-    // ... more reaction types
-  },
+    // ... more reaction configurations
+  ],
 
   // Time-based modes (day/night)
   timeModes: {
@@ -135,6 +141,207 @@ module.exports = {
   },
 };
 ```
+
+## 🎭 Flexible Reactions System
+
+The new reactions system provides a modular, configurable approach to automatic reactions and thread creation. Each reaction configuration is independent and can be enabled/disabled individually.
+
+### Basic Structure
+
+```javascript
+reactions: [
+  {
+    name: 'unique-reaction-name',     // Descriptive name for this reaction set
+    enabled: true,                    // Can disable without removing config
+    channels: ['channel_id1', '...'], // Channels where this applies
+    emojis: ['😍', '👍', '❤️'],       // Auto-reactions to add
+    thread: { /* thread config */ },  // Optional thread creation
+    validation: { /* rules */ },      // Optional message validation
+  }
+]
+```
+
+### Thread Configuration
+
+```javascript
+thread: {
+  enabled: true,                                    // Enable/disable thread creation
+  nameTemplate: author => `${author.username}: Comments`, // Thread name function
+  autoArchiveDuration: 24 * 60,                   // Auto-archive time (minutes)
+  reason: author => `Discussion for ${author.tag}`, // Audit log reason
+  startMessage: {                                  // Initial message in thread
+    embeds: [
+      new EmbedBuilder()
+        .setColor('#4A90E2')
+        .setDescription('Discussion thread started!')
+        .setTimestamp()
+    ]
+  }
+}
+```
+
+### Validation System
+
+The validation system allows you to enforce rules on messages before reactions are added:
+
+```javascript
+validation: {
+  // Image validation - requires message to have image attachments
+  onlyImages: { 
+    message: 'Only images are allowed in this channel! 📸' 
+  },
+  
+  // Text length validation - requires minimum text length
+  textLength: { 
+    min: 20, 
+    message: minLength => `Message too short! Minimum ${minLength} characters required.` 
+  },
+  
+  // Multiple validations can be combined
+  // onlyImages: { message: '...' },
+  // textLength: { min: 10, max: 500, message: length => `...` },
+}
+```
+
+### Complete Examples
+
+#### Photo Sharing Channel
+```javascript
+{
+  name: 'photo-sharing',
+  enabled: true,
+  channels: ['photo-channel-id'],
+  emojis: ['😍', '😐', '🤢'],
+  thread: {
+    enabled: true,
+    nameTemplate: author => `${author.globalName || author.username}: Photo Comments`,
+    autoArchiveDuration: 24 * 60, // 1 day
+    reason: author => `Photo shared by ${author.tag}`,
+    startMessage: {
+      embeds: [
+        new EmbedBuilder()
+          .setColor('#FF69B4')
+          .setDescription('Share your thoughts about this photo! 📸✨')
+          .setFooter({ text: 'Photo Comments' })
+          .setTimestamp()
+      ]
+    }
+  },
+  validation: {
+    onlyImages: { message: 'This channel is for photos only! 📸' }
+  }
+}
+```
+
+#### Introduction Channel
+```javascript
+{
+  name: 'introductions',
+  enabled: true,
+  channels: ['intro-channel-id'],
+  emojis: ['❤️', '👋'],
+  thread: {
+    enabled: true,
+    nameTemplate: author => `Welcome ${author.username}!`,
+    autoArchiveDuration: 72 * 60, // 3 days
+    reason: author => `Introduction thread for ${author.tag}`,
+    startMessage: {
+      embeds: [
+        new EmbedBuilder()
+          .setColor('#00D26A')
+          .setDescription('Welcome to our community! Others can comment here.')
+          .setFooter({ text: 'Welcome Thread' })
+          .setTimestamp()
+      ]
+    }
+  },
+  validation: {
+    textLength: { 
+      min: 50, 
+      message: minLength => `Please write at least ${minLength} characters so we can get to know you better! ✍️` 
+    }
+  }
+}
+```
+
+#### Simple Like/Dislike
+```javascript
+{
+  name: 'general-voting',
+  enabled: true,
+  channels: ['suggestions-id', 'memes-id'],
+  emojis: ['👍', '👎'],
+  thread: { enabled: false },
+  validation: {} // No validation rules
+}
+```
+
+#### Approval System
+```javascript
+{
+  name: 'admin-approval',
+  enabled: true,
+  channels: ['approval-channel-id'],
+  emojis: ['✅'],
+  thread: { enabled: false },
+  validation: {} // Admins can approve anything
+}
+```
+
+### Migration from Old System
+
+#### Before (Old Rigid System)
+```javascript
+reactions: {
+  pokazRyjek: {          // Fixed type name
+    channels: ['...'],
+    requiresAttachment: true,
+    createThread: true,   // Boolean only
+    threadConfig: { ... }
+  },
+  likeDislike: {         // Another fixed type
+    channels: ['...'],
+    emojis: ['👍', '👎']
+  }
+}
+```
+
+#### After (New Flexible System)
+```javascript
+reactions: [
+  {
+    name: 'photo-reactions',    // Custom name
+    enabled: true,              // Can disable
+    channels: ['...'],
+    emojis: ['😍', '😐', '🤢'],
+    thread: {
+      enabled: true,            // Granular control
+      nameTemplate: author => `...`,
+      // ... more options
+    },
+    validation: {
+      onlyImages: { message: '...' }  // Semantic validation
+    }
+  },
+  {
+    name: 'voting-reactions',   // Another custom reaction set
+    enabled: true,
+    channels: ['...'],
+    emojis: ['👍', '👎'],
+    thread: { enabled: false },
+    validation: {}
+  }
+]
+```
+
+### Benefits of New System
+
+1. **Flexibility** - Custom names, not predefined types
+2. **Granular Control** - Enable/disable any feature independently  
+3. **Semantic Validation** - `onlyImages` vs `requiresAttachment: true`
+4. **Extensibility** - Easy to add new validation types
+5. **Maintainability** - Clear structure, easy to understand
+6. **Scalability** - Add unlimited reaction configurations
 
 ## 🔧 Usage
 
@@ -181,13 +388,13 @@ Use the `!check-migration` command to verify all servers have been migrated:
 The system automatically selects the appropriate configuration based on `NODE_ENV`:
 
 - **Production** (`NODE_ENV=production` or undefined): Uses standard configs
-- **Development** (`NODE_ENV=development`): Prefers configs with `environment: 'development'`
+- **Development** (`NODE_ENV=development`): Prefers configs with `dev: true`
 
 ### Example Development Config
 ```javascript
 module.exports = {
   id: '943910440520527873',
-  environment: 'development', // This marks it as dev-only
+  dev: true, // This marks it as dev-only
   
   // Development-specific settings
   features: {
@@ -231,7 +438,7 @@ const production = {
 // config/servers/myServer.js - dedicated file
 module.exports = {
   id: '1234567890123456789',
-  main: { botTrapChannelId: null },
+  botTrapChannelId: null,
   events: { 
     welcome: { channelId: 'channel_id' } 
   },
@@ -263,13 +470,13 @@ The new system maintains full backward compatibility - all existing code continu
 
 ### Development vs Production
 - Check `NODE_ENV` environment variable  
-- Ensure development configs have `environment: 'development'`
+- Ensure development configs have `dev: true`
 - Use console logs to verify which config is being loaded
 
 ## 📚 Examples
 
-See the existing server configurations in `/config/servers/` for real-world examples of:
-- Basic server setup (sefinek.js)
-- Full-featured dating server (milosnaGrota.js)  
-- API server with minimal features (nekosiaAPI.js)
-- Development environment (masneTesckiDev.js)
+See the existing server configurations in `/config/servers/` for real-world examples of different server setups and feature implementations.
+
+---
+
+📝 **Documentation**: This comprehensive configuration documentation was written by [Claude AI](https://claude.ai) to help developers understand and implement the flexible server configuration system.

@@ -8,12 +8,13 @@ const channels = {
 };
 
 const roles = {
-	unverified: '1328500000000000000',
 	verified: '1411308185889017896',
+	unverified: '1328500000000000000',
 };
 
 module.exports = {
 	id: '1305001399494377533',
+	dev: false,
 
 	botTrapChannelId: null,
 	automodChannelId: channels.automod,
@@ -25,17 +26,17 @@ module.exports = {
 		members: {
 			enabled: true,
 			channelId: '1328500744361480192',
-			name: '👥・Members: {count} {arrow}',
+			name: (count, arrow) => `👥・Members: ${count} ${arrow || ''}`,
 		},
 		online: {
 			enabled: true,
 			channelId: '1328500785176252439',
-			name: '🌍・Online: {count}',
+			name: count => `🌍・Online: ${count}`,
 		},
 		newest: {
 			enabled: true,
 			channelId: '1328500800086999080',
-			name: '👋・New: {user}',
+			name: user => `👋・New: ${user}`,
 		},
 	},
 
@@ -218,6 +219,13 @@ module.exports = {
 				}),
 			},
 		},
+	},
+
+	cron: {
+		enabled: false,
+		timezone: 'Europe/Warsaw',
+		minimumOnlineMembers: 0,
+		schedules: {},
 	},
 
 	features: {

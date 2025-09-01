@@ -5,10 +5,7 @@ const sendErrorMessage = async (msg, description) => {
 	try {
 		const errorEmbed = new EmbedBuilder()
 			.setColor('#FF6B6B')
-			.setAuthor({
-				name: `${msg.author.username}, ta akcja nie jest możliwa`,
-				iconURL: msg.author.displayAvatarURL(),
-			})
+			.setAuthor({ name: `${msg.author.username}, ta akcja nie jest możliwa`, iconURL: msg.author.displayAvatarURL() })
 			.setDescription(description)
 			.setThumbnail(msg.guild.iconURL());
 

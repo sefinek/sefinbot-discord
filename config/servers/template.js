@@ -1,0 +1,388 @@
+const { EmbedBuilder } = require('discord.js');
+
+// Channel definitions for better organization
+const channels = {
+	// Core channels
+	welcome: 'CHANNEL_ID_HERE',
+	general: 'CHANNEL_ID_HERE',
+	lobby: 'CHANNEL_ID_HERE',
+	automod: 'CHANNEL_ID_HERE',
+	
+	// Support channels
+	support1: 'CHANNEL_ID_HERE',
+	support2: 'CHANNEL_ID_HERE',
+	
+	// Feature-specific channels
+	announcements: 'CHANNEL_ID_HERE',
+	changelogs: 'CHANNEL_ID_HERE',
+	
+	// Photo/media channels
+	photoChannel: 'CHANNEL_ID_HERE',
+	
+	// Dating server specific (if applicable)
+	pokazRyjek: 'CHANNEL_ID_HERE',
+	introductions: 'CHANNEL_ID_HERE',
+};
+
+// Role definitions
+const roles = {
+	// Order: verified first, then unverified (as per user preference)
+	verified: 'ROLE_ID_HERE',
+	unverified: 'ROLE_ID_HERE',
+	
+	// Additional roles
+	admin: 'ROLE_ID_HERE',
+	moderator: 'ROLE_ID_HERE',
+	member: 'ROLE_ID_HERE',
+	
+	// Dating server specific (if applicable)
+	male: 'ROLE_ID_HERE',
+	female: 'ROLE_ID_HERE',
+	single: 'ROLE_ID_HERE',
+	taken: 'ROLE_ID_HERE',
+};
+
+/**
+ * Complete server configuration template
+ * This file serves as a template and is never used by the bot
+ * Copy this file and rename it to create new server configurations
+ */
+module.exports = {
+	// Required: Discord server ID - must match exactly
+	id: 'YOUR_DISCORD_SERVER_ID_HERE',
+	
+	// Optional: Development environment flag (defaults to false/production)
+	dev: false,
+	
+	// Legacy fields for backward compatibility
+	botTrapChannelId: channels.botTrap || null,
+	automodChannelId: channels.automod,
+	
+	// Organized channel and role references
+	channels,
+	roles,
+	
+	// Voice channel statistics with function-based names (not template strings)
+	voiceChannels: {
+		members: {
+			enabled: true,
+			channelId: 'VOICE_CHANNEL_ID_HERE',
+			name: (count, arrow) => `👥・Members: ${count} ${arrow || ''}`,
+		},
+		online: {
+			enabled: true,
+			channelId: 'VOICE_CHANNEL_ID_HERE',
+			name: count => `🌍・Online: ${count}`,
+		},
+		newest: {
+			enabled: true,
+			channelId: 'VOICE_CHANNEL_ID_HERE',
+			name: user => `🆕・New: ${user}`,
+		},
+	},
+	
+	// Event logging configuration
+	events: {
+		welcome: {
+			channelId: channels.welcome,
+			content: (member, memberCount) => ({
+				embeds: [
+					new EmbedBuilder()
+						.setColor('#00D26A')
+						.setAuthor({ name: `👋 Member ${member.user.tag} has joined the server`, iconURL: member.guild.iconURL() })
+						.setDescription(`Welcome ${member} to our server! You are our ${memberCount}th member.`)
+						.setThumbnail(member.user.displayAvatarURL()),
+				],
+			}),
+		},
+		farewell: {
+			channelId: channels.welcome,
+			content: (member, memberCount) => ({
+				embeds: [
+					new EmbedBuilder()
+						.setColor('#FF6B6B')
+						.setAuthor({ name: `😥 Member ${member.user.tag} has left the server`, iconURL: member.guild.iconURL() })
+						.setDescription(`Unfortunately, ${member} has left our server. We hope you'll come back soon.`)
+						.setThumbnail(member.user.displayAvatarURL()),
+				],
+			}),
+		},
+		ban: {
+			channelId: channels.welcome,
+			content: (member, memberCount) => ({
+				embeds: [
+					new EmbedBuilder()
+						.setColor('#E74C3C')
+						.setAuthor({ name: `⚠️ User ${member.tag} has been banned from the server`, iconURL: member.guild.iconURL() })
+						.setDescription(`The user <@${member.id}> has been permanently banned from our server due to rule violations.`)
+						.setThumbnail(member.displayAvatarURL()),
+				],
+			}),
+		},
+		// Direct message configuration
+		directMessages: {
+			welcome: {
+				enabled: true,
+				content: member => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#8E44AD')
+							.setAuthor({ name: `Welcome ${member.user.tag} to ${member.guild.name}`, iconURL: member.guild.iconURL() })
+							.setDescription('Thank you for joining our server! We hope you have a great time here.')
+							.setThumbnail(member.user.displayAvatarURL()),
+						new EmbedBuilder()
+							.setColor('#15070C')
+							.setFooter({ text: 'Copyright 2024-2025 © by Sefinek. All Rights Reserved.', iconURL: member.guild.iconURL() }),
+					],
+				}),
+			},
+		},
+	},
+	
+	// Flexible Reactions System - Array-based configuration
+	reactions: [
+		// Example: Photo sharing with thread creation
+		{
+			name: 'photo-reactions',
+			enabled: true,
+			channels: [channels.photoChannel],
+			emojis: ['😍', '😐', '🤢'],
+			thread: {
+				enabled: true,
+				nameTemplate: author => `${author.globalName || author.username}: Photo Comments`,
+				autoArchiveDuration: 24 * 60, // 24 hours in minutes
+				reason: author => `Photo shared by ${author.tag}`,
+				startMessage: {
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#FF69B4')
+							.setDescription('Share your thoughts about this photo! 📸✨')
+							.setFooter({ text: 'Photo Comments' })
+							.setTimestamp(),
+					],
+				},
+			},
+			validation: {
+				onlyImages: { message: 'This channel is for photos only! 📸' },
+			},
+		},
+		
+		// Example: Introduction channel with text length validation
+		{
+			name: 'introductions',
+			enabled: false, // Disable by default
+			channels: [channels.introductions],
+			emojis: ['❤️', '👋'],
+			thread: {
+				enabled: true,
+				nameTemplate: author => `Welcome ${author.username}!`,
+				autoArchiveDuration: 72 * 60, // 3 days
+				reason: author => `Introduction thread for ${author.tag}`,
+				startMessage: {
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#00D26A')
+							.setDescription('Welcome to our community! Others can comment here.')
+							.setFooter({ text: 'Welcome Thread' })
+							.setTimestamp(),
+					],
+				},
+			},
+			validation: {
+				textLength: { 
+					min: 50, 
+					message: minLength => `Please write at least ${minLength} characters so we can get to know you better! ✍️`,
+				},
+			},
+		},
+		
+		// Example: Simple voting reactions
+		{
+			name: 'voting-reactions',
+			enabled: false, // Enable as needed
+			channels: [channels.announcements],
+			emojis: ['👍', '👎'],
+			thread: { enabled: false },
+			validation: {}, // No validation rules
+		},
+		
+		// Example: Admin approval system
+		{
+			name: 'admin-approval',
+			enabled: false, // Enable for support channels
+			channels: [channels.support1, channels.support2],
+			emojis: ['✅'],
+			thread: { enabled: false },
+			validation: {},
+		},
+	],
+	
+	// Verification system configuration (hCaptcha-based)
+	verification: {
+		enabled: true,
+		unverifiedRoleId: roles.unverified,
+		verifiedRoleId: roles.verified,
+		timeouts: {
+			tokenExpiry: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
+			tokenCooldown: 5 * 60 * 1000, // 5 minutes cooldown between token requests
+			reminderInterval: 6 * 60 * 60 * 1000, // 6 hours between reminders
+			kickWarningAfter: 3 * 24 * 60 * 60 * 1000, // 3 days before kick warning
+			kickAfter: 4 * 24 * 60 * 60 * 1000, // 4 days before actual kick
+		},
+		content: guild => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#2EE47A')
+					.setTitle('🔐 Server Verification Required')
+					.setDescription(`Welcome to **${guild.name}**!\\n\\nTo gain access to all channels and features, please complete the verification process by clicking the button below.`)
+					.addFields([
+						{ name: '🛡️ Why verify?', value: 'Verification helps keep our community safe from bots and spam.', inline: false },
+						{ name: '⚡ Quick Process', value: 'Complete hCaptcha verification in your browser - takes just a few seconds!', inline: false },
+						{ name: '🔒 Secure & Private', value: 'Your data is protected and the process is completely secure.', inline: false },
+					])
+					.setFooter({ text: `${guild.name} • Click the button below to verify`, iconURL: guild.iconURL() })
+					.setThumbnail(guild.iconURL())
+					.setTimestamp(),
+			],
+		}),
+		button: {
+			label: 'Verify Account',
+			emoji: '✅',
+			style: 'Primary',
+		},
+		messages: {
+			tokenMessage: {
+				content: (guild, verificationUrl) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#2EE47A')
+							.setTitle('🔐 Account Verification')
+							.setDescription(`To gain access to **${guild.name}**, please complete the verification process.`)
+							.addFields([
+								{ name: '🔗 Verification Link', value: `[Click here to verify](${verificationUrl})`, inline: false },
+								{ name: '⏰ Expires in', value: '24 hours', inline: true },
+								{ name: '🛡️ Security', value: 'Complete hCaptcha challenge', inline: true },
+							])
+							.setFooter({ text: 'Keep this link private • Verification required', iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
+			reminder: {
+				content: (member, guild) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#FF6B35')
+							.setTitle('⚠️ Verification Required')
+							.setDescription(`Hello ${member.user.username}!\\n\\nYour verification link for **${guild.name}** has expired. You need to verify your account to continue accessing the server.`)
+							.addFields([
+								{ name: '🔗 How to verify', value: 'Click the verification button in the server to get a new verification link.', inline: false },
+								{ name: '⏰ Important', value: 'If you don\\'t verify within 4 days of joining, you will be removed from the server.', inline: false },
+							])
+							.setFooter({ text: `${guild.name} • Verification Required`, iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
+			kickWarning: {
+				content: (member, guild) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#E74C3C')
+							.setTitle('🚨 Final Warning - Account Removal')
+							.setDescription(`**IMPORTANT NOTICE**\\n\\nHello ${member.user.username},\\n\\nYou have been on **${guild.name}** for over 3 days without completing verification. **You have 24 hours to verify your account or you will be removed from the server.**`)
+							.addFields([
+								{ name: '🔗 Verify NOW', value: 'Click the verification button in the server immediately to get your verification link.', inline: false },
+								{ name: '⏰ Time Remaining', value: 'Less than 24 hours before automatic removal', inline: false },
+								{ name: '❓ Need Help?', value: 'Contact server moderators if you\\'re having trouble with verification.', inline: false },
+							])
+							.setFooter({ text: `${guild.name} • Final Warning`, iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
+			kickMessage: {
+				content: (member, guild) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#992D22')
+							.setTitle('👋 Removed from Server')
+							.setDescription(`Hello ${member.user.username},\\n\\nYou have been removed from **${guild.name}** because you did not complete verification within the required 4-day period.`)
+							.addFields([
+								{ name: '🔄 Want to rejoin?', value: 'You can rejoin the server anytime, but you\\'ll need to complete verification within 4 days.', inline: false },
+								{ name: '❓ Questions?', value: 'Contact server moderators if you have any questions about this policy.', inline: false },
+							])
+							.setFooter({ text: `${guild.name} • Account Removed`, iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
+			success: {
+				content: (member, guild) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#27ae60')
+							.setTitle('✅ Verification Complete!')
+							.setDescription(`Welcome to **${guild.name}**! Your account has been successfully verified.`)
+							.addFields([
+								{ name: '🎉 Access Granted', value: 'You now have full access to all server channels and features.', inline: false },
+								{ name: '📝 Server Rules', value: 'Please make sure to read the server rules and guidelines.', inline: false },
+							])
+							.setFooter({ text: `${guild.name} • Welcome to the community!`, iconURL: guild.iconURL() })
+							.setTimestamp(),
+					],
+				}),
+			},
+		},
+	},
+	
+	// Cron-based automation (time-based modes)
+	cron: {
+		enabled: false, // Enable for servers that need time-based automation
+		timezone: 'Europe/Warsaw',
+		minimumOnlineMembers: 10, // Minimum members online to execute cron jobs
+		schedules: {
+			// Day mode - 8:00 AM
+			dayMode: {
+				cron: '0 8 * * *',
+				enabled: true,
+				name: 'Server Name・😊',
+				banner: 'day-banner.jpg', // Place banners in appropriate directory
+				message: 'Good morning! Have a wonderful day! ☀️',
+				rateLimits: {
+					[channels.general]: 0, // No rate limit for general chat during day
+				},
+			},
+			// Night mode - 10:00 PM
+			nightMode: {
+				cron: '0 22 * * *',
+				enabled: true,
+				name: 'Server Name・😴',
+				banner: 'night-banner.jpg',
+				message: 'Good night! Sweet dreams! 🌙',
+				rateLimits: {
+					[channels.general]: 30, // 30 second rate limit during night
+				},
+			},
+		},
+	},
+	
+	// Feature flags - enable/disable bot features per server
+	features: {
+		// Core features
+		isDatingServer: false, // Enable for dating/relationship servers
+		timeBasedModes: false, // Enable cron-based day/night modes
+		papajMode: false, // Special mode for specific servers
+		
+		// AI features
+		cleverBot: {
+			enabled: false,
+			channelId: channels.general,
+		},
+		
+		// Additional feature flags
+		customFeature: false,
+		apiServer: false, // For API documentation servers
+		techSupport: false, // For IT support servers
+	},
+};

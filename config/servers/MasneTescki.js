@@ -12,13 +12,13 @@ const channels = {
 };
 
 const roles = {
-	unverified: '1411308251143733290',
-	verified: '1411308185889017896',
+	verified: '1411972451163963412',
+	unverified: '1411972733578903592',
 };
 
 module.exports = {
 	id: '943910440520527873',
-	environment: 'development',
+	dev: true,
 
 	botTrapChannelId: null,
 	automodChannelId: '1188578816310906890',
@@ -30,17 +30,17 @@ module.exports = {
 		members: {
 			enabled: true,
 			channelId: '1296966242439266377',
-			name: '👥・Members: {count} {arrow}',
+			name: (count, arrow) => `👥・Members: ${count} ${arrow || ''}`,
 		},
 		online: {
 			enabled: true,
 			channelId: '1305027263997415485',
-			name: '🌍・Online: ${count}',
+			name: count => `🌍・Online: ${count}`,
 		},
 		newest: {
 			enabled: true,
 			channelId: '1305020387104395365',
-			name: '🆕・New: {user}',
+			name: user => `🆕・New: ${user}`,
 		},
 	},
 
@@ -125,18 +125,12 @@ module.exports = {
 		enabled: true,
 		timezone: 'Europe/Warsaw',
 		minimumOnlineMembers: 0,
-		banners: {
-			day: ['cat-love-you.gif', 'happy-senko.gif'],
-			afternoon: ['cat_and_fish.jpg'],
-			night: ['cat_boat.jpg', 'sleepy-fox_1.gif'],
-			papaj: 'papiezowa.gif',
-		},
 		schedules: {
 			day: {
 				enabled: true,
 				time: '0 6 * * *',
 				name: 'Dev Server・🌅',
-				randomBanner: true,
+				banners: ['cat-love-you.gif', 'happy-senko.gif'],
 				messageChannel: channels.generaly,
 				message: '☀️ **DEV: Day mode activated** - Testing time-based modes!',
 				rateLimits: {},
@@ -145,7 +139,7 @@ module.exports = {
 				enabled: true,
 				time: '0 22 * * *',
 				name: 'Dev Server・🌙',
-				randomBanner: true,
+				banners: ['cat_boat.jpg', 'sleepy-fox_1.gif'],
 				messageChannel: channels.generaly,
 				message: '🌙 **DEV: Night mode activated** - Testing night features!',
 				rateLimits: {},
@@ -153,13 +147,14 @@ module.exports = {
 		},
 	},
 
-	reactions: {
-		pokazRyjek: {
+	reactions: [
+		{
+			name: 'photo-reactions',
+			enabled: true,
 			channels: [channels.pokazRyjek],
-			requiresAttachment: true,
 			emojis: ['😍', '😐', '🤢'],
-			createThread: true,
-			threadConfig: {
+			thread: {
+				enabled: true,
 				nameTemplate: author => `${author.globalName || author.username}: Komentarze`,
 				autoArchiveDuration: 24 * 60, // 1 day
 				reason: author => `Zdjęcie użytkownika ${author.tag} (${author.id}).`,
@@ -173,14 +168,17 @@ module.exports = {
 					],
 				},
 			},
-			errorMessage: 'Na tym kanale możesz publikować tylko zdjęcia! 📸',
+			validation: {
+				onlyImages: { message: 'Na tym kanale możesz udostępniać tylko zdjęcia! 📸' },
+			},
 		},
-		przedstawSie: {
+		{
+			name: 'intro-reactions',
+			enabled: true,
 			channels: [channels.przedstawSie],
-			minLength: 20, // Shorter for testing
 			emojis: ['❤️'],
-			createThread: true,
-			threadConfig: {
+			thread: {
+				enabled: true,
 				nameTemplate: author => `${author.globalName || author.username}: Komentarze`,
 				autoArchiveDuration: 24 * 60, // 1 day
 				reason: author => `Przedstawienie się użytkownika ${author.tag} (${author.id}).`,
@@ -194,14 +192,17 @@ module.exports = {
 					],
 				},
 			},
-			errorMessage: (minLength) => `Twoje przedstawienie się jest za krótkie! Napisz co najmniej ${minLength} znaków, aby inni mogli Cię lepiej poznać. ✍️`,
+			validation: {
+				textLength: { min: 20, message: minLength => `Twoje przedstawienie się jest za krótkie! Napisz co najmniej ${minLength} znaków, aby inni mogli Cię lepiej poznać. ✍️` },
+			},
 		},
-		waszeZwierzaki: {
+		{
+			name: 'pet-reactions',
+			enabled: true,
 			channels: [channels.waszeZwierzaki],
-			requiresAttachment: true,
 			emojis: ['🐾', '❤️', '😍'],
-			createThread: true,
-			threadConfig: {
+			thread: {
+				enabled: true,
 				nameTemplate: author => `${author.globalName || author.username}: O zwierzaku`,
 				autoArchiveDuration: 24 * 60, // 1 day
 				reason: author => `Zdjęcie zwierzaka użytkownika ${author.tag} (${author.id}).`,
@@ -215,19 +216,27 @@ module.exports = {
 					],
 				},
 			},
-			errorMessage: 'Na tym kanale dzielimy się zdjęciami naszych zwierzątek! 🐾📸',
+			validation: {
+				onlyImages: { message: 'Na tym kanale dzielimy się zdjęciami naszych zwierzątek! 🐾📸' },
+			},
 		},
-		pokazPulpit: {
+		{
+			name: 'desktop-reactions',
+			enabled: true,
 			channels: [channels.pokazPulpit],
-			requiresAttachment: true,
 			emojis: ['👍', '👎'],
-			errorMessage: 'Na tym kanale pokazujemy screenshoty naszych pulpitów! 💻📸',
+			thread: { enabled: false },
+			validation: {
+				onlyImages: { message: 'Na tym kanale pokazujemy screenshoty naszych pulpitów! 💻📸' },
+			},
 		},
-		propozycje: {
+		{
+			name: 'suggestion-reactions',
+			enabled: true,
 			channels: [channels.propozycje],
 			emojis: ['👍', '💭', '👎'],
-			createThread: true,
-			threadConfig: {
+			thread: {
+				enabled: true,
 				nameTemplate: author => `${author.globalName || author.username}: Dyskusja`,
 				autoArchiveDuration: 3 * 24 * 60, // 3 days
 				reason: author => `Propozycja użytkownika ${author.tag} (${author.id}).`,
@@ -241,14 +250,17 @@ module.exports = {
 					],
 				},
 			},
+			validation: {},
 		},
-		likeDislike: {
-			channels: [
-				channels.memy,
-			],
+		{
+			name: 'meme-reactions',
+			enabled: true,
+			channels: [channels.memy],
 			emojis: ['👍', '👎'],
+			thread: { enabled: false },
+			validation: {},
 		},
-	},
+	],
 
 	verification: {
 		enabled: true,

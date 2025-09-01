@@ -25,12 +25,12 @@ module.exports = {
 						members: guild.memberCount,
 						cron: config.cronConfig?.enabled || false,
 						dating: config.isDatingServer || false,
-						env: config.config.environment || 'production',
+						env: config.config.dev ? 'development' : 'production',
 					});
 				} else {
 					missingServers.push({
 						id: guildId,
-						env: config.config.environment || 'production',
+						env: config.config.dev ? 'development' : 'production',
 					});
 				}
 			});

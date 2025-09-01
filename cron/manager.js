@@ -18,19 +18,31 @@ class CronManager {
 			return existsSync(fullPath) ? readFileSync(fullPath) : null;
 		};
 
-		const loadBannersByType = (type, files) =>
-			Array.isArray(files)
-				? files.map(file => loadBanner(`${type}/${file}`)).filter(Boolean)
-				: loadBanner(files);
+		const loadBannersByFiles = files => {
+			if (!Array.isArray(files)) return null;
+			return files.map(filename => {
+				// Try different paths
+				let banner = loadBanner(`day/${filename}`);
+				if (!banner) banner = loadBanner(`night/${filename}`);
+				if (!banner) banner = loadBanner(filename);
+				return banner;
+			}).filter(Boolean);
+		};
 
 		this.client.guilds.cache.forEach(guild => {
 			const config = guilds.getServerConfig(guild.id);
 			if (config?.cronConfig?.enabled) {
-				const { banners } = config.cronConfig;
-				Object.entries(banners).forEach(([type, files]) => {
-					this.bannerCache[type] = type === 'papaj'
-						? loadBanner(files)
-						: loadBannersByType(type, files);
+				const { schedules } = config.cronConfig;
+				// Cache banners from all schedules
+				Object.entries(schedules).forEach(([scheduleName, schedule]) => {
+					if (schedule.banners) {
+						const banners = loadBannersByFiles(schedule.banners);
+						if (banners && banners.length > 0) {
+							if (!this.bannerCache[scheduleName]) {
+								this.bannerCache[scheduleName] = banners;
+							}
+						}
+					}
 				});
 			}
 		});
@@ -65,12 +77,13 @@ class CronManager {
 
 			const editOptions = { name: schedule.name, reason: `Automated ${scheduleName} activation` };
 
-			if (schedule.randomBanner) {
-				const banner = this.getRandomBanner(schedule.bannerType || scheduleName.replace(/Start|End/, ''));
-				if (banner) editOptions.banner = banner;
-			} else if (scheduleName === 'papajStart') {
-				const banner = this.getRandomBanner('papaj');
-				if (banner) editOptions.banner = banner;
+			// Handle banners from schedule config
+			if (schedule.banners && Array.isArray(schedule.banners)) {
+				const banners = this.bannerCache[scheduleName] || [];
+				if (banners.length > 0) {
+					const randomBanner = banners[Math.floor(Math.random() * banners.length)];
+					if (randomBanner) editOptions.banner = randomBanner;
+				}
 			}
 
 			await guild.edit(editOptions);
@@ -85,15 +98,7 @@ class CronManager {
 			if (schedule.messageChannel && schedule.message) {
 				const messageChannel = guild.channels.cache.get(schedule.messageChannel);
 				if (messageChannel) {
-					let message = schedule.message;
-					const roleMatches = message.match(/\{role\.(\w+)\}/g);
-					if (roleMatches) {
-						roleMatches.forEach(match => {
-							const roleName = match.replace(/\{role\.|\}/g, '');
-							const roleId = config.roles?.[roleName];
-							if (roleId) message = message.replace(match, roleId);
-						});
-					}
+					const message = schedule.message;
 					await messageChannel.send(message);
 				}
 			}
@@ -105,19 +110,30 @@ class CronManager {
 	}
 
 	initialize() {
-		console.log('Cron   » Initializing dynamic scheduled tasks...');
-
 		if (!this.client.guilds.cache.size) {
 			return console.warn('Cron   » No guilds in cache, waiting for ready event...');
 		}
 
-		console.log(`Cron   » Found ${this.client.guilds.cache.size} guilds in cache`);
-
-		this.client.guilds.cache.forEach(guild => {
-			console.log(`Cron   » Checking guild: ${guild.name} (${guild.id})`);
-
-			const config = guilds.getServerConfig(guild.id);
+		// Check all configured servers first
+		const allConfigs = guilds.getAllServerConfigs();
+		allConfigs.forEach(({ guildId, config }) => {
 			if (!config?.cronConfig?.enabled) return;
+
+			// In development mode, only process development servers
+			if (process.env.NODE_ENV === 'development' && !config.config.dev) {
+				return;
+			}
+
+			// In production mode, skip development servers
+			if (process.env.NODE_ENV !== 'development' && config.config.dev) {
+				return;
+			}
+
+			const guild = this.client.guilds.cache.get(guildId);
+			if (!guild) {
+				console.error(`Cron   » ERROR: Bot is not in guild ${guildId} but cron is enabled in config!`);
+				return;
+			}
 
 			const { schedules, timezone } = config.cronConfig;
 			console.log(`Cron   » Found ${Object.keys(schedules).length} schedules for ${guild.name}`);
@@ -136,7 +152,7 @@ class CronManager {
 				);
 
 				this.jobs.push({ guildId: guild.id, scheduleName, job });
-				console.log(`Cron   » Scheduled ${scheduleName} for ${guild.name} at ${schedule.time}`);
+				console.log(`Cron   » Scheduled '${scheduleName}' for '${guild.name}' at '${schedule.time}'`);
 			});
 		});
 

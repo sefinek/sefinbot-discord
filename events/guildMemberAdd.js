@@ -42,16 +42,16 @@ module.exports = {
 				const memberCountChannel = member.guild.channels.cache.get(serverCfg.voiceChannels.members.channelId);
 				if (memberCountChannel) {
 					const updatedMemberCount = member.guild.members.cache.filter(m => !m.user.bot).size;
-					const channelNameWithArrow = serverCfg.voiceChannels.members.name
-						.replace('{count}', updatedMemberCount)
-						.replace('{arrow}', '⬆');
+					const channelNameWithArrow = typeof serverCfg.voiceChannels.members.name === 'function'
+						? serverCfg.voiceChannels.members.name(updatedMemberCount, '⬆')
+						: serverCfg.voiceChannels.members.name;
 					await memberCountChannel.setName(channelNameWithArrow);
 					setTimeout(async () => {
 						try {
 							const currentCount = member.guild.members.cache.filter(m => !m.user.bot).size;
-							const channelNameNoArrow = serverCfg.voiceChannels.members.name
-								.replace('{count}', currentCount)
-								.replace('{arrow}', '');
+							const channelNameNoArrow = typeof serverCfg.voiceChannels.members.name === 'function'
+								? serverCfg.voiceChannels.members.name(currentCount, '')
+								: serverCfg.voiceChannels.members.name;
 							await memberCountChannel.setName(channelNameNoArrow);
 						} catch (err) {
 							console.warn('EventA » Failed to reset member count channel name:', err.message);
@@ -62,7 +62,12 @@ module.exports = {
 
 			if (serverCfg.voiceChannels?.newest?.enabled && serverCfg.voiceChannels?.newest?.channelId) {
 				const newMemberChannel = member.guild.channels.cache.get(serverCfg.voiceChannels.newest.channelId);
-				if (newMemberChannel) await newMemberChannel.setName(`${serverCfg.voiceChannels.newest.name.replace('{user}', member.user.username)}`);
+				if (newMemberChannel) {
+			const channelName = typeof serverCfg.voiceChannels.newest.name === 'function'
+				? serverCfg.voiceChannels.newest.name(member.user.username)
+				: serverCfg.voiceChannels.newest.name;
+			await newMemberChannel.setName(channelName);
+		}
 			}
 		} catch (err) {
 			console.warn('EventA » Failed to update voice channels when a new user joined the server:', err);

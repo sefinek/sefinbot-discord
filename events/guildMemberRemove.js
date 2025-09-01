@@ -26,17 +26,17 @@ module.exports = {
 			if (vcMembersChannel) {
 				try {
 					const updatedCount = member.guild.members.cache.filter(m => !m.user.bot).size;
-					const channelNameWithArrow = serverCfg.voiceChannels.members.name
-						.replace('{count}', updatedCount)
-						.replace('{arrow}', '⬇');
+					const channelNameWithArrow = typeof serverCfg.voiceChannels.members.name === 'function'
+						? serverCfg.voiceChannels.members.name(updatedCount, '⬇')
+						: serverCfg.voiceChannels.members.name;
 					await vcMembersChannel.setName(channelNameWithArrow);
 
 					setTimeout(async () => {
 						try {
 							const currentCount = member.guild.members.cache.filter(m => !m.user.bot).size;
-							const channelNameNoArrow = serverCfg.voiceChannels.members.name
-								.replace('{count}', currentCount)
-								.replace('{arrow}', '');
+							const channelNameNoArrow = typeof serverCfg.voiceChannels.members.name === 'function'
+								? serverCfg.voiceChannels.members.name(currentCount, '')
+								: serverCfg.voiceChannels.members.name;
 							await vcMembersChannel.setName(channelNameNoArrow);
 						} catch (err) {
 							console.warn('EventR » Failed to reset member count channel name:', err.message);

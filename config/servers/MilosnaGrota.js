@@ -44,12 +44,13 @@ const roles = {
 	realizatorPartnerstw: '1127476600598954094',
 	pingPapiezowa: '1121997761311678474',
 	pingDeadchat: '1121997762578370620',
-	randkowicz: '1290999261802004614',
 	weryfikacja: '1290999297726480475',
+	randkowicz: '1290999261802004614',
 };
 
 module.exports = {
 	id: '1052610210189037598',
+	dev: false,
 
 	botTrapChannelId: null,
 	automodChannelId: channels.automod,
@@ -61,22 +62,22 @@ module.exports = {
 		members: {
 			enabled: true,
 			channelId: '1122001070877581373',
-			name: '👥・Osoby: {count} {arrow}',
+			name: (count, arrow) => `👥・Osoby: ${count} ${arrow || ''}`,
 		},
 		online: {
 			enabled: true,
 			channelId: '1122001107577737286',
-			name: '🌍・Online: {count}',
+			name: count => `🌍・Online: ${count}`,
 		},
 		recordOnline: {
 			enabled: true,
 			channelId: '1122001134756831242',
-			name: '📊・Rekord: {count}',
+			name: count => `📊・Rekord: ${count}`,
 		},
 		newest: {
 			enabled: true,
 			channelId: '1122001176444010568',
-			name: '👋・Nowy: {user}',
+			name: user => `👋・Nowy: ${user}`,
 		},
 	},
 
@@ -199,7 +200,7 @@ module.exports = {
 					],
 				},
 			},
-			errorMessage: (minLength) => `Twoje przedstawienie się jest za krótkie! Napisz co najmniej ${minLength} znaków, aby inni mogli Cię lepiej poznać. ✍️`,
+			errorMessage: minLength => `Twoje przedstawienie się jest za krótkie! Napisz co najmniej ${minLength} znaków, aby inni mogli Cię lepiej poznać. ✍️`,
 		},
 		waszeZwierzaki: {
 			channels: [channels.waszeZwierzaki],
@@ -248,18 +249,12 @@ module.exports = {
 		enabled: true,
 		timezone: 'Europe/Warsaw',
 		minimumOnlineMembers: 9,
-		banners: {
-			day: ['cat-love-you.gif', 'cat_and_fish.jpg', 'cat_purple.jpg', 'falling-into-snow-fox.gif', 'happy-senko.gif', 'senko-hearts.gif'],
-			afternoon: ['cat_and_fish.jpg', 'cat_purple.jpg'],
-			night: ['cat_boat.jpg', 'cat_cute.jpg', 'girl.gif', 'senko.gif', 'sleepy-fox_1.gif', 'sleepy-fox_2.gif'],
-			papaj: 'papiezowa.gif',
-		},
 		schedules: {
 			day: {
 				enabled: true,
 				time: '30 6 * * *',
 				name: 'Miłosna Grota・😻',
-				randomBanner: true,
+				banners: ['cat-love-you.gif', 'cat_and_fish.jpg', 'cat_purple.jpg', 'falling-into-snow-fox.gif', 'happy-senko.gif', 'senko-hearts.gif'],
 				messageChannel: channels.generaly,
 				message: '☀️ » **Tryb nocny został wyłączony**\nDzień dobry moi drodzy! Miłego dnia życzę! 😊',
 				rateLimits: {
@@ -284,7 +279,7 @@ module.exports = {
 				enabled: true,
 				time: '30 17 * * *',
 				name: 'Miłosna Grota・😽',
-				randomBanner: true,
+				banners: ['cat_and_fish.jpg', 'cat_purple.jpg'],
 				messageChannel: null,
 				message: null,
 				rateLimits: {},
@@ -293,7 +288,7 @@ module.exports = {
 				enabled: true,
 				time: '30 23 * * *',
 				name: 'Miłosna Grota・😴',
-				randomBanner: true,
+				banners: ['cat_boat.jpg', 'cat_cute.jpg', 'girl.gif', 'senko.gif', 'sleepy-fox_1.gif', 'sleepy-fox_2.gif'],
 				messageChannel: channels.generaly,
 				message: '🌙 » **Tryb nocny został włączony**\nMiłej nocki moi mili oraz spokojnego pobytu na serwerze! 😴',
 				rateLimits: {
@@ -318,7 +313,7 @@ module.exports = {
 				enabled: true,
 				time: '37 21 * * *',
 				name: 'Miłosna Grota・🙏',
-				randomBanner: false,
+				banners: ['papiezowa.gif'],
 				messageChannel: channels.generaly,
 				message: `🙏 **GODZINA PAPIEŻOWA** 🙏\nWybiła godzina <@&${roles.pingPapiezowa}>!\n\n> https://www.youtube.com/watch?v=1vZ28SAgzKc`,
 				rateLimits: {},
@@ -328,8 +323,7 @@ module.exports = {
 				enabled: true,
 				time: '38 21 * * *',
 				name: 'Miłosna Grota・😴',
-				randomBanner: true,
-				bannerType: 'night',
+				banners: ['cat_boat.jpg', 'cat_cute.jpg', 'girl.gif', 'senko.gif', 'sleepy-fox_1.gif', 'sleepy-fox_2.gif'],
 				messageChannel: null,
 				message: null,
 				rateLimits: {},
