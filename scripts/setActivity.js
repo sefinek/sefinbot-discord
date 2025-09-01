@@ -1,8 +1,10 @@
+const { ActivityType } = require('discord.js');
+
 const activities = [
-	{ name: 'meow~~? 🐈', type: 0, status: 'online' },
-	{ name: '🎶🎵🎵🎶', type: 2, status: 'idle' },
-	{ name: 'https://sefinek.net', type: 3, status: 'dnd' },
-	{ name: 'you', type: 3, status: 'dnd' },
+	{ name: 'meow~~? 🐈', type: ActivityType.Playing, status: 'online' },
+	{ name: '🎶🎵🎵🎶', type: ActivityType.Listening, status: 'idle' },
+	{ name: 'https://sefinek.net', type: ActivityType.Watching, status: 'dnd' },
+	{ name: 'you', type: ActivityType.Watching, status: 'dnd' },
 ];
 
 module.exports = client => {
@@ -21,6 +23,6 @@ module.exports = client => {
 		previousActivityIndex = newActivityIndex;
 	};
 
-	setInterval(updateActivityAndStatus, 3 * 60 * 1000); // 3 minutes
+	setInterval(updateActivityAndStatus, 5 * 60 * 1000); // 5 minutes
 	updateActivityAndStatus();
 };

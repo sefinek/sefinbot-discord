@@ -1,9 +1,19 @@
 require('node:process').loadEnvFile();
-const { Client, Events, Collection } = require('discord.js');
+const { Client, Events, Collection, GatewayIntentBits } = require('discord.js');
 const setActivity = require('./scripts/setActivity.js');
 
 // Init client and collections
-const client = new Client({ intents: [1, 2, 4, 256, 512, 4096, 32768 ] });
+const client = new Client({
+	intents: [
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMembers,
+		GatewayIntentBits.GuildModeration,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.MessageContent,
+		GatewayIntentBits.GuildMessageReactions,
+		GatewayIntentBits.GuildPresences,
+	],
+});
 client.commands = new Collection();
 client.interactions = new Collection();
 client.cooldowns = new Collection();

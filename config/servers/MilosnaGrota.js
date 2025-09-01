@@ -52,7 +52,6 @@ module.exports = {
 	id: '1052610210189037598',
 	dev: false,
 
-	botTrapChannelId: null,
 	automodChannelId: channels.automod,
 
 	channels,
@@ -456,9 +455,7 @@ module.exports = {
 		isDatingServer: true,
 		timeBasedModes: true,
 		papajMode: true,
-		cleverBot: {
-			enabled: true,
-			channelId: channels.cleverBot,
-		},
+		cleverBot: channels.cleverBot,
+		botTrap: null,
 	},
 };

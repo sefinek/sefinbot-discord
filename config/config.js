@@ -1,7 +1,9 @@
+const { ActivityType } = require('discord.js');
+
 module.exports = {
 	presence: {
 		name: 'idk what ^-^',
-		type: 3,
+		type: ActivityType.Watching,
 		status: 'dnd',
 	},
 

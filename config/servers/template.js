@@ -7,6 +7,7 @@ const channels = {
 	general: 'CHANNEL_ID_HERE',
 	lobby: 'CHANNEL_ID_HERE',
 	automod: 'CHANNEL_ID_HERE',
+	botTrap: 'CHANNEL_ID_HERE',
 
 	// Support channels
 	support1: 'CHANNEL_ID_HERE',
@@ -54,8 +55,7 @@ module.exports = {
 	// Optional: Development environment flag (defaults to false/production)
 	dev: false,
 
-	// Legacy fields for backward compatibility
-	botTrapChannelId: channels.botTrap || null,
+	// Automod logging channel
 	automodChannelId: channels.automod,
 
 	// Organized channel and role references
@@ -374,14 +374,13 @@ module.exports = {
 		timeBasedModes: false, // Enable cron-based day/night modes
 		papajMode: false, // Special mode for specific servers
 
-		// AI features
-		cleverBot: {
-			enabled: false,
-			channelId: channels.general,
-		},
+		// Chat
+		cleverBot: channels.general,
+
+		// Bot trap feature
+		botTrap: channels.botTrap,
 
 		// Additional feature flags
-		customFeature: false,
 		apiServer: false, // For API documentation servers
 		techSupport: false, // For IT support servers
 	},
