@@ -7,18 +7,18 @@ const channels = {
 	general: 'CHANNEL_ID_HERE',
 	lobby: 'CHANNEL_ID_HERE',
 	automod: 'CHANNEL_ID_HERE',
-	
+
 	// Support channels
 	support1: 'CHANNEL_ID_HERE',
 	support2: 'CHANNEL_ID_HERE',
-	
+
 	// Feature-specific channels
 	announcements: 'CHANNEL_ID_HERE',
 	changelogs: 'CHANNEL_ID_HERE',
-	
+
 	// Photo/media channels
 	photoChannel: 'CHANNEL_ID_HERE',
-	
+
 	// Dating server specific (if applicable)
 	pokazRyjek: 'CHANNEL_ID_HERE',
 	introductions: 'CHANNEL_ID_HERE',
@@ -29,12 +29,12 @@ const roles = {
 	// Order: verified first, then unverified (as per user preference)
 	verified: 'ROLE_ID_HERE',
 	unverified: 'ROLE_ID_HERE',
-	
+
 	// Additional roles
 	admin: 'ROLE_ID_HERE',
 	moderator: 'ROLE_ID_HERE',
 	member: 'ROLE_ID_HERE',
-	
+
 	// Dating server specific (if applicable)
 	male: 'ROLE_ID_HERE',
 	female: 'ROLE_ID_HERE',
@@ -50,18 +50,18 @@ const roles = {
 module.exports = {
 	// Required: Discord server ID - must match exactly
 	id: 'YOUR_DISCORD_SERVER_ID_HERE',
-	
+
 	// Optional: Development environment flag (defaults to false/production)
 	dev: false,
-	
+
 	// Legacy fields for backward compatibility
 	botTrapChannelId: channels.botTrap || null,
 	automodChannelId: channels.automod,
-	
+
 	// Organized channel and role references
 	channels,
 	roles,
-	
+
 	// Voice channel statistics with function-based names (not template strings)
 	voiceChannels: {
 		members: {
@@ -80,7 +80,7 @@ module.exports = {
 			name: user => `🆕・New: ${user}`,
 		},
 	},
-	
+
 	// Event logging configuration
 	events: {
 		welcome: {
@@ -138,7 +138,7 @@ module.exports = {
 			},
 		},
 	},
-	
+
 	// Flexible Reactions System - Array-based configuration
 	reactions: [
 		// Example: Photo sharing with thread creation
@@ -166,7 +166,7 @@ module.exports = {
 				onlyImages: { message: 'This channel is for photos only! 📸' },
 			},
 		},
-		
+
 		// Example: Introduction channel with text length validation
 		{
 			name: 'introductions',
@@ -189,13 +189,13 @@ module.exports = {
 				},
 			},
 			validation: {
-				textLength: { 
-					min: 50, 
+				textLength: {
+					min: 50,
 					message: minLength => `Please write at least ${minLength} characters so we can get to know you better! ✍️`,
 				},
 			},
 		},
-		
+
 		// Example: Simple voting reactions
 		{
 			name: 'voting-reactions',
@@ -205,7 +205,7 @@ module.exports = {
 			thread: { enabled: false },
 			validation: {}, // No validation rules
 		},
-		
+
 		// Example: Admin approval system
 		{
 			name: 'admin-approval',
@@ -216,7 +216,7 @@ module.exports = {
 			validation: {},
 		},
 	],
-	
+
 	// Verification system configuration (hCaptcha-based)
 	verification: {
 		enabled: true,
@@ -277,7 +277,7 @@ module.exports = {
 							.setDescription(`Hello ${member.user.username}!\\n\\nYour verification link for **${guild.name}** has expired. You need to verify your account to continue accessing the server.`)
 							.addFields([
 								{ name: '🔗 How to verify', value: 'Click the verification button in the server to get a new verification link.', inline: false },
-								{ name: '⏰ Important', value: 'If you don\\'t verify within 4 days of joining, you will be removed from the server.', inline: false },
+								{ name: '⏰ Important', value: 'If you don\'t verify within 4 days of joining, you will be removed from the server.', inline: false },
 							])
 							.setFooter({ text: `${guild.name} • Verification Required`, iconURL: guild.iconURL() })
 							.setTimestamp(),
@@ -294,7 +294,7 @@ module.exports = {
 							.addFields([
 								{ name: '🔗 Verify NOW', value: 'Click the verification button in the server immediately to get your verification link.', inline: false },
 								{ name: '⏰ Time Remaining', value: 'Less than 24 hours before automatic removal', inline: false },
-								{ name: '❓ Need Help?', value: 'Contact server moderators if you\\'re having trouble with verification.', inline: false },
+								{ name: '❓ Need Help?', value: 'Contact server moderators if you\'re having trouble with verification.', inline: false },
 							])
 							.setFooter({ text: `${guild.name} • Final Warning`, iconURL: guild.iconURL() })
 							.setTimestamp(),
@@ -309,7 +309,7 @@ module.exports = {
 							.setTitle('👋 Removed from Server')
 							.setDescription(`Hello ${member.user.username},\\n\\nYou have been removed from **${guild.name}** because you did not complete verification within the required 4-day period.`)
 							.addFields([
-								{ name: '🔄 Want to rejoin?', value: 'You can rejoin the server anytime, but you\\'ll need to complete verification within 4 days.', inline: false },
+								{ name: '🔄 Want to rejoin?', value: 'You can rejoin the server anytime, but you\'ll need to complete verification within 4 days.', inline: false },
 								{ name: '❓ Questions?', value: 'Contact server moderators if you have any questions about this policy.', inline: false },
 							])
 							.setFooter({ text: `${guild.name} • Account Removed`, iconURL: guild.iconURL() })
@@ -335,7 +335,7 @@ module.exports = {
 			},
 		},
 	},
-	
+
 	// Cron-based automation (time-based modes)
 	cron: {
 		enabled: false, // Enable for servers that need time-based automation
@@ -366,20 +366,20 @@ module.exports = {
 			},
 		},
 	},
-	
+
 	// Feature flags - enable/disable bot features per server
 	features: {
 		// Core features
 		isDatingServer: false, // Enable for dating/relationship servers
 		timeBasedModes: false, // Enable cron-based day/night modes
 		papajMode: false, // Special mode for specific servers
-		
+
 		// AI features
 		cleverBot: {
 			enabled: false,
 			channelId: channels.general,
 		},
-		
+
 		// Additional feature flags
 		customFeature: false,
 		apiServer: false, // For API documentation servers
