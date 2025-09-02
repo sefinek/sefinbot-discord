@@ -356,16 +356,13 @@ module.exports = {
 				content: (guild, verificationUrl) => ({
 					embeds: [
 						new EmbedBuilder()
-							.setColor('#00D26A')
-							.setTitle('🔐 Weryfikacja Discord - Miłosna Grota')
-							.setDescription(`Aby uzyskać dostęp do **${guild.name}**, ukończ proces weryfikacji.`)
+							.setColor('#5865F2')
+							.setDescription(`Aby uzyskać dostęp do **${guild.name}**, ukończ proces weryfikacji. Zachowaj link w tajemnicy.`)
 							.addFields([
 								{ name: '🔗 Link weryfikacyjny', value: `[Kliknij tutaj aby się zweryfikować](${verificationUrl})`, inline: false },
 								{ name: '⏰ Wygasa za', value: '24 godziny', inline: true },
 								{ name: '🛡️ Bezpieczeństwo', value: 'Ukończ wyzwanie hCaptcha', inline: true },
-							])
-							.setFooter({ text: 'Zachowaj ten link w tajemnicy • Weryfikacja', iconURL: guild.iconURL() })
-							.setTimestamp(),
+							]),
 					],
 				}),
 			},
