@@ -120,8 +120,10 @@ module.exports = {
 		},
 	},
 
-	reactions: {
-		likeDislike: {
+	reactions: [
+		{
+			name: 'announcement-approval',
+			enabled: true,
 			channels: [
 				channels.announcementsPlus,
 				channels.earlyAccessPlus,
@@ -129,8 +131,10 @@ module.exports = {
 				channels.changelogs,
 			],
 			emojis: ['✅'],
+			thread: { enabled: false },
+			validation: {},
 		},
-	},
+	],
 
 	verification: {
 		enabled: true,

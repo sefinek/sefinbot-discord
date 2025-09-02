@@ -158,14 +158,14 @@ module.exports = {
 		},
 	},
 
-	// TODO: Old API, migrate to new one
-	reactions: {
-		pokazRyjek: {
+	reactions: [
+		{
+			name: 'photo-reactions',
+			enabled: true,
 			channels: [channels.pokazRyjek],
-			requiresAttachment: true,
 			emojis: ['😍', '😕', '❤️'],
-			createThread: true,
-			threadConfig: {
+			thread: {
+				enabled: true,
 				nameTemplate: author => `${author.globalName || author.username}: Komentarze`,
 				autoArchiveDuration: 3 * 24 * 60, // 3 days
 				reason: author => `Zdjęcie użytkownika ${author.tag} (${author.id}).`,
@@ -179,14 +179,17 @@ module.exports = {
 					],
 				},
 			},
-			errorMessage: 'Na tym kanale możesz publikować tylko zdjęcia! 📸',
+			validation: {
+				onlyImages: { message: 'Na tym kanale możesz publikować tylko zdjęcia! 📸' },
+			},
 		},
-		przedstawSie: {
+		{
+			name: 'intro-reactions',
+			enabled: true,
 			channels: [channels.przedstawSie],
-			minLength: 68,
 			emojis: ['❤️'],
-			createThread: true,
-			threadConfig: {
+			thread: {
+				enabled: true,
 				nameTemplate: author => `${author.globalName || author.username}: Komentarze`,
 				autoArchiveDuration: 3 * 24 * 60, // 3 days
 				reason: author => `Przedstawienie się użytkownika ${author.tag} (${author.id}).`,
@@ -200,14 +203,17 @@ module.exports = {
 					],
 				},
 			},
-			errorMessage: minLength => `Twoje przedstawienie się jest za krótkie! Napisz co najmniej ${minLength} znaków, aby inni mogli Cię lepiej poznać. ✍️`,
+			validation: {
+				textLength: { min: 68, message: minLength => `Twoje przedstawienie się jest za krótkie! Napisz co najmniej ${minLength} znaków, aby inni mogli Cię lepiej poznać. ✍️` },
+			},
 		},
-		waszeZwierzaki: {
+		{
+			name: 'pet-reactions',
+			enabled: true,
 			channels: [channels.waszeZwierzaki],
-			requiresAttachment: true,
 			emojis: ['🐾', '❤️', '😍'],
-			createThread: true,
-			threadConfig: {
+			thread: {
+				enabled: true,
 				nameTemplate: author => `${author.globalName || author.username}: O zwierzaku`,
 				autoArchiveDuration: 3 * 24 * 60, // 3 days
 				reason: author => `Zdjęcie zwierzaka użytkownika ${author.tag} (${author.id}).`,
@@ -221,29 +227,37 @@ module.exports = {
 					],
 				},
 			},
-			errorMessage: 'Na tym kanale dzielimy się zdjęciami naszych zwierzątek! 🐾📸',
+			validation: {
+				onlyImages: { message: 'Na tym kanale dzielimy się zdjęciami naszych zwierzątek! 🐾📸' },
+			},
 		},
-		pokazPulpit: {
+		{
+			name: 'desktop-reactions',
+			enabled: true,
 			channels: [channels.pokazPulpit],
-			requiresAttachment: true,
 			emojis: ['👍', '👎'],
-			errorMessage: 'Na tym kanale pokazujemy screenshots naszych pulpitów! 💻📸',
+			thread: { enabled: false },
+			validation: {
+				onlyImages: { message: 'Na tym kanale pokazujemy screenshots naszych pulpitów! 💻📸' },
+			},
 		},
-		likeDislike: {
-			channels: [
-				channels.propozycje,
-				channels.memy,
-			],
+		{
+			name: 'voting-reactions',
+			enabled: true,
+			channels: [channels.propozycje, channels.memy],
 			emojis: ['👍', '👎'],
+			thread: { enabled: false },
+			validation: {},
 		},
-		approve: {
-			channels: [
-				'1002327796468699220',
-				'1002327796468699226',
-			],
+		{
+			name: 'admin-approval',
+			enabled: true,
+			channels: ['1002327796468699220', '1002327796468699226'],
 			emojis: ['✅'],
+			thread: { enabled: false },
+			validation: {},
 		},
-	},
+	],
 
 	cron: {
 		enabled: true,

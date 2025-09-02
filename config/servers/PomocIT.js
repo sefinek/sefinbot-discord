@@ -95,15 +95,16 @@ module.exports = {
 		},
 	},
 
-	reactions: {
-		approve: {
-			channels: [
-				channels.support1,
-				channels.support2,
-			],
-			emoji: '✅',
+	reactions: [
+		{
+			name: 'support-approval',
+			enabled: true,
+			channels: [channels.support1, channels.support2],
+			emojis: ['✅'],
+			thread: { enabled: false },
+			validation: {},
 		},
-	},
+	],
 
 	verification: {
 		enabled: true,

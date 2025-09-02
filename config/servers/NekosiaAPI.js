@@ -77,15 +77,16 @@ module.exports = {
 		},
 	},
 
-	reactions: {
-		approve: {
-			channels: [
-				channels.api1,
-				channels.api2,
-			],
-			emoji: '👍',
+	reactions: [
+		{
+			name: 'api-approval',
+			enabled: true,
+			channels: [channels.api1, channels.api2],
+			emojis: ['👍'],
+			thread: { enabled: false },
+			validation: {},
 		},
-	},
+	],
 
 	verification: {
 		enabled: true,
