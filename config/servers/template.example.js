@@ -258,7 +258,7 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#27ae60')
-							.setAuthor({ name: '✅ Verification Complete!', iconURL: guild.iconURL() })
+							.setAuthor({ name: '✅ Verification Complete', iconURL: guild.iconURL() })
 							.setDescription(`Welcome to **${guild.name}**! Your account has been successfully verified.`)
 							.addFields([
 								{ name: '🎉 Access Granted', value: 'You now have full access to all server channels and features.', inline: false },

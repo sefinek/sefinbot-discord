@@ -414,7 +414,7 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#77B255')
-							.setAuthor({ name: '✅ Weryfikacja ukończona', iconURL: guild.iconURL() })
+							.setAuthor({ name: '✅ Weryfikacja ukończona pomyślnie', iconURL: guild.iconURL() })
 							.setDescription(`Witaj na **${guild.name}**! Twoje konto zostało pomyślnie zweryfikowane.`)
 							.addFields([
 								{ name: '🎉 Dostęp przyznany', value: 'Masz teraz pełny dostęp do wszystkich kanałów i funkcji serwera!', inline: false },

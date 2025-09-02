@@ -198,7 +198,7 @@ module.exports = {
 						new EmbedBuilder()
 							.setColor('#77B255')
 							.setAuthor({ name: '✅ Weryfikacja ukończona', iconURL: guild.iconURL() })
-							.setDescription(`Witaj na **${guild.name}**! Twoje konto zostało pomyślnie zweryfikowane.`)
+							.setDescription(`Witaj na **${guild.name}**! Twoje konto zostało pomyślnie zweryfikowane. Dziękujemy!`)
 							.addFields([
 								{ name: '🎉 Dostęp przyznany', value: 'Masz teraz pełny dostęp do wszystkich kanałów i funkcji serwera!', inline: false },
 								{ name: '📝 Zasady serwera', value: 'Upewnij się, że przeczytałeś zasady serwera i wytyczne dotyczące wsparcia technicznego.', inline: false },

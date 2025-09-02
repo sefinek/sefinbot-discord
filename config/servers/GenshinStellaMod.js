@@ -231,12 +231,7 @@ module.exports = {
 						new EmbedBuilder()
 							.setColor('#27ae60')
 							.setAuthor({ name: '✅ Stella Mod Verification Complete', iconURL: guild.iconURL() })
-							.setDescription(`Welcome to **${guild.name}**! Your account has been successfully verified.`)
-							.addFields([
-								{ name: '🎉 Access Granted', value: 'You now have full access to all Stella Mod channels and downloads.', inline: false },
-								{ name: '🎮 Get Started', value: 'Check out our mod downloads and join the community discussions!', inline: false },
-								{ name: '📝 Server Rules', value: 'Please make sure to read the server rules and modding guidelines.', inline: false },
-							]),
+							.setDescription(`Welcome to **${guild.name}**! Your account has been successfully verified.`),
 					],
 				}),
 			},
