@@ -130,16 +130,13 @@ module.exports = {
 		}
 
 		// Execute all handlers concurrently for better performance
-		const handlers = [
-			handleWelcomeMessage(member, serverCfg),
-			handleDirectMessage(member, serverCfg),
-			handleMemberCountChannel(member, serverCfg),
-			handleNewestMemberChannel(member, serverCfg),
-			handleVerification(member, serverCfg),
-		];
-
-		// Wait for all handlers to complete, but don't let one failure stop others
-		const results = await Promise.allSettled(handlers);
+		const results = await Promise.allSettled([
+			await handleWelcomeMessage(member, serverCfg),
+			await handleDirectMessage(member, serverCfg),
+			await handleMemberCountChannel(member, serverCfg),
+			await handleNewestMemberChannel(member, serverCfg),
+			await handleVerification(member, serverCfg),
+		]);
 
 		// Log any handler failures
 		results.forEach((result, index) => {
