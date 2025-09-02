@@ -221,12 +221,6 @@ module.exports = {
 		},
 	},
 
-	cron: {
-		enabled: false,
-		timezone: 'Europe/Warsaw',
-		minimumOnlineMembers: 0,
-		schedules: {},
-	},
 
 	features: {
 		isDatingServer: false,

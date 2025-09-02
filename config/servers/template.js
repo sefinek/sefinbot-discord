@@ -336,41 +336,40 @@ module.exports = {
 		},
 	},
 
-	// Cron-based automation (time-based modes)
+	// Cron-based automation (optional - only include if enabled)
 	cron: {
-		enabled: false, // Enable for servers that need time-based automation
+		enabled: true,
 		timezone: 'Europe/Warsaw',
-		minimumOnlineMembers: 10, // Minimum members online to execute cron jobs
+		minimumOnlineMembers: 10,
 		schedules: {
-			// Day mode - 8:00 AM
-			dayMode: {
-				cron: '0 8 * * *',
+			day: {
 				enabled: true,
+				time: '0 8 * * *',
 				name: 'Server Name・😊',
-				banner: 'day-banner.jpg', // Place banners in appropriate directory
+				banners: ['day-banner.jpg'],
+				messageChannel: channels.general,
 				message: 'Good morning! Have a wonderful day! ☀️',
 				rateLimits: {
-					[channels.general]: 0, // No rate limit for general chat during day
+					[channels.general]: 0,
 				},
 			},
-			// Night mode - 10:00 PM
-			nightMode: {
-				cron: '0 22 * * *',
+			night: {
 				enabled: true,
+				time: '0 22 * * *',
 				name: 'Server Name・😴',
-				banner: 'night-banner.jpg',
+				banners: ['night-banner.jpg'],
+				messageChannel: channels.general,
 				message: 'Good night! Sweet dreams! 🌙',
 				rateLimits: {
-					[channels.general]: 30, // 30 second rate limit during night
+					[channels.general]: 30,
 				},
 			},
 		},
 	},
 
-	// Feature flags - enable/disable bot features per server
 	features: {
-		isDatingServer: false, // Core features
-		cleverBot: channels.general, // Chatbot
-		botTrap: channels.botTrap, // Bot trap feature
+		isDatingServer: false,
+		cleverBot: channels.general,
+		botTrap: channels.botTrap,
 	},
 };

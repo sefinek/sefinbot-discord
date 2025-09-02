@@ -207,14 +207,6 @@ module.exports = {
 		},
 	},
 
-	cron: {
-		enabled: false,
-		timezone: 'Europe/Warsaw',
-		minimumOnlineMembers: 0,
-		schedules: {},
-	},
-
-	// Features
 	features: {
 		isDatingServer: false,
 		cleverBot: null,

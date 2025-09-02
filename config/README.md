@@ -132,11 +132,8 @@ module.exports = {
   // Feature flags
   features: {
     isDatingServer: false,
-    customFeature: true,
-    cleverBot: {
-      enabled: true,
-      channelId: 'channel_id',
-    },
+    cleverBot: 'channel_id',
+    botTrap: 'channel_id',
   },
 };
 ```
@@ -398,11 +395,8 @@ module.exports = {
   // Development-specific settings
   features: {
     isDatingServer: true,
-    developmentMode: true,
-    cleverBot: {
-      enabled: true,
-      channelId: 'channel_id',
-    },
+    cleverBot: 'channel_id',
+    botTrap: null,
   },
   
   // Voice channels with arrow support
