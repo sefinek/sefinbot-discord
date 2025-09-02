@@ -8,23 +8,16 @@ module.exports = {
 	cooldown: 5000,
 	async execute(client, msg) {
 		const serverConfig = getServerConfig(msg.guild.id);
-		if (!serverConfig || !serverConfig.verification?.enabled) {
-			return msg.reply('❌ Verification is not enabled on this server.');
-		}
+		if (!serverConfig || !serverConfig.verification?.enabled) return msg.reply('❌ Verification is not enabled on this server.');
 
 		// Check if bot has permissions
 		const botMember = msg.guild.members.cache.get(client.user.id);
-		if (!botMember.permissions.has([PermissionFlagsBits.SendMessages, PermissionFlagsBits.ManageRoles])) {
-			return msg.reply('❌ Bot needs Send Messages and Manage Roles permissions.');
-		}
+		if (!botMember.permissions.has([PermissionFlagsBits.SendMessages, PermissionFlagsBits.ManageRoles])) return msg.reply('❌ Bot needs Send Messages and Manage Roles permissions.');
 
 		// Check if roles exist
 		const unverifiedRole = msg.guild.roles.cache.get(serverConfig.verification.unverifiedRoleId);
 		const verifiedRole = msg.guild.roles.cache.get(serverConfig.verification.verifiedRoleId);
-
-		if (!unverifiedRole || !verifiedRole) {
-			return msg.reply('❌ Verification roles not found. Please check server configuration.');
-		}
+		if (!unverifiedRole || !verifiedRole) return msg.reply('❌ Verification roles not found. Please check server configuration.');
 
 		// Build content from server configuration
 		const verificationContent = serverConfig.verification.content;
@@ -40,8 +33,6 @@ module.exports = {
 		if (buttonConfig.emoji) button.setEmoji(buttonConfig.emoji);
 
 		const row = new ActionRowBuilder().addComponents(button);
-
-		// Send verification message
 		await msg.channel.send({
 			...verificationContent(msg.guild),
 			components: [row],
