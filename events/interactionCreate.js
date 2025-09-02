@@ -13,9 +13,7 @@ const STATUS_CACHE_TTL = 30000; // 30 seconds
 setInterval(() => {
 	const now = Date.now();
 	for (const [key, value] of statusCache.entries()) {
-		if (now - value.timestamp > STATUS_CACHE_TTL * 2) {
-			statusCache.delete(key);
-		}
+		if (now - value.timestamp > STATUS_CACHE_TTL * 2) statusCache.delete(key);
 	}
 }, 300000);
 

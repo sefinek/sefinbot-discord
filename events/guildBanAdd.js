@@ -69,13 +69,10 @@ module.exports = {
 		}
 
 		// Execute all handlers concurrently for better performance
-		const handlers = [
+		const results = await Promise.allSettled([
 			handleBanNotification(user, guild, serverCfg),
 			handleMemberCountChannel(guild, serverCfg),
-		];
-
-		// Wait for all handlers to complete, but don't let one failure stop others
-		const results = await Promise.allSettled(handlers);
+		]);
 
 		// Log any handler failures
 		results.forEach((result, index) => {
