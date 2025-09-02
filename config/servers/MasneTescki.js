@@ -20,7 +20,7 @@ module.exports = {
 	id: '943910440520527873',
 	dev: true,
 
-	automodChannelId: '1188578816310906890',
+	autoModChannel: '1188578816310906890',
 
 	channels,
 	roles,
@@ -160,10 +160,7 @@ module.exports = {
 				startMessage: {
 					embeds: [
 						new EmbedBuilder()
-							.setColor('#FF69B4')
-							.setDescription('Tutaj możesz skomentować to zdjęcie! 📸✨')
-							.setFooter({ text: 'Komentarze do zdjęcia' })
-							.setTimestamp(),
+							.setDescription('Tutaj możesz skomentować to zdjęcie! 📸✨'),
 					],
 				},
 			},
@@ -184,10 +181,7 @@ module.exports = {
 				startMessage: {
 					embeds: [
 						new EmbedBuilder()
-							.setColor('#00D26A')
-							.setDescription('Tutaj pozostali użytkownicy mogą skomentować niniejszą wiadomość.\nPamiętaj, że każdy członek serwera jest zobowiązany do przestrzegania wytycznych.')
-							.setFooter({ text: 'Wątek do komentarzy' })
-							.setTimestamp(),
+							.setDescription('Tutaj możesz skomentować to przedstawienie się! Pamiętaj o przestrzeganiu regulaminu serwera.'),
 					],
 				},
 			},
@@ -208,10 +202,7 @@ module.exports = {
 				startMessage: {
 					embeds: [
 						new EmbedBuilder()
-							.setColor('#8B4513')
-							.setDescription('Jakie słodkie zwierzątko! 🐾 Opowiedz nam o nim więcej!')
-							.setFooter({ text: 'O zwierzaku' })
-							.setTimestamp(),
+							.setDescription('Jakie słodkie zwierzątko! 🐾 Opowiedz nam o nim więcej!'),
 					],
 				},
 			},
@@ -242,10 +233,7 @@ module.exports = {
 				startMessage: {
 					embeds: [
 						new EmbedBuilder()
-							.setColor('#4A90E2')
-							.setDescription('Tutaj możesz przedyskutować tę propozycję!\nPamiętaj o konstruktywnej krytyce i szacunku dla innych opinii.')
-							.setFooter({ text: 'Dyskusja propozycji' })
-							.setTimestamp(),
+							.setDescription('Tutaj możesz przedyskutować tę propozycję!\nPamiętaj o konstruktywnej krytyce i szacunku dla innych opinii.'),
 					],
 				},
 			},

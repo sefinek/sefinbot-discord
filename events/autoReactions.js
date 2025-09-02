@@ -18,9 +18,9 @@ const sendErrorMessage = async (msg, description) => {
 			setTimeout(() => errorMsg.value.delete().catch(() => {}), 15 * 1000);
 		}
 
-		console.log(`Reaction » User ${msg.author.tag} tried invalid action in ${msg.channel.name}: ${msg.content.slice(0, 100)}`);
+		console.log(`React  » User ${msg.author.tag} (${msg.author.id}) tried invalid action in ${msg.channel.name} (${msg.channel.id}): ${description}\n${msg.content.slice(0, 100)}`);
 	} catch (err) {
-		console.error('Reaction » Failed to send error message:', err.message);
+		console.error('React  » Failed to send error message:', err.message);
 	}
 };
 
@@ -60,7 +60,7 @@ const addReactions = async (msg, emojis) => {
 	try {
 		await Promise.allSettled(emojis.map(emoji => msg.react(emoji)));
 	} catch (err) {
-		console.error('Reactions » Failed to add reactions:', err.message);
+		console.error('React  » Failed to add reactions:', err.message);
 	}
 };
 
@@ -88,7 +88,7 @@ const createThread = async (msg, threadConfig) => {
 
 		return threadName;
 	} catch (err) {
-		console.error(`Reactions » Failed to create thread for ${msg.author.username}:`, err.message);
+		console.error(`React  » Failed to create thread for ${msg.author.username}:`, err.message);
 		return null;
 	}
 };
@@ -115,13 +115,13 @@ const handleReactionConfig = async (msg, reactionConfig) => {
 		const threadInfo = createdThreadName ? `, thread: "${createdThreadName}"` : '';
 
 		console.log(
-			`Reactions » Applied "${reactionConfig.name}" (${emojis}${threadInfo}) ` +
+			`React  » Applied "${reactionConfig.name}" (${emojis}${threadInfo}) ` +
 			`for ${msg.author.username} (${msg.author.id}) ` +
 			`in #${msg.channel.name} (${msg.channel.id}) ` +
 			`on ${msg.guild.name} (${msg.guild.id})`
 		);
 	} catch (err) {
-		console.error(`Reactions » Failed to handle reaction config "${reactionConfig.name}":`, err.message);
+		console.error(`React  » Failed to handle reaction config "${reactionConfig.name}":`, err.message);
 	}
 };
 

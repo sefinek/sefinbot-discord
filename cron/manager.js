@@ -120,14 +120,10 @@ class CronManager {
 			if (!config?.cronConfig?.enabled) return;
 
 			// In development mode, only process development servers
-			if (process.env.NODE_ENV === 'development' && !config.config.dev) {
-				return;
-			}
+			if (process.env.NODE_ENV === 'development' && !config.config.dev) return;
 
 			// In production mode, skip development servers
-			if (process.env.NODE_ENV !== 'development' && config.config.dev) {
-				return;
-			}
+			if (process.env.NODE_ENV === 'production' && config.config.dev) return;
 
 			const guild = this.client.guilds.cache.get(guildId);
 			if (!guild) {

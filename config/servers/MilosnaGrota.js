@@ -52,7 +52,7 @@ module.exports = {
 	id: '1052610210189037598',
 	dev: false,
 
-	automodChannelId: channels.automod,
+	autoModChannel: channels.automod,
 
 	channels,
 	roles,
@@ -172,10 +172,7 @@ module.exports = {
 				startMessage: {
 					embeds: [
 						new EmbedBuilder()
-							.setColor('#FF69B4')
-							.setDescription('Tutaj możesz skomentować to zdjęcie! 📸✨')
-							.setFooter({ text: 'Miłosna Grota • Komentarze do zdjęcia' })
-							.setTimestamp(),
+							.setDescription('Tutaj możesz skomentować to zdjęcie! 📸✨'),
 					],
 				},
 			},
@@ -196,10 +193,7 @@ module.exports = {
 				startMessage: {
 					embeds: [
 						new EmbedBuilder()
-							.setColor('#00D26A')
-							.setDescription('Tutaj możesz skomentować to przedstawienie się! 💬\n\nPamiętaj o przestrzeganiu regulaminu serwera.')
-							.setFooter({ text: 'Bądź miły dla innych członków społeczności!' })
-							.setTimestamp(),
+							.setDescription('Tutaj pozostali użytkownicy mogą skomentować niniejszą wiadomość.\nPamiętaj, że każdy członek serwera jest zobowiązany do przestrzegania wytycznych.'),
 					],
 				},
 			},
@@ -220,10 +214,7 @@ module.exports = {
 				startMessage: {
 					embeds: [
 						new EmbedBuilder()
-							.setColor('#8B4513')
-							.setDescription('Jakie słodkie zwierzątko! 🐾 Opowiedz nam o nim więcej!')
-							.setFooter({ text: 'Miłosna Grota • O zwierzaku' })
-							.setTimestamp(),
+							.setDescription('Jakie słodkie zwierzątko! 🐾 Opowiedz nam o nim więcej!'),
 					],
 				},
 			},
@@ -392,7 +383,7 @@ module.exports = {
 								{ name: '⏰ Wygasa za', value: '24 godziny', inline: true },
 								{ name: '🛡️ Bezpieczeństwo', value: 'Ukończ wyzwanie hCaptcha', inline: true },
 							])
-							.setFooter({ text: 'Zachowaj ten link w tajemnicy • Weryfikacja randkowa', iconURL: guild.iconURL() })
+							.setFooter({ text: 'Zachowaj ten link w tajemnicy • Weryfikacja', iconURL: guild.iconURL() })
 							.setTimestamp(),
 					],
 				}),

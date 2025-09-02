@@ -36,7 +36,7 @@ class ServerConfig {
 	}
 
 	get botTrapChannelId() { return this.config.features?.botTrap || null; }
-	get automodChannelId() { return this.config.automodChannelId; }
+	get autoModChannel() { return this.config.autoModChannel; }
 	get cleverBotChannelId() { return this.config.features?.cleverBot; }
 
 	get vcMembers() { return this.config.voiceChannels?.members?.enabled; }

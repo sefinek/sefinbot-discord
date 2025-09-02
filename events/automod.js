@@ -20,7 +20,7 @@ module.exports = {
 				await msg.delete();
 				await msg.member.ban({ reason: `Bot trap: ${msg.content}`, deleteMessageSeconds: 604800 });
 
-				const automodChannel = msg.guild.channels.cache.get(serverCfg.automodChannelId);
+				const automodChannel = msg.guild.channels.cache.get(serverCfg.autoModChannel);
 				if (automodChannel) {
 					await automodChannel.send({ embeds: [new EmbedBuilder()
 						.setColor('#0012FF')

@@ -24,7 +24,7 @@ module.exports = {
 	id: '1044713077125435492',
 	dev: false,
 
-	automodChannelId: channels.automod,
+	autoModChannel: channels.automod,
 
 	channels,
 	roles,

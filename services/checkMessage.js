@@ -37,8 +37,8 @@ const PATTERNS = [
 
 const AutoModSendBan = async (client, msg, event, serverCfg, category, { perms, reaction } = {}) => {
 	const msgId = randomBytes(3).toString('hex');
-	const amChannel = msg.guild.channels.cache.get(serverCfg.automodChannelId);
-	if (!amChannel) return console.error(`AutoMD » [${msgId}] Channel with ID ${serverCfg.automodChannelId} not found`);
+	const amChannel = msg.guild.channels.cache.get(serverCfg.autoModChannel);
+	if (!amChannel) return console.error(`AutoMD » [${msgId}] Channel with ID ${serverCfg.autoModChannel} not found`);
 
 	let infoMsg;
 	try {

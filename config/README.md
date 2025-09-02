@@ -46,7 +46,7 @@ module.exports = {
   
   // Main server settings
   botTrapChannelId: 'channel_id_or_null',
-  automodChannelId: 'channel_id',
+  autoModChannel: 'channel_id',
 
   // Channel IDs organized by purpose
   channels: {
@@ -93,7 +93,7 @@ module.exports = {
     },
   },
 
-  // Flexible Reaction System
+  // Flexible React  System
   reactions: [
     {
       name: 'photo-reactions',

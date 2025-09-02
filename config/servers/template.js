@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require('discord.js');
 
-// Server configuration template - copy and rename to create new configs
+// Server configuration template
 const channels = {
 	welcome: 'CHANNEL_ID_HERE',
 	general: 'CHANNEL_ID_HERE',
@@ -30,8 +30,8 @@ const roles = {
 
 module.exports = {
 	id: 'YOUR_DISCORD_SERVER_ID_HERE', // Required: Discord server ID
-	dev: false, // Set to true for development environment
-	automodChannelId: channels.automod,
+	dev: true, // Set to false for production
+	autoModChannel: channels.automod,
 	channels,
 	roles,
 
@@ -123,10 +123,7 @@ module.exports = {
 				startMessage: {
 					embeds: [
 						new EmbedBuilder()
-							.setColor('#FF69B4')
-							.setDescription('Share your thoughts about this photo! 📸✨')
-							.setFooter({ text: 'Photo Comments' })
-							.setTimestamp(),
+							.setDescription('Share your thoughts about this photo! 📸✨'),
 					],
 				},
 			},
@@ -147,10 +144,7 @@ module.exports = {
 				startMessage: {
 					embeds: [
 						new EmbedBuilder()
-							.setColor('#00D26A')
-							.setDescription('Welcome to our community! Others can comment here.')
-							.setFooter({ text: 'Welcome Thread' })
-							.setTimestamp(),
+							.setDescription('Welcome to our community! Others can comment here.'),
 					],
 				},
 			},
