@@ -51,7 +51,7 @@ module.exports = {
 					new EmbedBuilder()
 						.setColor('#FF69B4')
 						.setAuthor({ name: `🎉 ${member.user.tag} dołączył do testów!`, iconURL: member.guild.iconURL() })
-						.setDescription(`Witaj na serwerze testowym ${member}! To jest środowisko deweloperskie dla testowania funkcji bota.\nJesteś **${memberCount} testerem**! 🚀`)
+						.setDescription(`Witaj na serwerze testowym ${member}! To jest środowisko deweloperskie dla testowania funkcji bota. Jesteś **${memberCount} testerem**! 🚀`)
 						.setThumbnail(member.user.displayAvatarURL()),
 				],
 			}),
@@ -63,8 +63,7 @@ module.exports = {
 					new EmbedBuilder()
 						.setColor('#FFA500')
 						.setAuthor({ name: `👋 ${member.user.tag} opuścił testy`, iconURL: member.guild.iconURL() })
-						.setDescription(`Tester ${member} opuścił serwer deweloperski. Dziękujemy za pomoc w testowaniu! Zostało **${memberCount} testerów**. 🧪`)
-						.setFooter({ text: 'Development Environment' })
+						.setDescription(`Użytkownik ${member} opuścił serwer deweloperski. Dziękujemy za pomoc w testowaniu! Zostało **${memberCount} testerów**. 🧪`)
 						.setThumbnail(member.user.displayAvatarURL()),
 				],
 			}),
@@ -89,8 +88,8 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#00FFFF')
-							.setAuthor({ name: `🔧 Witaj na ${member.guild.name}!`, iconURL: member.guild.iconURL() })
-							.setDescription(`Hej ${member.user.tag}! 👋\n\nJesteś na **serwerze deweloperskim** - tutaj testujemy nowe funkcje bota przed wdrożeniem na główne serwery.`),
+							.setAuthor({ name: `🔧 Witaj na ${member.guild.name}`, iconURL: member.guild.iconURL() })
+							.setDescription('Jesteś na **serwerze deweloperskim** - tutaj testujemy nowe funkcje bota przed wdrożeniem na główne serwery.'),
 					],
 				}),
 			},

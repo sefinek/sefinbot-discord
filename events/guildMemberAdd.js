@@ -1,12 +1,8 @@
 const { Events, PermissionsBitField } = require('discord.js');
 const guilds = require('../config/guilds.js');
 const userBlacklist = require('../services/userBlacklist.js');
-const VerificationStatus = require('../database/models/verification.model.js');
 
 const ARROW_RESET_DELAY = 30000;
-const DISCORD_ERROR_CODES = {
-	CANNOT_SEND_DM: 50007,
-};
 
 const getMemberCount = guild => guild.members.cache.filter(member => !member.user.bot).size;
 
@@ -14,9 +10,7 @@ const handleWelcomeMessage = async (member, serverCfg) => {
 	if (!serverCfg.events?.welcome?.channelId || !serverCfg.events?.welcome?.content) return;
 
 	const welcomeChannel = member.guild.channels.cache.get(serverCfg.events.welcome.channelId);
-	if (!welcomeChannel) {
-		return console.warn(`EventA » Welcome channel ${serverCfg.events.welcome.channelId} not found in ${member.guild.name}`);
-	}
+	if (!welcomeChannel) return console.warn(`EventA » Welcome channel ${serverCfg.events.welcome.channelId} not found in ${member.guild.name}`);
 
 	try {
 		const memberCount = getMemberCount(member.guild);
@@ -34,7 +28,7 @@ const handleDirectMessage = async (member, serverCfg) => {
 		const dmContent = serverCfg.events.directMessages.welcome.content(member);
 		await member.send(dmContent);
 	} catch (err) {
-		if (err.code === DISCORD_ERROR_CODES.CANNOT_SEND_DM) {
+		if (err.code === 50007) {
 			console.log(`EventA » Cannot send DM to ${member.user.tag} - DMs disabled`);
 		} else {
 			console.warn(`EventA » Failed to send DM to ${member.user.tag}:`, err.message);
@@ -46,9 +40,7 @@ const handleMemberCountChannel = async (member, serverCfg) => {
 	if (!serverCfg.voiceChannels?.members?.enabled || !serverCfg.voiceChannels?.members?.channelId) return;
 
 	const memberCountChannel = member.guild.channels.cache.get(serverCfg.voiceChannels.members.channelId);
-	if (!memberCountChannel) {
-		return console.warn(`EventA » Member count channel ${serverCfg.voiceChannels.members.channelId} not found`);
-	}
+	if (!memberCountChannel) return console.warn(`EventA » Member count channel ${serverCfg.voiceChannels.members.channelId} not found`);
 
 	try {
 		const memberCount = getMemberCount(member.guild);
@@ -78,9 +70,7 @@ const handleNewestMemberChannel = async (member, serverCfg) => {
 	if (!serverCfg.voiceChannels?.newest?.enabled || !serverCfg.voiceChannels?.newest?.channelId) return;
 
 	const newMemberChannel = member.guild.channels.cache.get(serverCfg.voiceChannels.newest.channelId);
-	if (!newMemberChannel) {
-		return console.warn(`EventA » Newest member channel ${serverCfg.voiceChannels.newest.channelId} not found`);
-	}
+	if (!newMemberChannel) return console.warn(`EventA » Newest member channel ${serverCfg.voiceChannels.newest.channelId} not found`);
 
 	try {
 		const channelName = typeof serverCfg.voiceChannels.newest.name === 'function'
@@ -116,8 +106,7 @@ module.exports = {
 		if (!hasManageMessages && userBlacklist(member.user.username, member.user.displayName)) {
 			try {
 				await member.ban({ reason: 'User on blacklist' });
-				console.log(`EventA » Banned blacklisted user ${member.user.tag} (${member.id})`);
-				return;
+				return console.log(`EventA » Banned blacklisted user ${member.user.tag} (${member.id})`);
 			} catch (err) {
 				console.warn(`EventA » Failed to ban blacklisted user ${member.user.tag}: ${err.message}`);
 			}
