@@ -1,68 +1,40 @@
 const { EmbedBuilder } = require('discord.js');
 
-// Channel definitions for better organization
+// Server configuration template - copy and rename to create new configs
 const channels = {
-	// Core channels
 	welcome: 'CHANNEL_ID_HERE',
 	general: 'CHANNEL_ID_HERE',
 	lobby: 'CHANNEL_ID_HERE',
 	automod: 'CHANNEL_ID_HERE',
 	botTrap: 'CHANNEL_ID_HERE',
-
-	// Support channels
 	support1: 'CHANNEL_ID_HERE',
 	support2: 'CHANNEL_ID_HERE',
-
-	// Feature-specific channels
 	announcements: 'CHANNEL_ID_HERE',
 	changelogs: 'CHANNEL_ID_HERE',
-
-	// Photo/media channels
 	photoChannel: 'CHANNEL_ID_HERE',
-
-	// Dating server specific (if applicable)
 	pokazRyjek: 'CHANNEL_ID_HERE',
 	introductions: 'CHANNEL_ID_HERE',
 };
 
-// Role definitions
 const roles = {
-	// Order: verified first, then unverified (as per user preference)
 	verified: 'ROLE_ID_HERE',
 	unverified: 'ROLE_ID_HERE',
-
-	// Additional roles
 	admin: 'ROLE_ID_HERE',
 	moderator: 'ROLE_ID_HERE',
 	member: 'ROLE_ID_HERE',
-
-	// Dating server specific (if applicable)
 	male: 'ROLE_ID_HERE',
 	female: 'ROLE_ID_HERE',
 	single: 'ROLE_ID_HERE',
 	taken: 'ROLE_ID_HERE',
 };
 
-/**
- * Complete server configuration template
- * This file serves as a template and is never used by the bot
- * Copy this file and rename it to create new server configurations
- */
 module.exports = {
-	// Required: Discord server ID - must match exactly
-	id: 'YOUR_DISCORD_SERVER_ID_HERE',
-
-	// Optional: Development environment flag (defaults to false/production)
-	dev: false,
-
-	// Automod logging channel
+	id: 'YOUR_DISCORD_SERVER_ID_HERE', // Required: Discord server ID
+	dev: false, // Set to true for development environment
 	automodChannelId: channels.automod,
-
-	// Organized channel and role references
 	channels,
 	roles,
 
-	// Voice channel statistics with function-based names (not template strings)
 	voiceChannels: {
 		members: {
 			enabled: true,
@@ -81,7 +53,6 @@ module.exports = {
 		},
 	},
 
-	// Event logging configuration
 	events: {
 		welcome: {
 			channelId: channels.welcome,
@@ -119,7 +90,6 @@ module.exports = {
 				],
 			}),
 		},
-		// Direct message configuration
 		directMessages: {
 			welcome: {
 				enabled: true,
@@ -139,9 +109,7 @@ module.exports = {
 		},
 	},
 
-	// Flexible Reactions System - Array-based configuration
 	reactions: [
-		// Example: Photo sharing with thread creation
 		{
 			name: 'photo-reactions',
 			enabled: true,
@@ -166,11 +134,9 @@ module.exports = {
 				onlyImages: { message: 'This channel is for photos only! 📸' },
 			},
 		},
-
-		// Example: Introduction channel with text length validation
 		{
 			name: 'introductions',
-			enabled: false, // Disable by default
+			enabled: false,
 			channels: [channels.introductions],
 			emojis: ['❤️', '👋'],
 			thread: {
@@ -195,18 +161,14 @@ module.exports = {
 				},
 			},
 		},
-
-		// Example: Simple voting reactions
 		{
 			name: 'voting-reactions',
 			enabled: false, // Enable as needed
 			channels: [channels.announcements],
 			emojis: ['👍', '👎'],
 			thread: { enabled: false },
-			validation: {}, // No validation rules
+			validation: {},
 		},
-
-		// Example: Admin approval system
 		{
 			name: 'admin-approval',
 			enabled: false, // Enable for support channels
@@ -217,17 +179,16 @@ module.exports = {
 		},
 	],
 
-	// Verification system configuration (hCaptcha-based)
 	verification: {
 		enabled: true,
 		unverifiedRoleId: roles.unverified,
 		verifiedRoleId: roles.verified,
 		timeouts: {
-			tokenExpiry: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
-			tokenCooldown: 5 * 60 * 1000, // 5 minutes cooldown between token requests
-			reminderInterval: 6 * 60 * 60 * 1000, // 6 hours between reminders
-			kickWarningAfter: 3 * 24 * 60 * 60 * 1000, // 3 days before kick warning
-			kickAfter: 4 * 24 * 60 * 60 * 1000, // 4 days before actual kick
+			tokenExpiry: 24 * 60 * 60 * 1000, // 24 hours
+			tokenCooldown: 5 * 60 * 1000, // 5 minutes
+			reminderInterval: 6 * 60 * 60 * 1000, // 6 hours
+			kickWarningAfter: 3 * 24 * 60 * 60 * 1000, // 3 days
+			kickAfter: 4 * 24 * 60 * 60 * 1000, // 4 days
 		},
 		content: guild => ({
 			embeds: [
@@ -336,7 +297,6 @@ module.exports = {
 		},
 	},
 
-	// Cron-based automation (optional - only include if enabled)
 	cron: {
 		enabled: true,
 		timezone: 'Europe/Warsaw',
