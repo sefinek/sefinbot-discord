@@ -78,7 +78,7 @@ module.exports = {
 	events: {
 		welcome: {
 			channelId: channels.lobby,
-			content: (member, memberCount) => ({
+			content: (client, member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#00D26A')
@@ -90,7 +90,7 @@ module.exports = {
 		},
 		farewell: {
 			channelId: channels.lobby,
-			content: (member, memberCount) => ({
+			content: (client, member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#FF6B6B')
@@ -102,7 +102,7 @@ module.exports = {
 		},
 		ban: {
 			channelId: channels.lobby,
-			content: (user, guild, memberCount) => ({
+			content: (client, guild, user, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#FF4757')
@@ -115,7 +115,7 @@ module.exports = {
 		directMessages: {
 			welcome: {
 				enabled: true,
-				content: member => ({
+				content: (client, member) => ({
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#0078FF')

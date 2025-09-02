@@ -42,7 +42,7 @@ module.exports = {
 	events: {
 		welcome: {
 			channelId: channels.welcome,
-			content: (member, memberCount) => ({
+			content: (client, member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#2EE47A')
@@ -54,7 +54,7 @@ module.exports = {
 		},
 		farewell: {
 			channelId: channels.welcome,
-			content: (member, memberCount) => ({
+			content: (client, member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#29A6F9')
@@ -66,7 +66,7 @@ module.exports = {
 		},
 		ban: {
 			channelId: channels.welcome,
-			content: (member, memberCount) => ({
+			content: (client, member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#E74C3C')
@@ -79,7 +79,7 @@ module.exports = {
 		directMessages: {
 			welcome: {
 				enabled: true,
-				content: member => ({
+				content: (client, member) => ({
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#37b1ff')

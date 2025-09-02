@@ -5,7 +5,7 @@ const ARROW_RESET_DELAY = 30000;
 
 const getMemberCount = guild => guild.members.cache.filter(member => !member.user.bot).size;
 
-const handleFarewellMessage = async (member, serverCfg) => {
+const handleFarewellMessage = async (member, serverCfg, client) => {
 	if (!serverCfg.events?.farewell?.channelId || !serverCfg.events?.farewell?.content) return;
 
 	const farewellChannel = member.guild.channels.cache.get(serverCfg.events.farewell.channelId);
@@ -15,7 +15,7 @@ const handleFarewellMessage = async (member, serverCfg) => {
 
 	try {
 		const memberCount = getMemberCount(member.guild);
-		const farewellMessage = serverCfg.events.farewell.content(member, memberCount);
+		const farewellMessage = serverCfg.events.farewell.content(client, member, memberCount);
 		await farewellChannel.send(farewellMessage);
 	} catch (err) {
 		console.warn(`EventR » Failed to send farewell message in ${farewellChannel.name}: ${err.message}`);
@@ -56,7 +56,7 @@ const handleMemberCountChannel = async (member, serverCfg) => {
 
 module.exports = {
 	name: Events.GuildMemberRemove,
-	async execute(member) {
+	async execute(member, client) {
 		// Skip bot users
 		if (member.user.bot) return;
 
@@ -68,7 +68,7 @@ module.exports = {
 
 		// Execute all handlers concurrently for better performance
 		const results = await Promise.allSettled([
-			handleFarewellMessage(member, serverCfg),
+			handleFarewellMessage(member, serverCfg, client),
 			handleMemberCountChannel(member, serverCfg),
 		]);
 

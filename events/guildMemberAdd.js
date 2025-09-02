@@ -6,7 +6,7 @@ const ARROW_RESET_DELAY = 30000;
 
 const getMemberCount = guild => guild.members.cache.filter(member => !member.user.bot).size;
 
-const handleWelcomeMessage = async (member, serverCfg) => {
+const handleWelcomeMessage = async (member, serverCfg, client) => {
 	if (!serverCfg.events?.welcome?.channelId || !serverCfg.events?.welcome?.content) return;
 
 	const welcomeChannel = member.guild.channels.cache.get(serverCfg.events.welcome.channelId);
@@ -14,18 +14,18 @@ const handleWelcomeMessage = async (member, serverCfg) => {
 
 	try {
 		const memberCount = getMemberCount(member.guild);
-		const welcomeMessage = serverCfg.events.welcome.content(member, memberCount);
+		const welcomeMessage = serverCfg.events.welcome.content(client, member, memberCount);
 		await welcomeChannel.send(welcomeMessage);
 	} catch (err) {
 		console.warn(`EventA » Failed to send welcome message in ${welcomeChannel.name}:`, err.message);
 	}
 };
 
-const handleDirectMessage = async (member, serverCfg) => {
+const handleDirectMessage = async (member, serverCfg, client) => {
 	if (!serverCfg.events?.directMessages?.welcome?.enabled || !serverCfg.events?.directMessages?.welcome?.content) return;
 
 	try {
-		const dmContent = serverCfg.events.directMessages.welcome.content(member);
+		const dmContent = serverCfg.events.directMessages.welcome.content(client, member);
 		await member.send(dmContent);
 	} catch (err) {
 		if (err.code === 50007) {
@@ -97,7 +97,7 @@ const handleVerification = async (member, serverCfg) => {
 
 module.exports = {
 	name: Events.GuildMemberAdd,
-	async execute(member) {
+	async execute(member, client) {
 		// Skip bot users
 		if (member.user.bot) return;
 
@@ -120,8 +120,8 @@ module.exports = {
 
 		// Execute all handlers concurrently for better performance
 		const results = await Promise.allSettled([
-			handleWelcomeMessage(member, serverCfg),
-			handleDirectMessage(member, serverCfg),
+			handleWelcomeMessage(member, serverCfg, client),
+			handleDirectMessage(member, serverCfg, client),
 			handleMemberCountChannel(member, serverCfg),
 			handleNewestMemberChannel(member, serverCfg),
 			handleVerification(member, serverCfg),

@@ -36,7 +36,7 @@ module.exports = {
 	events: {
 		welcome: {
 			channelId: channels.welcome,
-			content: (member, memberCount) => ({
+			content: (client, member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#03528E')
@@ -48,7 +48,7 @@ module.exports = {
 		},
 		farewell: {
 			channelId: channels.welcome,
-			content: (member, memberCount) => ({
+			content: (client, member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#ff9a17')
@@ -60,7 +60,7 @@ module.exports = {
 		},
 		ban: {
 			channelId: channels.welcome,
-			content: (member, guild, memberCount) => ({
+			content: (client, guild, member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#ff4332')

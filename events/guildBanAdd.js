@@ -15,7 +15,7 @@ const handleBanNotification = async (user, guild, serverCfg) => {
 
 	try {
 		const memberCount = getMemberCount(guild);
-		const banMessage = serverCfg.events.ban.content(user, guild, memberCount);
+		const banMessage = serverCfg.events.ban.content(guild.client, guild, user, memberCount);
 		await banNotificationChannel.send(banMessage);
 	} catch (err) {
 		console.warn(`EventB » Failed to send ban notification in ${banNotificationChannel.name}: ${err.message}`);

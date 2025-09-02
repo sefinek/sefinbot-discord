@@ -46,7 +46,7 @@ module.exports = {
 	events: {
 		welcome: {
 			channelId: channels.generaly,
-			content: (member, memberCount) => ({
+			content: (client, member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#FF69B4')
@@ -58,7 +58,7 @@ module.exports = {
 		},
 		farewell: {
 			channelId: channels.generaly,
-			content: (member, memberCount) => ({
+			content: (client, member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#FFA500')
@@ -70,7 +70,7 @@ module.exports = {
 		},
 		ban: {
 			channelId: channels.generaly,
-			content: (member, guild, memberCount) => ({
+			content: (client, guild, member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#DC143C')
@@ -84,7 +84,7 @@ module.exports = {
 		directMessages: {
 			welcome: {
 				enabled: true,
-				content: member => ({
+				content: (client, member) => ({
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#00FFFF')
@@ -272,9 +272,7 @@ module.exports = {
 								{ name: '🔗 How to verify', value: 'Click the verification button in the server to get a new verification link.', inline: false },
 								{ name: '🧪 Testing Environment', value: 'This is a development server where we test verification features.', inline: false },
 								{ name: '⏰ Important', value: 'If you don\'t verify within 4 days, you will be removed (testing auto-kick feature).', inline: false },
-							])
-							.setFooter({ text: `${guild.name} • Development Environment • Verification Required`, iconURL: guild.iconURL() })
-							.setTimestamp(),
+							]),
 					],
 				}),
 			},
@@ -289,9 +287,7 @@ module.exports = {
 								{ name: '🔗 Verify NOW', value: 'Click the verification button in the test server immediately to get your verification link.', inline: false },
 								{ name: '⏰ Time Remaining', value: 'Less than 24 hours before automatic removal (testing feature)', inline: false },
 								{ name: '🧪 Development Note', value: 'This is a test of the automated warning system used on production servers.', inline: false },
-							])
-							.setFooter({ text: `${guild.name} • Development Environment • Final Warning`, iconURL: guild.iconURL() })
-							.setTimestamp(),
+							]),
 					],
 				}),
 			},
@@ -306,9 +302,7 @@ module.exports = {
 								{ name: '🔄 Want to test again?', value: 'You can rejoin the test server anytime, but you\'ll need to complete verification within 4 days.', inline: false },
 								{ name: '🧪 Development Test', value: 'This was a test of the automated removal system used on production servers.', inline: false },
 								{ name: '❓ Questions?', value: 'Contact the development team if you have questions about testing procedures.', inline: false },
-							])
-							.setFooter({ text: `${guild.name} • Development Environment • Account Removed`, iconURL: guild.iconURL() })
-							.setTimestamp(),
+							]),
 					],
 				}),
 			},
