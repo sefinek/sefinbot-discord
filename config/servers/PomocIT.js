@@ -130,7 +130,7 @@ module.exports = {
 			],
 		}),
 		button: {
-			label: 'Zweryfikuj się',
+			label: 'Zweryfikuj mnie',
 			emoji: '🔎',
 			style: 'Primary',
 		},
