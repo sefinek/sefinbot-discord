@@ -12,8 +12,8 @@ const channels = {
 };
 
 const roles = {
-	verified: '1411972451163963412',
-	unverified: '1411972733578903592',
+	verified: '1411308185889017896',
+	unverified: '1411308251143733290',
 };
 
 module.exports = {
@@ -50,20 +50,8 @@ module.exports = {
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#FF69B4')
-						.setAuthor({ name: `🎉 DEV: ${member.user.tag} dołączył do testów!`, iconURL: member.guild.iconURL() })
-						.setDescription(`Witaj na serwerze testowym ${member}! 🚀 To jest środowisko deweloperskie dla testowania funkcji bota.\nJesteś **${memberCount} testerem**!`)
-						.addFields([
-							{
-								name: '🔧 Development Mode',
-								value: 'Ta wiadomość pojawia się tylko w trybie deweloperskim.',
-								inline: true,
-							},
-							{
-								name: '🎯 Test Features',
-								value: 'Możesz testować wszystkie funkcje randkowe!',
-								inline: true,
-							},
-						])
+						.setAuthor({ name: `🎉 ${member.user.tag} dołączył do testów!`, iconURL: member.guild.iconURL() })
+						.setDescription(`Witaj na serwerze testowym ${member}! To jest środowisko deweloperskie dla testowania funkcji bota.\nJesteś **${memberCount} testerem**! 🚀`)
 						.setThumbnail(member.user.displayAvatarURL()),
 				],
 			}),
@@ -74,8 +62,8 @@ module.exports = {
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#FFA500')
-						.setAuthor({ name: `👋 DEV: ${member.user.tag} opuścił testy`, iconURL: member.guild.iconURL() })
-						.setDescription(`Tester ${member} opuścił serwer deweloperski.\nDziękujemy za pomoc w testowaniu! 🧪\nZostało **${memberCount} testerów**.`)
+						.setAuthor({ name: `👋 ${member.user.tag} opuścił testy`, iconURL: member.guild.iconURL() })
+						.setDescription(`Tester ${member} opuścił serwer deweloperski. Dziękujemy za pomoc w testowaniu! Zostało **${memberCount} testerów**. 🧪`)
 						.setFooter({ text: 'Development Environment' })
 						.setThumbnail(member.user.displayAvatarURL()),
 				],
@@ -87,8 +75,8 @@ module.exports = {
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#DC143C')
-						.setAuthor({ name: `⚠️ DEV: ${member.tag} został zbanowany`, iconURL: member.guild.iconURL() })
-						.setDescription(`Użytkownik <@${member.id}> został zbanowany na serwerze testowym.\nTest funkcji banowania zakończony pomyślnie ✅\nZostało **${memberCount} testerów**.`)
+						.setAuthor({ name: `⚠️ ${member.tag} został zbanowany`, iconURL: member.guild.iconURL() })
+						.setDescription(`Użytkownik <@${member.id}> został zbanowany na serwerze testowym. Zostało **${memberCount} osób**.`)
 						.addFields([{ name: '🔧 Debug Info', value: `User ID: ${member.id}\nGuild: ${guild.name}` }])
 						.setThumbnail(member.displayAvatarURL()),
 				],
@@ -101,19 +89,8 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#00FFFF')
-							.setAuthor({ name: `🔧 Dev Mode: Witaj na ${member.guild.name}!`, iconURL: member.guild.iconURL() })
-							.setDescription(`Hej ${member.user.tag}! 👋\n\nJesteś na **serwerze deweloperskim** - tutaj testujemy nowe funkcje bota przed wdrożeniem na główne serwery.`)
-							.addFields([
-								{
-									name: '🚀 Co możesz tutaj testować?',
-									value: '• Komendy randkowe\n• System Choroszczy\n• Dark web\n• Wszystkie funkcje dating serwera',
-								},
-								{
-									name: '⚡ Development Features',
-									value: 'Niektóre funkcje mogą być niestabilne - to normalne w środowisku testowym!',
-								},
-							])
-							.setFooter({ text: 'Development Environment | Test Server', iconURL: member.guild.iconURL() }),
+							.setAuthor({ name: `🔧 Witaj na ${member.guild.name}!`, iconURL: member.guild.iconURL() })
+							.setDescription(`Hej ${member.user.tag}! 👋\n\nJesteś na **serwerze deweloperskim** - tutaj testujemy nowe funkcje bota przed wdrożeniem na główne serwery.`),
 					],
 				}),
 			},
@@ -131,7 +108,7 @@ module.exports = {
 				name: 'Dev Server・🌅',
 				banners: ['cat-love-you.gif', 'happy-senko.gif'],
 				messageChannel: channels.generaly,
-				message: '☀️ **DEV: Day mode activated** - Testing time-based modes!',
+				message: '☀️ **Day mode activated** - Testing time-based modes!',
 				rateLimits: {},
 			},
 			night: {
@@ -140,7 +117,7 @@ module.exports = {
 				name: 'Dev Server・🌙',
 				banners: ['cat_boat.jpg', 'sleepy-fox_1.gif'],
 				messageChannel: channels.generaly,
-				message: '🌙 **DEV: Night mode activated** - Testing night features!',
+				message: '🌙 **Night mode activated** - Testing night features!',
 				rateLimits: {},
 			},
 		},
@@ -264,7 +241,7 @@ module.exports = {
 			embeds: [
 				new EmbedBuilder()
 					.setColor('#FF69B4')
-					.setTitle('🔧 DEV: Wymagana weryfikacja serwera')
+					.setTitle('🔧 Wymagana weryfikacja serwera')
 					.setDescription(`**Środowisko deweloperskie** 🚀\n\nWitaj na serwerze testowym **${guild.name}**!\n\nTo jest środowisko deweloperskie do testowania funkcji bota. Zweryfikuj swoje konto, aby uzyskać dostęp do wszystkich kanałów testowych i funkcji.`)
 					.addFields([
 						{ name: '🧪 Serwer testowy', value: 'To jest środowisko deweloperskie, gdzie testujemy nowe funkcje bota przed wydaniem na serwery produkcyjne.', inline: false },
@@ -288,7 +265,7 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#FF69B4')
-							.setTitle('🔧 DEV: Weryfikacja Discord')
+							.setTitle('🔧 Weryfikacja Discord')
 							.setDescription(`**Środowisko deweloperskie** 🚀\n\nAby uzyskać dostęp do serwera testowego **${guild.name}**, ukończ proces weryfikacji.`)
 							.addFields([
 								{ name: '🔗 Link weryfikacyjny', value: `[Kliknij tutaj aby się zweryfikować](${verificationUrl})`, inline: false },
@@ -305,7 +282,7 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#FF6B35')
-							.setTitle('⚠️ DEV: Verification Required')
+							.setTitle('⚠️ Verification Required')
 							.setDescription(`Hello ${member.user.username}!\n\nYour verification link for the **${guild.name}** test server has expired. You need to verify your account to continue testing features.`)
 							.addFields([
 								{ name: '🔗 How to verify', value: 'Click the verification button in the server to get a new verification link.', inline: false },
@@ -322,7 +299,7 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#E74C3C')
-							.setTitle('🚨 DEV: Final Warning - Account Removal')
+							.setTitle('🚨 Final Warning - Account Removal')
 							.setDescription(`**DEVELOPMENT TEST NOTICE**\n\nHello ${member.user.username},\n\nYou have been on the **${guild.name}** test server for over 3 days without completing verification. **You have 24 hours to verify or you will be removed (testing auto-kick feature).**`)
 							.addFields([
 								{ name: '🔗 Verify NOW', value: 'Click the verification button in the test server immediately to get your verification link.', inline: false },
@@ -339,7 +316,7 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#992D22')
-							.setTitle('👋 DEV: Removed from Test Server')
+							.setTitle('👋 Removed from Test Server')
 							.setDescription(`Hello ${member.user.username},\n\nYou have been removed from the **${guild.name}** test server because you did not complete verification within the 4-day testing period.`)
 							.addFields([
 								{ name: '🔄 Want to test again?', value: 'You can rejoin the test server anytime, but you\'ll need to complete verification within 4 days.', inline: false },
