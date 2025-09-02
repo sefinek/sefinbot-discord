@@ -102,13 +102,13 @@ module.exports = {
 		},
 		ban: {
 			channelId: channels.lobby,
-			content: (member, memberCount) => ({
+			content: (user, guild, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#FF4757')
-						.setAuthor({ name: `⚠️ Użytkownik ${member.tag} otrzymał bana`, iconURL: member.guild.iconURL() })
-						.setDescription(`Osoba z nickiem <@${member.id}> została zbanowana na naszym serwerze przez jednego z administratorów. Bywa...\nPo stracie tego osobnika mamy w sumie **${memberCount} ludzi**.`)
-						.setThumbnail(member.displayAvatarURL()),
+						.setAuthor({ name: `⚠️ Użytkownik ${user.tag} otrzymał bana`, iconURL: guild.iconURL() })
+						.setDescription(`Osoba z nickiem <@${user.id}> została zbanowana na naszym serwerze przez jednego z administratorów. Bywa...\nPo stracie tego osobnika mamy w sumie **${memberCount} ludzi**.`)
+						.setThumbnail(user.displayAvatarURL()),
 				],
 			}),
 		},
@@ -420,7 +420,7 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#77B255')
-							.setAuthor({ text: '✅ Weryfikacja ukończona', iconURL: guild.iconURL() })
+							.setAuthor({ name: '✅ Weryfikacja ukończona', iconURL: guild.iconURL() })
 							.setDescription(`Witaj na **${guild.name}**! Twoje konto zostało pomyślnie zweryfikowane.`)
 							.addFields([
 								{ name: '🎉 Dostęp przyznany', value: 'Masz teraz pełny dostęp do wszystkich kanałów i funkcji serwera!', inline: false },
