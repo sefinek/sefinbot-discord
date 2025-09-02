@@ -206,7 +206,7 @@ module.exports = {
 				content: (member, guild) => ({
 					embeds: [
 						new EmbedBuilder()
-							.setColor('#27ae60')
+							.setColor('#77B255')
 							.setAuthor({ text: '✅ Weryfikacja ukończona', iconURL: guild.iconURL() })
 							.setDescription(`Witaj na **${guild.name}**! Twoje konto zostało pomyślnie zweryfikowane.`)
 							.addFields([
