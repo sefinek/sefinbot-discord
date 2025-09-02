@@ -424,8 +424,7 @@ module.exports = {
 							.setDescription(`Witaj na **${guild.name}**! Twoje konto zostało pomyślnie zweryfikowane.`)
 							.addFields([
 								{ name: '🎉 Dostęp przyznany', value: 'Masz teraz pełny dostęp do wszystkich kanałów i funkcji serwera!', inline: false },
-								{ name: '💕 Znajdź swoją miłość', value: 'Poznaj nowe osoby!', inline: false },
-								{ name: '📝 Zasady serwera', value: 'Upewnij się, że przeczytałeś [regulamin](https://github.com/sefinek/Milosna_Grota/blob/main/Rules.md) serwera.', inline: false },
+								{ name: '💕 Znajdź swoją miłość', value: 'Śmiało poznawaj nowe osoby!', inline: false },
 							])
 							.setFooter({ text: `${guild.name} • Witamy w naszej społeczności!`, iconURL: guild.iconURL() })
 							.setTimestamp(),
