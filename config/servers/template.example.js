@@ -19,13 +19,7 @@ const channels = {
 const roles = {
 	verified: 'ROLE_ID_HERE',
 	unverified: 'ROLE_ID_HERE',
-	admin: 'ROLE_ID_HERE',
-	moderator: 'ROLE_ID_HERE',
 	member: 'ROLE_ID_HERE',
-	male: 'ROLE_ID_HERE',
-	female: 'ROLE_ID_HERE',
-	single: 'ROLE_ID_HERE',
-	taken: 'ROLE_ID_HERE',
 };
 
 module.exports = {

@@ -3,13 +3,13 @@ const { EmbedBuilder } = require('discord.js');
 const channels = {
 	welcome: '1328500677944803358',
 	automod: '1328500595908280421',
-	approve1: '1305011381959004282',
-	approve2: '1305011521855819847',
+	announcements: '1305011381959004282',
+	changelogs: '1305011521855819847',
 };
 
 const roles = {
-	verified: '1002329878592499722',
-	unverified: '1412492205704220692',
+	verified: '1412492554766647386',
+	unverified: '1412492466304847882',
 };
 
 module.exports = {
@@ -96,7 +96,7 @@ module.exports = {
 		{
 			name: 'admin-approval',
 			enabled: true,
-			channels: [channels.approve1, channels.approve2],
+			channels: [channels.announcements, channels.approve2],
 			emojis: ['✅'],
 			thread: { enabled: false },
 			validation: {},

@@ -8,8 +8,8 @@ const channels = {
 };
 
 const roles = {
-	verified: '1328449500000000000',
-	unverified: '1328449400000000000',
+	verified: '1002329878592499722',
+	unverified: '1412492205704220692',
 };
 
 module.exports = {
