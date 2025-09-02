@@ -1,5 +1,6 @@
 const { readdirSync } = require('node:fs');
 const { join } = require('node:path');
+const isDev = process.env.NODE_ENV === 'development';
 
 const loadServerConfigs = () => {
 	const configs = {};
@@ -7,13 +8,17 @@ const loadServerConfigs = () => {
 
 	try {
 		readdirSync(configPath)
-			.filter(file => file.endsWith('.js'))
+			.filter(file => file.endsWith('.js') && !file.includes('.example.'))
 			.forEach(file => {
 				try {
 					const config = require(join(configPath, file));
 					if (config.id) {
-						configs[config.id] = config;
-						console.log(`Config » Loaded server config: ${file}`);
+						const isConfigDev = config.dev === true;
+
+						if ((isDev && isConfigDev) || (!isDev && !isConfigDev)) {
+							configs[config.id] = config;
+							console.log(`Config » Loaded server config: ${file} (${isDev ? 'dev' : 'prod'} mode)`);
+						}
 					} else {
 						console.warn(`Config » Server config ${file} missing ID field`);
 					}
@@ -112,14 +117,7 @@ class ServerConfig {
 }
 
 const getServerConfig = guildId => {
-	let config = serverConfigs[guildId];
-
-	if (process.env.NODE_ENV === 'development') {
-		const devConfigs = Object.values(serverConfigs).filter(cfg => cfg.id === guildId && cfg.dev === true);
-		if (devConfigs.length > 0) {
-			config = devConfigs[0];
-		}
-	}
+	const config = serverConfigs[guildId];
 
 	if (!config) {
 		if (process.env.NODE_ENV === 'development') console.warn(`Config » No configuration found for guild ${guildId}`);
@@ -138,7 +136,7 @@ const getAllServerConfigs = () =>
 const reloadConfigs = () => {
 	const configPath = join(__dirname, 'servers');
 	readdirSync(configPath)
-		.filter(file => file.endsWith('.js'))
+		.filter(file => file.endsWith('.js') && !file.includes('.example.'))
 		.forEach(file => {
 			delete require.cache[require.resolve(join(configPath, file))];
 		});
