@@ -14,7 +14,6 @@ const loadServerConfigs = () => {
 					const config = require(join(configPath, file));
 					if (config.id) {
 						const isConfigDev = config.dev === true;
-
 						if ((isDev && isConfigDev) || (!isDev && !isConfigDev)) {
 							configs[config.id] = config;
 							console.log(`Config » Loaded server config: ${file} (${isDev ? 'dev' : 'prod'} mode)`);
