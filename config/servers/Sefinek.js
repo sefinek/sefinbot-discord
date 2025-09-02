@@ -96,7 +96,7 @@ module.exports = {
 		{
 			name: 'admin-approval',
 			enabled: true,
-			channels: [channels.announcements, channels.approve2],
+			channels: [channels.announcements, channels.changelogs],
 			emojis: ['✅'],
 			thread: { enabled: false },
 			validation: {},

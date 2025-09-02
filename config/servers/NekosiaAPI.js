@@ -106,7 +106,7 @@ module.exports = {
 					.setAuthor({ name: '🔐 Server Verification Required', iconURL: guild.iconURL() })
 					.setDescription(`Welcome to **${guild.name}**!\n\nTo gain access to all channels and features, please complete the verification process by clicking the button below.`)
 					.addFields([
-						{ name: '🛡️ Why verify?', value: 'Verification helps keep our API server safe from bots and unauthorized access.', inline: false },
+						{ name: '🛡️ Why verify?', value: 'Verification helps keep our server safe from bots and unauthorized access.', inline: false },
 						{ name: '⚡ Quick Process', value: 'Complete hCaptcha verification in your browser - takes just a few seconds!', inline: false },
 						{ name: '🔒 Secure & Private', value: 'Your data is protected and the process is completely secure.', inline: false },
 						{ name: '🔌 API Access', value: 'After verification, you\'ll gain access to API documentation and support channels.', inline: false },
@@ -125,8 +125,8 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#1ABC9C')
-							.setAuthor({ name: '🔐 API Server Verification', iconURL: guild.iconURL() })
-							.setDescription(`To gain access to **${guild.name}** API server, please complete the verification process.`)
+							.setAuthor({ name: '🔐 Server Verification', iconURL: guild.iconURL() })
+							.setDescription(`To gain access to **${guild.name}**, please complete the verification process.`)
 							.addFields([
 								{ name: '🔗 Verification Link', value: `[Click here to verify](${verificationUrl})`, inline: false },
 								{ name: '⏰ Expires in', value: '24 hours', inline: true },
@@ -140,8 +140,8 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#FF6B35')
-							.setAuthor({ name: '⚠️ API Verification Required', iconURL: guild.iconURL() })
-							.setDescription(`Hello ${member.user.username}!\n\nYour verification link for **${guild.name}** API server has expired. You need to verify your account to continue accessing the server.`)
+							.setAuthor({ name: '⚠️ Verification Required', iconURL: guild.iconURL() })
+							.setDescription(`Hello ${member.user.username}! Your verification link for **${guild.name}** has expired. You need to verify your account to continue accessing the server.`)
 							.addFields([
 								{ name: '🔗 How to verify', value: 'Click the verification button in the server to get a new verification link.', inline: false },
 								{ name: '⏰ Important', value: 'If you don\'t verify within 4 days of joining, you will be removed from the server.', inline: false },

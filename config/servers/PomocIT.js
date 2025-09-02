@@ -3,8 +3,8 @@ const { EmbedBuilder } = require('discord.js');
 const channels = {
 	welcome: '1002327796468699218',
 	automod: '1002371687746109490',
-	support1: '1002327796468699220',
-	support2: '1002327796468699226',
+	ogloszenia: '1002327796468699220',
+	podziekowania: '1002327796468699226',
 };
 
 const roles = {
@@ -96,7 +96,7 @@ module.exports = {
 		{
 			name: 'support-approval',
 			enabled: true,
-			channels: [channels.support1, channels.support2],
+			channels: [channels.ogloszenia, channels.podziekowania],
 			emojis: ['✅'],
 			thread: { enabled: false },
 			validation: {},
