@@ -15,12 +15,13 @@ module.exports = {
 				const serverConfig = getServerConfig(inter.guild.id);
 				if (!serverConfig?.verification?.enabled) return inter.reply({ content: '❌ Verification is not enabled on this server.', flags: MessageFlags.Ephemeral });
 
+				// Check if user has unverified role (required for verification process)
 				const member = inter.member;
+				if (!member.roles.cache.has(serverConfig.verification.unverifiedRoleId)) return inter.reply({ content: '✅ You are already verified on this server.', flags: MessageFlags.Ephemeral });
 
-				// Quick role check - no need to hit database
-				if (!member.roles.cache.has(serverConfig.verification.unverifiedRoleId)) {
-					return inter.reply({ content: '✅ You are already verified on this server.', flags: MessageFlags.Ephemeral });
-				}
+				// Check if verified role exists
+				const verifiedRole = inter.guild.roles.cache.get(serverConfig.verification.verifiedRoleId);
+				if (!verifiedRole) return inter.reply({ content: '❌ Server verification roles are not properly configured. Please contact an administrator.', flags: MessageFlags.Ephemeral });
 
 				try {
 					// Check cooldown - database only
@@ -43,9 +44,17 @@ module.exports = {
 					const tokenExpiryTime = serverConfig.verification?.timeouts?.tokenExpiry || (24 * 60 * 60 * 1000);
 					const verificationUrl = `http${process.env.NODE_ENV === 'production' ? 's://sefinek.net' : '://127.0.0.1:4030'}/verify/${verificationToken}`;
 
-					// Batch database operation
-					await VerificationStatus.findOneAndUpdate(
-						{ userId: member.id, guildId: inter.guild.id },
+					// Atomic database operation to prevent race conditions
+					const updateResult = await VerificationStatus.findOneAndUpdate(
+						{
+							userId: member.id,
+							guildId: inter.guild.id,
+							$or: [
+								{ updatedAt: { $lte: new Date(now - cooldownTime) } },
+								{ token: { $exists: false } },
+								{ tokenUsed: true },
+							],
+						},
 						{
 							$setOnInsert: {
 								joinedAt: member.joinedAt,
@@ -58,8 +67,13 @@ module.exports = {
 								verified: false,
 							},
 						},
-						{ upsert: true }
+						{ upsert: true, new: true }
 					);
+
+					// Double-check if update was successful (race condition protection)
+					if (!updateResult || updateResult.token !== verificationToken) {
+						return inter.reply({ content: '⏱️ Please wait a moment before requesting a new verification link.', flags: MessageFlags.Ephemeral });
+					}
 
 					// Clear verification cache and send response
 					clearVerificationCache(verificationToken);
@@ -105,7 +119,7 @@ module.exports = {
 
 			if (now < expirationTime) {
 				const expiredTimestamp = Math.round(expirationTime / 1000);
-				inter.reply({ content: `⏳ **Zwolnij!**\nPosiadasz aktywne ograniczenie czasowe dla komendy \`${command.data.name}\`. Możesz jej ponownie użyć <t:${expiredTimestamp}:R>.`, ephemeral: MessageFlags.Ephemeral });
+				inter.reply({ content: `⏳ **Slow down!**\nYou have an active cooldown for the \`${command.data.name}\` command. You can use it again <t:${expiredTimestamp}:R>.`, flags: MessageFlags.Ephemeral });
 
 				return console.log(`SlCMD  » Interaction '${inter.commandName}' (cooldown ${expiredTimestamp}) was triggered by ${inter.user.tag} (${inter.id}) on the server ${inter.guild.name} (${inter.guild.id})`);
 			}
