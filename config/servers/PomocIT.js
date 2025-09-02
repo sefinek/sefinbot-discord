@@ -83,11 +83,9 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#1b87ff')
-							.setAuthor({ name: `Witaj ${member.user.tag} na naszym serwerze ${member.guild.name}`, iconURL: member.guild.iconURL() })
+							.setAuthor({ name: `Witaj ${member.user.tag} na ${member.guild.name}`, iconURL: member.guild.iconURL() })
 							.setDescription('Dziękujemy za dołączenie do naszego serwera! Miłego pobytu.')
 							.setThumbnail(member.user.displayAvatarURL()),
-						new EmbedBuilder()
-							.setFooter({ text: 'Copyright 2024-2025 © by Sefinek. All Rights Reserved.', iconURL: member.guild.iconURL() }),
 					],
 				}),
 			},
@@ -120,22 +118,20 @@ module.exports = {
 			embeds: [
 				new EmbedBuilder()
 					.setColor('#00D26A')
-					.setTitle('🔐 Weryfikacja na serwerze IT')
-					.setDescription(`Witaj na **${guild.name}**!\n\nAby uzyskać dostęp do wszystkich kanałów i funkcji, ukończ proces weryfikacji klikając przycisk poniżej.`)
+					.setAuthor({ name: `🔐 Weryfikacja na serwerze ${guild.name}`, iconURL: guild.iconURL() })
+					.setDescription('Witamy! Aby uzyskać dostęp do wszystkich kanałów i funkcji, ukończ proces weryfikacji klikając przycisk poniżej.')
 					.addFields([
-						{ name: '🛡️ Dlaczego weryfikacja?', value: 'Weryfikacja pomaga utrzymać naszą społeczność IT bezpieczną przed botami i spamem.', inline: false },
+						{ name: '🛡️ Dlaczego weryfikacja?', value: 'Weryfikacja pomaga utrzymać naszą społeczność bezpieczną przed botami i spamem.', inline: false },
 						{ name: '⚡ Szybki proces', value: 'Ukończ weryfikację hCaptcha w przeglądarce - zajmie to tylko kilka sekund!', inline: false },
 						{ name: '🔒 Bezpieczne i prywatne', value: 'Twoje dane są chronione, a proces jest całkowicie bezpieczny.', inline: false },
-						{ name: '💻 Wsparcie IT', value: 'Po weryfikacji uzyskasz dostęp do kanałów pomocy technicznej i wsparcia IT.', inline: false },
+						{ name: '💻 Wsparcie IT', value: 'Po weryfikacji uzyskasz dostęp do wszystkich kanałów pomocy technicznej i wsparcia IT.', inline: false },
 					])
-					.setFooter({ text: `${guild.name} • Kliknij przycisk poniżej aby się zweryfikować`, iconURL: guild.iconURL() })
-					.setThumbnail(guild.iconURL())
-					.setTimestamp(),
+					.setThumbnail(guild.iconURL()),
 			],
 		}),
 		button: {
 			label: 'Zweryfikuj się',
-			emoji: '✅',
+			emoji: '🔎',
 			style: 'Primary',
 		},
 		messages: {

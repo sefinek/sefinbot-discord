@@ -94,9 +94,6 @@ module.exports = {
 							.setAuthor({ name: `Welcome ${member.user.tag} to ${member.guild.name}`, iconURL: member.guild.iconURL() })
 							.setDescription('Thank you for joining our server! We hope you have a great time here.')
 							.setThumbnail(member.user.displayAvatarURL()),
-						new EmbedBuilder()
-							.setColor('#15070C')
-							.setFooter({ text: 'Copyright 2024-2025 © by Sefinek. All Rights Reserved.', iconURL: member.guild.iconURL() }),
 					],
 				}),
 			},
