@@ -1,4 +1,4 @@
-require('node:process').loadEnvFile();
+process.loadEnvFile();
 
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord.js');
