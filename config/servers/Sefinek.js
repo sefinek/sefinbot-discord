@@ -47,7 +47,7 @@ module.exports = {
 					new EmbedBuilder()
 						.setColor('#2ECC71')
 						.setAuthor({ name: `👋 Member ${member.user.tag} has joined the server`, iconURL: member.guild.iconURL() })
-						.setDescription(`Welcome, ${member}, to our server!`)
+						.setDescription(`Welcome, ${member}, to our server! You are our ${memberCount}th member.`)
 						.setThumbnail(member.user.displayAvatarURL()),
 				],
 			}),
@@ -83,8 +83,8 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#3498DB')
-							.setAuthor({ name: `Welcome ${member.user.tag} on ${member.guild.name}!`, iconURL: member.guild.iconURL() })
-							.setDescription('Welcome to our server! We\'re glad to have you here.')
+							.setAuthor({ name: `Welcome ${member.user.tag} to ${member.guild.name}!`, iconURL: member.guild.iconURL() })
+							.setDescription('Thank you for joining our server! Please read the rules and enjoy your stay.')
 							.setThumbnail(member.user.displayAvatarURL()),
 					],
 				}),

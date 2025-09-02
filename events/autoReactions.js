@@ -131,47 +131,15 @@ module.exports = {
 		if (msg.author.bot || !msg.guild) return;
 
 		const serverCfg = guilds.getServerConfig(msg.guild.id);
-		if (!serverCfg?.reactions) return;
+		if (!serverCfg?.reactions || !Array.isArray(serverCfg.reactions)) return;
 
-		// Handle new array-based reactions structure
-		if (Array.isArray(serverCfg.reactions)) {
-			const matchingReactions = serverCfg.reactions.filter(reaction =>
-				reaction.enabled !== false && reaction.channels?.includes(msg.channel.id)
-			);
-
-			if (matchingReactions.length) {
-				await Promise.allSettled(
-					matchingReactions.map(reaction => handleReactionConfig(msg, reaction))
-				);
-			}
-			return;
-		}
-
-		// Handle legacy object-based reactions structure for backward compatibility
-		const matchingReactions = Object.entries(serverCfg.reactions).filter(
-			([, config]) => config.channels?.includes(msg.channel.id)
+		const matchingReactions = serverCfg.reactions.filter(reaction =>
+			reaction.enabled !== false && reaction.channels?.includes(msg.channel.id)
 		);
 
 		if (matchingReactions.length) {
 			await Promise.allSettled(
-				matchingReactions.map(([type, config]) => {
-					// Convert legacy format to new format temporarily
-					const reactionConfig = {
-						name: type,
-						enabled: true,
-						channels: config.channels,
-						emojis: config.emojis || (config.emoji ? [config.emoji] : []),
-						thread: config.createThread ? {
-							enabled: true,
-							...config.threadConfig,
-						} : { enabled: false },
-						validation: {
-							...(config.requiresAttachment && { onlyImages: { message: config.errorMessage } }),
-							...(config.minLength && { textLength: { min: config.minLength, message: config.errorMessage } }),
-						},
-					};
-					return handleReactionConfig(msg, reactionConfig);
-				})
+				matchingReactions.map(reaction => handleReactionConfig(msg, reaction))
 			);
 		}
 	},

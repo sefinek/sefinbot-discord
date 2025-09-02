@@ -67,16 +67,7 @@ class ServerConfig {
 	get verificationSuccessDM() { return this.config.events?.directMessages?.verificationSuccess?.enabled; }
 	get verificationSuccessDMContent() { return this.config.events?.directMessages?.verificationSuccess?.content; }
 
-	get reactionApproveChannels() { return this.config.reactions?.approve?.channels; }
-	get approveReaction() { return this.config.reactions?.approve?.emoji; }
-	get reactionAttachmentChannels() { return this.config.reactions?.attachment?.channels; }
-	get attachmentReaction() { return this.config.reactions?.attachment?.emojis; }
-	get reactionHeartChannels() { return this.config.reactions?.hearts?.channels; }
-	get heartReaction() { return this.config.reactions?.hearts?.emoji; }
-	get reactionLikeDislikeChannels() { return this.config.reactions?.likeDislike?.channels; }
-	get likeDislikeReactions() { return this.config.reactions?.likeDislike?.emojis; }
-
-	get reactions() { return this.config.reactions || {}; }
+	get reactions() { return this.config.reactions || []; }
 
 	get verificationEnabled() { return this.config.verification?.enabled || false; }
 	get unverifiedRoleId() { return this.config.verification?.unverifiedRoleId; }
@@ -103,15 +94,20 @@ class ServerConfig {
 		const { schedules } = this.config.cron;
 		const createModeConfig = schedule => schedule ? {
 			guildName: schedule.name,
-			banner: schedule.banner,
+			banner: schedule.banner || (schedule.banners ? schedule.banners[0] : null), // Support both banner and banners
+			banners: schedule.banners || (schedule.banner ? [schedule.banner] : []), // Support both formats
 			message: schedule.message,
+			messageChannel: schedule.messageChannel || null,
 			rateLimits: schedule.rateLimits || {},
+			ignoreOnlineCheck: schedule.ignoreOnlineCheck || false,
 		} : null;
 
 		return {
 			dayMode: createModeConfig(schedules?.day),
 			afternoonMode: createModeConfig(schedules?.afternoon),
 			nightMode: createModeConfig(schedules?.night),
+			papajStart: createModeConfig(schedules?.papajStart),
+			papajEnd: createModeConfig(schedules?.papajEnd),
 		};
 	}
 }
