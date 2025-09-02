@@ -17,7 +17,7 @@ module.exports = {
 
 				// '🔎 » W niektórych przypadkach może być wymagana dodatkowa weryfikacja realizowana za pośrednictwem bota <@372022813839851520>. Jeśli nie widzisz kanału o nazwie weryfikacja-2, owa akcja Ciebie nie obowiązuje. Natomiast jeśli widzisz, na PW powinieneś otrzymać wiadomość od AltDentifier. Następnie postępuj zgodnie z nadesłanymi przez bota krokami. Życzymy powodzenia!\n\n' +
 
-				`⚡ » Masz problem ze zweryfikowaniem się? Skontaktuj się z <@${process.env.BOT_OWNER}>!`
+				`⚡ » Masz problem ze zweryfikowaniem się? Skontaktuj się z <@${process.env.OWNER}>!`
 			)],
 		});
 

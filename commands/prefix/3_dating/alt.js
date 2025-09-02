@@ -16,7 +16,7 @@ module.exports = {
 				'O nie! Mamy pewne podejrzenia, że Twoje konto jest tak zwanym altem. Powiem Ci teraz krok po kroku, co dalej.\n\n' +
 				'» Aby się zweryfikować w tym kroku, musisz kliknąć nadesłany link przez bota <@372022813839851520>, w prywatnych wiadomościach.\n' +
 				'» Masz **45 minut** na zrealizowanie wszystkich akcji. W przeciwnym razie zostaniesz wywalony z tego serwera.\n\n' +
-				`> Jeśli masz jakieś pytania, skontaktuj się z administratorem <@${process.env.BOT_OWNER}>.`
+				`> Jeśli masz jakieś pytania, skontaktuj się z administratorem <@${process.env.OWNER}>.`
 			)],
 		});
 	},

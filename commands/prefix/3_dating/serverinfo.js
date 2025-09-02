@@ -41,7 +41,7 @@ module.exports = {
 				{
 					name: '⭐ » Ogólne informacje',
 					value:
-						`• **Założyciel serwera:** <@${process.env.BOT_OWNER}>\n` +
+						`• **Założyciel serwera:** <@${process.env.OWNER}>\n` +
 						'• **Rekrutacja:** Otwarta\n' +
 						'• **Powstania serwera:** 14.12.2022 r.\n' +
 						'• **Pierwszy sezon:** 20:00, 15.07.2023 roku\n',

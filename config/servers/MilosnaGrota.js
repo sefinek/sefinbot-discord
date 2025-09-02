@@ -1,5 +1,4 @@
 const { EmbedBuilder } = require('discord.js');
-const { version } = require('../../package.json');
 
 const channels = {
 	lobby: '1122001039336423435',
@@ -36,16 +35,12 @@ const channels = {
 };
 
 const roles = {
-	wlasciciel: '1121993700625633300',
-	admin: '1121993865705033738',
-	moderator: '1121993981107114054',
-	pomocnik: '1121994026929881149',
 	wiezienChoroszczy: '1121995887598641213',
 	realizatorPartnerstw: '1127476600598954094',
 	pingPapiezowa: '1121997761311678474',
 	pingDeadchat: '1121997762578370620',
-	weryfikacja: '1290999297726480475',
-	randkowicz: '1290999261802004614',
+	weryfikacja: '1122000522132598784',
+	randkowicz: '1122000190807752817',
 };
 
 module.exports = {
@@ -125,7 +120,7 @@ module.exports = {
 						new EmbedBuilder()
 							.setColor('#0078FF')
 							.setAuthor({ name: `Witamy serdecznie na ${member.guild.name}`, iconURL: member.guild.iconURL() })
-							.setDescription(`Dziękujemy za dołączenie! Po zweryfikowaniu zapoznaj się z [regulaminem](https://github.com/sefinek/Milosna_Grota/blob/main/Rules.md) serwera.\nNastępnie zachęcam do przywitania się z nami na kanale <#${process.env.CH_GENERALY}>!`)
+							.setDescription(`Dziękujemy za dołączenie! Po zweryfikowaniu zapoznaj się z [regulaminem](https://github.com/sefinek/Milosna_Grota/blob/main/Rules.md) serwera.\nNastępnie zachęcam do przywitania się z nami na kanale <#${channels.generaly}>!`)
 							.addFields([
 								{
 									name: '😍 » Jesteś może graczem Genshin Impact?',
@@ -137,17 +132,13 @@ module.exports = {
 								},
 								{
 									name: '🤖 » Polecamy godnego zaufania bota Noel. Dodaj go na swój serwer!',
-									value: `> **Oficjalna strona:** ${process.env.URL_NOEL}\n`,
+									value: `**Oficjalna strona:** ${process.env.URL_NOEL}\n`,
 								},
 								{
 									name: '👋 » Zakończenie',
-									value: `W razie jakichkolwiek pytań, skontaktuj się z <@${process.env.BOT_OWNER}>. Jeśli chcesz miło pogadać lub po prostu się przywitać - również pisz!\n\n~ Życzymy Ci miłego pobytu! Pozdrawiamy.`,
+									value: `W razie jakichkolwiek pytań, skontaktuj się z <@${process.env.OWNER}>. Jeśli chcesz miło pogadać lub po prostu się przywitać - również pisz!\n\n~ Życzymy Ci miłego pobytu! Pozdrawiamy.`,
 								},
 							]),
-						new EmbedBuilder()
-							.setColor('#15070C')
-							.setImage(`https://cdn.sefinek.net/discord/sefibot/images/guildMemberAdd.png?version=${version}`)
-							.setFooter({ text: 'Copyright 2024-2025 © by Sefinek. All Rights Reserved.', iconURL: member.guild.iconURL() }),
 					],
 				}),
 			},
@@ -351,7 +342,7 @@ module.exports = {
 				.setDescription(
 					'👋 » Serdecznie dziękujemy za dołączenie na nasz serwer! Jeśli chcesz uzyskać dostęp do wszystkich kanałów, najpierw musisz się zweryfikować.\n\n' +
 					'✨ » Kliknij przycisk poniżej, aby tego dokonać. Zajme to tylko chwilkę...\n\n' +
-					`⚡ » Masz problem ze zweryfikowaniem się? Skontaktuj się z <@${process.env.BOT_OWNER}>!`
+					`⚡ » Masz problem ze zweryfikowaniem się? Skontaktuj się z <@${process.env.OWNER}>!`
 				),
 		],
 		}),
