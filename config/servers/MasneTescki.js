@@ -240,7 +240,7 @@ module.exports = {
 			embeds: [
 				new EmbedBuilder()
 					.setColor('#FF69B4')
-					.setTitle('🔧 Wymagana weryfikacja serwera')
+					.setAuthor({ name: '🔧 Wymagana weryfikacja serwera', iconURL: guild.iconURL() })
 					.setDescription(`**Środowisko deweloperskie** 🚀\n\nWitaj na serwerze testowym **${guild.name}**!\n\nTo jest środowisko deweloperskie do testowania funkcji bota. Zweryfikuj swoje konto, aby uzyskać dostęp do wszystkich kanałów testowych i funkcji.`)
 					.setThumbnail(guild.iconURL()),
 			],
@@ -256,7 +256,7 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#FF69B4')
-							.setTitle('🔧 Weryfikacja Discord')
+							.setAuthor({ name: '🔧 Weryfikacja Discord', iconURL: guild.iconURL() })
 							.setDescription(`**Środowisko deweloperskie** 🚀\n\nAby uzyskać dostęp do serwera testowego **${guild.name}**, ukończ proces weryfikacji.\n\n[Kliknij tutaj aby się zweryfikować](${verificationUrl})`),
 					],
 				}),
@@ -266,7 +266,7 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#FF6B35')
-							.setTitle('⚠️ Verification Required')
+							.setAuthor({ name: '⚠️ Verification Required', iconURL: guild.iconURL() })
 							.setDescription(`Hello ${member.user.username}!\n\nYour verification link for the **${guild.name}** test server has expired. You need to verify your account to continue testing features.`)
 							.addFields([
 								{ name: '🔗 How to verify', value: 'Click the verification button in the server to get a new verification link.', inline: false },
@@ -281,7 +281,7 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#E74C3C')
-							.setTitle('🚨 Final Warning - Account Removal')
+							.setAuthor({ name: '🚨 Final Warning - Account Removal', iconURL: guild.iconURL() })
 							.setDescription(`**DEVELOPMENT TEST NOTICE**\n\nHello ${member.user.username},\n\nYou have been on the **${guild.name}** test server for over 3 days without completing verification. **You have 24 hours to verify or you will be removed (testing auto-kick feature).**`)
 							.addFields([
 								{ name: '🔗 Verify NOW', value: 'Click the verification button in the test server immediately to get your verification link.', inline: false },
@@ -296,7 +296,7 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#992D22')
-							.setTitle('👋 Removed from Test Server')
+							.setAuthor({ name: '👋 Removed from Test Server', iconURL: guild.iconURL() })
 							.setDescription(`Hello ${member.user.username},\n\nYou have been removed from the **${guild.name}** test server because you did not complete verification within the 4-day testing period.`)
 							.addFields([
 								{ name: '🔄 Want to test again?', value: 'You can rejoin the test server anytime, but you\'ll need to complete verification within 4 days.', inline: false },
@@ -311,7 +311,7 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#27ae60')
-							.setTitle('✅ Weryfikacja ukończona')
+							.setAuthor({ name: '✅ Weryfikacja ukończona', iconURL: guild.iconURL() })
 							.setDescription(`Witamy na serwerze testowym **${guild.name}**! Twoje konto zostało pomyślnie zweryfikowane.`),
 					],
 				}),

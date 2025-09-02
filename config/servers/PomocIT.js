@@ -154,14 +154,12 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#FF6B35')
-							.setTitle('⚠️ Wymagana weryfikacja')
+							.setAuthor({ name: '⚠️ Wymagana weryfikacja', iconURL: guild.iconURL() })
 							.setDescription(`Cześć ${member.user.username}!\n\nTwój link weryfikacyjny dla **${guild.name}** wygasł. Musisz zweryfikować swoje konto, aby dalej korzystać z serwera.`)
 							.addFields([
 								{ name: '🔗 Jak się zweryfikować', value: 'Kliknij przycisk weryfikacji na serwerze, aby otrzymać nowy link weryfikacyjny.', inline: false },
 								{ name: '⏰ Ważne', value: 'Jeśli nie zweryfikujesz się w ciągu 4 dni od dołączenia, zostaniesz usunięty z serwera.', inline: false },
-							])
-							.setFooter({ text: `${guild.name} • Wymagana weryfikacja`, iconURL: guild.iconURL() })
-							.setTimestamp(),
+							]),
 					],
 				}),
 			},
@@ -170,15 +168,13 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#E74C3C')
-							.setTitle('🚨 Ostatnie ostrzeżenie - Usunięcie konta')
+							.setAuthor({ name: '🚨 Ostatnie ostrzeżenie - Usunięcie konta', iconURL: guild.iconURL() })
 							.setDescription(`**WAŻNE POWIADOMIENIE**\n\nCześć ${member.user.username},\n\nJesteś na **${guild.name}** już ponad 3 dni bez ukończenia weryfikacji. **Masz 24 godziny na zweryfikowanie konta lub zostaniesz usunięty z serwera.**`)
 							.addFields([
 								{ name: '🔗 Zweryfikuj się TERAZ', value: 'Natychmiast kliknij przycisk weryfikacji na serwerze, aby otrzymać link weryfikacyjny.', inline: false },
 								{ name: '⏰ Pozostały czas', value: 'Mniej niż 24 godziny do automatycznego usunięcia', inline: false },
 								{ name: '❓ Potrzebujesz pomocy?', value: 'Skontaktuj się z moderatorami serwera, jeśli masz problem z weryfikacją.', inline: false },
-							])
-							.setFooter({ text: `${guild.name} • Ostatnie ostrzeżenie`, iconURL: guild.iconURL() })
-							.setTimestamp(),
+							]),
 					],
 				}),
 			},
@@ -187,14 +183,12 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#992D22')
-							.setTitle('👋 Usunięto z serwera')
+							.setAuthor({ name: '👋 Usunięto z serwera', iconURL: guild.iconURL() })
 							.setDescription(`Cześć ${member.user.username},\n\nZostałeś usunięty z **${guild.name}**, ponieważ nie ukończyłeś weryfikacji w wymaganym 4-dniowym okresie.`)
 							.addFields([
 								{ name: '🔄 Chcesz wrócić?', value: 'Możesz dołączyć ponownie do serwera w każdej chwili, ale będziesz musiał ukończyć weryfikację w ciągu 4 dni.', inline: false },
 								{ name: '❓ Pytania?', value: 'Skontaktuj się z moderatorami serwera, jeśli masz pytania dotyczące tej polityki.', inline: false },
-							])
-							.setFooter({ text: `${guild.name} • Konto usunięte`, iconURL: guild.iconURL() })
-							.setTimestamp(),
+							]),
 					],
 				}),
 			},
@@ -203,7 +197,7 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#77B255')
-							.setAuthor({ text: '✅ Weryfikacja ukończona', iconURL: guild.iconURL() })
+							.setAuthor({ name: '✅ Weryfikacja ukończona', iconURL: guild.iconURL() })
 							.setDescription(`Witaj na **${guild.name}**! Twoje konto zostało pomyślnie zweryfikowane.`)
 							.addFields([
 								{ name: '🎉 Dostęp przyznany', value: 'Masz teraz pełny dostęp do wszystkich kanałów i funkcji serwera!', inline: false },
