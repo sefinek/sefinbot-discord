@@ -235,8 +235,6 @@ module.exports = {
 	features: {
 		isDatingServer: false,
 		cleverBot: null,
-		timeBasedModes: false,
-		techSupport: true,
 		botTrap: null,
 	},
 };

@@ -84,7 +84,6 @@ class ServerConfig {
 	get cleverBot() {
 		return !!this.config.features?.cleverBot;
 	}
-	get timeBasedModes() { return this.config.features?.timeBasedModes || false; }
 
 	get cronConfig() { return this.config.cron || null; }
 

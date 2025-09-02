@@ -369,19 +369,8 @@ module.exports = {
 
 	// Feature flags - enable/disable bot features per server
 	features: {
-		// Core features
-		isDatingServer: false, // Enable for dating/relationship servers
-		timeBasedModes: false, // Enable cron-based day/night modes
-		papajMode: false, // Special mode for specific servers
-
-		// Chat
-		cleverBot: channels.general,
-
-		// Bot trap feature
-		botTrap: channels.botTrap,
-
-		// Additional feature flags
-		apiServer: false, // For API documentation servers
-		techSupport: false, // For IT support servers
+		isDatingServer: false, // Core features
+		cleverBot: channels.general, // Chatbot
+		botTrap: channels.botTrap, // Bot trap feature
 	},
 };

@@ -132,7 +132,6 @@ module.exports = {
   // Feature flags
   features: {
     isDatingServer: false,
-    timeBasedModes: false,
     customFeature: true,
     cleverBot: {
       enabled: true,

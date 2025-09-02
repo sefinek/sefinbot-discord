@@ -468,8 +468,6 @@ module.exports = {
 
 	features: {
 		isDatingServer: true,
-		timeBasedModes: true,
-		papajMode: true,
 		cleverBot: channels.cleverBot,
 		botTrap: null,
 	},
