@@ -81,9 +81,9 @@ module.exports = {
 
 			await msg.reply({ embeds: [setupEmbed] });
 
-			console.log(`Verification » Setup message created in ${msg.guild.name} (${msg.guild.id}) - Channel: ${msg.channel.id}`);
+			console.log(`Verifi » Setup message created in ${msg.guild.name} (${msg.guild.id}) - Channel: ${msg.channel.id}`);
 		} catch (err) {
-			console.error('Verification » Error setting up verification message:', err);
+			console.error('Verifi » Error setting up verification message:', err);
 			return msg.reply('❌ An error occurred while setting up verification. Please try again.');
 		}
 	},

@@ -18,7 +18,6 @@ router.post('/api/v1/discord/channel/send-msg', SendMsgController); // Genshin S
 router.post('/api/v1/discord/channel/send-log', SengLogController); // Logs for my test server
 
 // Verification API
-router.get('/api/v1/health', VerificationController.healthCheck);
 router.get('/api/v1/verification/stats', validateSefinekToken, ensureBotClient, VerificationController.getServerStats);
 router.get('/api/v1/verification/tokens/:token', validateSefinekToken, ensureBotClient, VerificationController.getVerificationInfo);
 router.patch('/api/v1/verification/tokens/:token', validateSefinekToken, ensureBotClient, VerificationController.completeVerification);

@@ -247,7 +247,7 @@ module.exports = {
 			],
 		}),
 		button: {
-			label: '🔧 Zweryfikuj (Dev)',
+			label: '🔧 Zweryfikuj',
 			emoji: '✅',
 			style: 'Primary',
 		},
@@ -318,14 +318,8 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#27ae60')
-							.setTitle('✅ Dev: Weryfikacja ukończona!')
-							.setDescription(`Witaj na serwerze testowym **${guild.name}**! Twoje konto zostało pomyślnie zweryfikowane.`)
-							.addFields([
-								{ name: '🧪 Środowisko testowe', value: 'Masz teraz dostęp do wszystkich kanałów testowych i funkcji deweloperskich!', inline: false },
-								{ name: '🚀 Dostępne funkcje', value: '• Testowanie systemu randkowego\n• Integracja CleverBot\n• Tryby czasowe\n• Wszystkie funkcje premium', inline: false },
-							])
-							.setFooter({ text: `${guild.name} • Środowisko deweloperskie • Witamy!`, iconURL: guild.iconURL() })
-							.setTimestamp(),
+							.setTitle('✅ Weryfikacja ukończona')
+							.setDescription(`Witamy na serwerze testowym **${guild.name}**! Twoje konto zostało pomyślnie zweryfikowane.`),
 					],
 				}),
 			},

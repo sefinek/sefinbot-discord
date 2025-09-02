@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, WebhookClient, PermissionsBitField } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, WebhookClient, PermissionsBitField, MessageFlags } = require('discord.js');
 const { WebSocket } = require('ws');
 const ObcySessions = require('../../database/models/obcy.model');
 const DEBUG = false;
@@ -20,7 +20,7 @@ module.exports = {
 
 		const chSession = await ObcySessions.findOne({ channelId: channel.id, closed: false });
 		if (chSession && chSession.channelId === channel.id) {
-			return inter.reply({ content: '<a:error:1127481079620718635> **Niepowodzenie**\nNa tym kanale jest już prowadzona jakaś rozmowa. Jeżeli nie o to chodzi, zgłoś nam ten błąd.', ephemeral: true });
+			return inter.reply({ content: '<a:error:1127481079620718635> **Niepowodzenie**\nNa tym kanale jest już prowadzona jakaś rozmowa. Jeżeli nie o to chodzi, zgłoś nam ten błąd.', ephemeral: MessageFlags.Ephemeral });
 		}
 
 		if (!inter.replied) await inter.deferReply();
@@ -210,8 +210,8 @@ module.exports = {
 				button.on('collect', async i => {
 					switch (i.customId) {
 					case 'end': {
-						if (i.user.id !== inter.user.id) return i.reply({ content: `<a:error:1127481079620718635> Niestety nie możesz tego dokonać. Tylko użytkownik ${inter.user} może kliknąć ten przycisk.`, ephemeral: true });
-						if (session.closed) return i.reply({ content: '<a:error:1127481079620718635> Ta rozmowa została już zakończona.', ephemeral: true });
+						if (i.user.id !== inter.user.id) return i.reply({ content: `<a:error:1127481079620718635> Niestety nie możesz tego dokonać. Tylko użytkownik ${inter.user} może kliknąć ten przycisk.`, ephemeral: MessageFlags.Ephemeral });
+						if (session.closed) return i.reply({ content: '<a:error:1127481079620718635> Ta rozmowa została już zakończona.', ephemeral: MessageFlags.Ephemeral });
 
 						await close(ws);
 						await i.reply({ embeds: [new EmbedBuilder().setColor('#00D26A').setAuthor({ name: `✔️️ ${i.user.username} rozłączył się`, iconURL: i.user.displayAvatarURL() })] });
@@ -220,7 +220,7 @@ module.exports = {
 					}
 
 					case 'topic': {
-						await i.reply({ content: '🔵 **Losowanie tematu do rozmowy...**\nPamiętaj, że temat można wylosować czasami dopiero po 1 minucie rozpoczęcia rozmowy i nie tylko.', ephemeral: true });
+						await i.reply({ content: '🔵 **Losowanie tematu do rozmowy...**\nPamiętaj, że temat można wylosować czasami dopiero po 1 minucie rozpoczęcia rozmowy i nie tylko.', ephemeral: MessageFlags.Ephemeral });
 
 						session.ceId++;
 						session.updateOne({ ceId: session.ceId });
@@ -234,10 +234,10 @@ module.exports = {
 								.setAuthor({ name: `🔵 Sesja - Debug (ceId ${session.ceId})`, iconURL: i.user.displayAvatarURL() })
 								.setDescription(`\`\`\`json\n${session}\`\`\`\`\`\`Autor sesji: ${inter.user.tag}\nNazwa serwera: ${inter.guild.name}\`\`\``)
 								.setFooter({ text: 'To są bieżące informacje o aktualnej sesji do wglądu.\nPrzydadzą się one administratorowi bota do debugowania ewentualnych problemów.' }),
-						], ephemeral: true });
+						], ephemeral: MessageFlags.Ephemeral });
 					}
 
-					default: await i.reply({ content: '❌ Wybacz, ale coś poszło nie tak. Zgłoś ten błąd na naszym serwerze wsparcia.', ephemeral: true });
+					default: await i.reply({ content: '❌ Wybacz, ale coś poszło nie tak. Zgłoś ten błąd na naszym serwerze wsparcia.', ephemeral: MessageFlags.Ephemeral });
 					}
 				});
 
@@ -274,7 +274,7 @@ module.exports = {
 
 				const button = disconnected.createMessageComponentCollector();
 				button.on('collect', async i => {
-					if (i.user.id !== inter.user.id) return i.reply({ content: '<a:error:1127481079620718635> Przepraszamy, ale niestety nie możesz tego dokonać.', ephemeral: true });
+					if (i.user.id !== inter.user.id) return i.reply({ content: '<a:error:1127481079620718635> Przepraszamy, ale niestety nie możesz tego dokonać.', ephemeral: MessageFlags.Ephemeral });
 
 					try {
 						const cmd = client.interactions.get('obcy');

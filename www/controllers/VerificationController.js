@@ -1,41 +1,32 @@
 const { getServerConfig } = require('../../config/guilds.js');
 const { asyncHandler } = require('../middlewares/auth.js');
-const { getPendingVerification, completePendingVerification, getPendingVerificationsCount } = require('../../scripts/verificationUtils.js');
+const { getPendingVerification, completePendingVerification } = require('../../scripts/verificationUtils.js');
 
 const isValidTokenFormat = token => token && (/^[a-f0-9]{128}$/i).test(token);
-const createErrorResponse = (status, message, error) => ({ success: false, status, message, error });
-const createSuccessResponse = (status, message, data = null) => ({ success: true, status, message, ...(data && { data }) });
 
 const getVerificationInfo = asyncHandler(async (req, res) => {
 	const { token } = req.params;
-	const client = req.bot;
-
-	// Validate token format
 	if (!isValidTokenFormat(token)) {
-		return res.status(400).json(createErrorResponse(400, 'Invalid token format', 'INVALID_TOKEN_FORMAT'));
+		return res.status(400).json({ success: false, status: 400, message: 'Invalid token format' });
 	}
 
-	// Find verification record
 	const verification = await getPendingVerification(token);
 	if (!verification) {
-		return res.status(404).json(createErrorResponse(404, 'Token not found or expired', 'TOKEN_NOT_FOUND'));
+		return res.status(404).json({ success: false, status: 404, message: 'Token not found or expired' });
 	}
 
-	// Get Discord objects
-	const guild = client.guilds.cache.get(verification.guildId);
+	const guild = req.bot.guilds.cache.get(verification.guildId);
 	const member = guild?.members.cache.get(verification.userId);
 
 	if (!guild || !member) {
-		return res.status(404).json(createErrorResponse(404, 'Guild or member not found', 'GUILD_MEMBER_NOT_FOUND'));
+		return res.status(404).json({ success: false, status: 404, message: 'Guild or member not found' });
 	}
 
-	// Check server configuration
 	const serverConfig = getServerConfig(verification.guildId);
 	if (!serverConfig?.verification?.enabled) {
-		return res.status(400).json(createErrorResponse(400, 'Verification not enabled for this server', 'VERIFICATION_DISABLED'));
+		return res.status(400).json({ success: false, status: 400, message: 'Verification not enabled for this server' });
 	}
 
-	// Return verification data
 	const responseData = {
 		valid: true,
 		guild: { name: guild.name, id: verification.guildId, icon: { small: guild.iconURL({ size: 128 }), large: guild.iconURL({ size: 256 }) } },
@@ -43,44 +34,37 @@ const getVerificationInfo = asyncHandler(async (req, res) => {
 		timestamp: verification.timestamp,
 	};
 
-	return res.json(createSuccessResponse(200, 'Verification token found', responseData));
+	return res.json({ success: true, status: 200, message: 'Verification token found', data: responseData });
 });
 
 const completeVerification = asyncHandler(async (req, res) => {
 	const { token } = req.params;
-	const client = req.bot;
 
-	// Validate token format
 	if (!isValidTokenFormat(token)) {
-		return res.status(400).json(createErrorResponse(400, 'Invalid token format', 'INVALID_TOKEN_FORMAT'));
+		return res.status(400).json({ success: false, status: 400, message: 'Invalid token format' });
 	}
 
-	// Use and invalidate token
 	const verification = await completePendingVerification(token);
 	if (!verification) {
-		return res.status(404).json(createErrorResponse(404, 'Verification token not found or expired', 'TOKEN_NOT_FOUND'));
+		return res.status(404).json({ success: false, status: 404, message: 'Verification token not found or expired' });
 	}
 
-	// Get Discord objects
-	const guild = client.guilds.cache.get(verification.guildId);
+	const guild = req.bot.guilds.cache.get(verification.guildId);
 	const member = guild?.members.cache.get(verification.userId);
 
 	if (!guild || !member) {
-		return res.status(404).json(createErrorResponse(404, 'Server or member not found', 'GUILD_MEMBER_NOT_FOUND'));
+		return res.status(404).json({ success: false, status: 404, message: 'Server or member not found' });
 	}
 
-	// Check server configuration
 	const serverConfig = getServerConfig(verification.guildId);
 	if (!serverConfig?.verification?.enabled) {
-		return res.status(400).json(createErrorResponse(400, 'Verification not enabled on this server', 'VERIFICATION_DISABLED'));
+		return res.status(400).json({ success: false, status: 400, message: 'Verification not enabled on this server' });
 	}
 
-	// Check if member still has unverified role
 	if (!member.roles.cache.has(serverConfig.verification.unverifiedRoleId)) {
-		return res.status(400).json(createErrorResponse(400, 'User is already verified or does not have unverified role', 'ALREADY_VERIFIED'));
+		return res.status(400).json({ success: false, status: 400, message: 'User is already verified or does not have unverified role' });
 	}
 
-	// Update roles efficiently
 	const roleChanges = [];
 	const unverifiedRole = guild.roles.cache.get(serverConfig.verification.unverifiedRoleId);
 	const verifiedRole = guild.roles.cache.get(serverConfig.verification.verifiedRoleId);
@@ -93,27 +77,24 @@ const completeVerification = asyncHandler(async (req, res) => {
 		roleChanges.push(member.roles.add(verifiedRole));
 	}
 
-	// Execute role changes with error handling
 	if (roleChanges.length > 0) {
 		try {
 			await Promise.all(roleChanges);
 		} catch (roleErr) {
 			console.error(`Verification » Role update error for ${member.user.tag}:`, roleErr);
 
-			// Handle specific Discord API errors
 			if (roleErr.code === 50013) {
-				return res.status(403).json(createErrorResponse(403, 'Bot lacks permission to manage roles. Please contact an administrator.', 'INSUFFICIENT_PERMISSIONS'));
+				return res.status(403).json({ success: false, status: 403, message: 'Bot lacks permission to manage roles. Please contact an administrator.' });
 			}
 
 			if (roleErr.code === 50001) {
-				return res.status(403).json(createErrorResponse(403, 'Bot lacks access to the server or member. Please contact an administrator.', 'ACCESS_DENIED'));
+				return res.status(403).json({ success: false, status: 403, message: 'Bot lacks access to the server or member. Please contact an administrator.' });
 			}
 
-			return res.status(500).json(createErrorResponse(500, 'Failed to update roles. Please contact an administrator.', 'ROLE_UPDATE_FAILED'));
+			return res.status(500).json({ success: false, status: 500, message: 'Failed to update roles. Please contact an administrator.' });
 		}
 	}
 
-	// Send verification success DM (non-blocking)
 	const sendVerificationSuccessDM = async () => {
 		try {
 			if (!serverConfig.verification?.messages?.success?.content) {
@@ -129,63 +110,48 @@ const completeVerification = asyncHandler(async (req, res) => {
 		}
 	};
 
-	// Send DM in background
 	await sendVerificationSuccessDM();
 
 	console.log(`Verification » Successfully verified ${member.user.tag} (${member.id}) in guild "${guild.name}"`);
 
-	return res.json(createSuccessResponse(200, `Successfully verified ${member.user.tag} in ${guild.name}`, {
-		user: {
-			id: member.id,
-			username: member.user.username,
-			tag: member.user.tag,
+	return res.json({
+		success: true,
+		status: 200,
+		message: `Successfully verified ${member.user.tag} in ${guild.name}`,
+		data: {
+			user: {
+				id: member.id,
+				username: member.user.username,
+				tag: member.user.tag,
+			},
+			guild: {
+				id: guild.id,
+				name: guild.name,
+			},
 		},
-		guild: {
-			id: guild.id,
-			name: guild.name,
-		},
-	}));
-});
-
-const healthCheck = asyncHandler(async (req, res) => {
-	const pendingCount = await getPendingVerificationsCount();
-	return res.json(createSuccessResponse(200, 'Service healthy', {
-		status: 'ok',
-		timestamp: new Date().toISOString(),
-		uptime: Math.floor(process.uptime()),
-		memory: {
-			used: Math.round(process.memoryUsage().heapUsed / 1024 / 1024),
-			total: Math.round(process.memoryUsage().heapTotal / 1024 / 1024),
-		},
-		pendingVerifications: pendingCount,
-	}));
+	});
 });
 
 const getServerStats = asyncHandler(async (req, res) => {
-	const client = req.bot;
-
 	const verificationEnabledServers = [];
 
-	for (const guild of client.guilds.cache.values()) {
+	for (const guild of req.bot.guilds.cache.values()) {
 		const serverConfig = getServerConfig(guild.id);
-		if (serverConfig?.verification?.enabled) {
-			verificationEnabledServers.push({ id: guild.id, name: guild.name, memberCount: guild.memberCount });
-		}
+		if (serverConfig?.verification?.enabled) verificationEnabledServers.push({ id: guild.id, name: guild.name, memberCount: guild.memberCount });
 	}
 
 	const stats = {
-		guilds: client.guilds.cache.size,
-		users: client.users.cache.size,
+		guilds: req.bot.guilds.cache.size,
+		users: req.bot.users.cache.size,
 		uptime: Math.floor(process.uptime()),
 		verificationEnabled: verificationEnabledServers,
 	};
 
-	return res.json(createSuccessResponse(200, 'Server stats retrieved successfully', stats));
+	return res.json({ success: true, status: 200, message: 'Server stats retrieved successfully', data: stats });
 });
 
 module.exports = {
 	getVerificationInfo,
 	completeVerification,
-	healthCheck,
 	getServerStats,
 };

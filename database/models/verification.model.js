@@ -1,8 +1,8 @@
 const { Schema, model } = require('mongoose');
 
 const VerificationStatusSchema = new Schema({
-	userId: { type: String, required: true, unique: true },
-	guildId: { type: String, required: true },
+	userId: { type: String, required: true, index: true },
+	guildId: { type: String, required: true, index: true },
 
 	joinedAt: { type: Date, required: true, default: Date.now, index: true },
 
@@ -10,8 +10,6 @@ const VerificationStatusSchema = new Schema({
 		type: String,
 		minlength: 128,
 		maxlength: 128,
-		unique: true,
-		sparse: true,
 		match: /^[a-f0-9]{128}$/i,
 	},
 	tokenExpiresAt: { type: Date },
@@ -27,33 +25,74 @@ const VerificationStatusSchema = new Schema({
 	kickWarningAt: { type: Date, default: null },
 }, { versionKey: false, timestamps: true });
 
+// Optimized compound indexes
+VerificationStatusSchema.index({ userId: 1, guildId: 1 }, { unique: true });
+VerificationStatusSchema.index({ token: 1 }, { unique: true, sparse: true });
+VerificationStatusSchema.index({ verified: 1, tokenExpiresAt: 1 });
+VerificationStatusSchema.index({ verified: 1, joinedAt: 1 });
+VerificationStatusSchema.index({ guildId: 1, verified: 1, joinedAt: 1 });
+VerificationStatusSchema.index({ tokenExpiresAt: 1 }, { expireAfterSeconds: 0 });
+
 // Static methods
 VerificationStatusSchema.statics.findValidToken = function(token) {
-	return this.findOne({ token, tokenUsed: false, verified: false });
+	return this.findOne({
+		token,
+		tokenUsed: false,
+		verified: false,
+		$or: [
+			{ tokenExpiresAt: null },
+			{ tokenExpiresAt: { $gt: new Date() } },
+		],
+	}).lean();
 };
 
 VerificationStatusSchema.statics.useToken = function(token) {
 	return this.findOneAndUpdate(
-		{ token, tokenUsed: false, verified: false },
+		{
+			token,
+			tokenUsed: false,
+			verified: false,
+			$or: [
+				{ tokenExpiresAt: null },
+				{ tokenExpiresAt: { $gt: new Date() } },
+			],
+		},
 		{ tokenUsed: true, verified: true, verifiedAt: new Date() },
 		{ new: true }
 	);
 };
 
 VerificationStatusSchema.statics.countActive = function() {
-	return this.countDocuments({ verified: false });
+	return this.countDocuments({
+		verified: false,
+		$or: [
+			{ tokenExpiresAt: null },
+			{ tokenExpiresAt: { $gt: new Date() } },
+		],
+	}).hint({ verified: 1, tokenExpiresAt: 1 });
 };
 
 VerificationStatusSchema.statics.findUsersNeedingReminder = function() {
 	const twoDaysAgo = new Date(Date.now() - 48 * 60 * 60 * 1000);
+	const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
 	return this.find({
 		verified: false,
 		joinedAt: { $lt: twoDaysAgo },
-		$or: [
-			{ lastReminderSentAt: null },
-			{ lastReminderSentAt: { $lt: new Date(Date.now() - 24 * 60 * 60 * 1000) } },
+		$and: [
+			{
+				$or: [
+					{ tokenExpiresAt: null },
+					{ tokenExpiresAt: { $gt: new Date() } },
+				],
+			},
+			{
+				$or: [
+					{ lastReminderSentAt: null },
+					{ lastReminderSentAt: { $lt: oneDayAgo } },
+				],
+			},
 		],
-	});
+	}).lean().hint({ verified: 1, joinedAt: 1 });
 };
 
 VerificationStatusSchema.statics.findUsersForKickWarning = function() {
@@ -62,7 +101,11 @@ VerificationStatusSchema.statics.findUsersForKickWarning = function() {
 		verified: false,
 		joinedAt: { $lt: threeDaysAgo },
 		kickWarningAt: null,
-	});
+		$or: [
+			{ tokenExpiresAt: null },
+			{ tokenExpiresAt: { $gt: new Date() } },
+		],
+	}).lean().hint({ verified: 1, joinedAt: 1 });
 };
 
 VerificationStatusSchema.statics.findUsersToKick = function() {
@@ -70,29 +113,38 @@ VerificationStatusSchema.statics.findUsersToKick = function() {
 	return this.find({
 		verified: false,
 		joinedAt: { $lt: fourDaysAgo },
-	});
+	}).lean().hint({ verified: 1, joinedAt: 1 });
 };
 
 VerificationStatusSchema.statics.cleanUserTokens = function(userId, guildId) {
-	return this.deleteMany({ userId, guildId, verified: false });
+	return this.updateMany(
+		{ userId, guildId, verified: false },
+		{ $unset: { token: 1, tokenExpiresAt: 1 }, $set: { tokenUsed: false } }
+	);
+};
+
+VerificationStatusSchema.statics.cleanExpiredTokens = function() {
+	return this.updateMany(
+		{
+			tokenExpiresAt: { $lt: new Date() },
+			verified: false,
+			tokenUsed: false,
+		},
+		{ $unset: { token: 1, tokenExpiresAt: 1 }, $set: { tokenUsed: false } },
+		{ hint: { tokenExpiresAt: 1 } }
+	);
 };
 
 // Instance methods
 VerificationStatusSchema.methods.sendReminder = function() {
-	return this.model('VerificationStatus').updateOne(
-		{ _id: this._id },
-		{
-			lastReminderSentAt: new Date(),
-			$inc: { reminderCount: 1 },
-		}
-	);
+	this.lastReminderSentAt = new Date();
+	this.reminderCount += 1;
+	return this.save();
 };
 
 VerificationStatusSchema.methods.sendKickWarning = function() {
-	return this.model('VerificationStatus').updateOne(
-		{ _id: this._id },
-		{ kickWarningAt: new Date() }
-	);
+	this.kickWarningAt = new Date();
+	return this.save();
 };
 
 module.exports = model('VerificationStatus', VerificationStatusSchema, 'sefibot-verifications');

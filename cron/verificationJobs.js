@@ -23,14 +23,14 @@ class VerificationJobs {
 			await this.kickUnverifiedUsers();
 		}, null, true, 'Europe/Warsaw');
 
-		console.log('Verification » Cron jobs started');
+		console.log('Verifi » Cron jobs started');
 	}
 
 	stop() {
 		if (this.reminderJob) this.reminderJob.stop();
 		if (this.kickWarningJob) this.kickWarningJob.stop();
 		if (this.kickJob) this.kickJob.stop();
-		console.log('Verification » Cron jobs stopped');
+		console.log('Verifi » Cron jobs stopped');
 	}
 
 	async processVerificationUsers(userStatuses, messageType, actionCallback) {
@@ -41,7 +41,7 @@ class VerificationJobs {
 
 				await actionCallback(userStatus, member, guild, serverConfig);
 			} catch (err) {
-				console.error(`Verification » Failed to process ${messageType} for user ${userStatus.userId}:`, err.message);
+				console.error(`Verifi » Failed to process ${messageType} for user ${userStatus.userId}:`, err.message);
 			}
 		}
 	}
@@ -65,7 +65,7 @@ class VerificationJobs {
 	async sendVerificationReminders() {
 		try {
 			const usersNeedingReminder = await VerificationStatus.findUsersNeedingReminder();
-			console.log(`Verification » Found ${usersNeedingReminder.length} users needing reminder`);
+			console.log(`Verifi » Found ${usersNeedingReminder.length} users needing reminder`);
 
 			await this.processVerificationUsers(usersNeedingReminder, 'reminder', async (userStatus, member, guild, serverConfig) => {
 				if (serverConfig.verification?.messages?.reminder?.content) {
@@ -73,17 +73,17 @@ class VerificationJobs {
 					await member.send(reminderContent);
 				}
 				await userStatus.sendReminder();
-				console.log(`Verification » Sent reminder to ${member.user.tag} in ${guild.name}`);
+				console.log(`Verifi » Sent reminder to ${member.user.tag} in ${guild.name}`);
 			});
 		} catch (err) {
-			console.error('Verification » Error in sendVerificationReminders:', err);
+			console.error('Verifi » Error in sendVerificationReminders:', err);
 		}
 	}
 
 	async sendKickWarnings() {
 		try {
 			const usersForWarning = await VerificationStatus.findUsersForKickWarning();
-			console.log(`Verification » Found ${usersForWarning.length} users needing kick warning`);
+			console.log(`Verifi » Found ${usersForWarning.length} users needing kick warning`);
 
 			await this.processVerificationUsers(usersForWarning, 'kick warning', async (userStatus, member, guild, serverConfig) => {
 				if (serverConfig.verification?.messages?.kickWarning?.content) {
@@ -91,17 +91,17 @@ class VerificationJobs {
 					await member.send(warningContent);
 				}
 				await userStatus.sendKickWarning();
-				console.log(`Verification » Sent kick warning to ${member.user.tag} in ${guild.name}`);
+				console.log(`Verifi » Sent kick warning to ${member.user.tag} in ${guild.name}`);
 			});
 		} catch (err) {
-			console.error('Verification » Error in sendKickWarnings:', err);
+			console.error('Verifi » Error in sendKickWarnings:', err);
 		}
 	}
 
 	async kickUnverifiedUsers() {
 		try {
 			const usersToKick = await VerificationStatus.findUsersToKick();
-			console.log(`Verification » Found ${usersToKick.length} users to kick`);
+			console.log(`Verifi » Found ${usersToKick.length} users to kick`);
 
 			await this.processVerificationUsers(usersToKick, 'kick', async (userStatus, member, guild, serverConfig) => {
 				try {
@@ -110,15 +110,15 @@ class VerificationJobs {
 						await member.send(kickContent);
 					}
 				} catch (dmErr) {
-					console.warn(`Verification » Could not DM ${member.user.tag} before kick:`, dmErr.message);
+					console.warn(`Verifi » Could not DM ${member.user.tag} before kick:`, dmErr.message);
 				}
 
 				await member.kick('Failed to complete verification within 4 days');
 				await VerificationStatus.deleteOne({ _id: userStatus._id });
-				console.log(`Verification » Kicked ${member.user.tag} from ${guild.name} for not verifying`);
+				console.log(`Verifi » Kicked ${member.user.tag} from ${guild.name} for not verifying`);
 			});
 		} catch (err) {
-			console.error('Verification » Error in kickUnverifiedUsers:', err);
+			console.error('Verifi » Error in kickUnverifiedUsers:', err);
 		}
 	}
 }
