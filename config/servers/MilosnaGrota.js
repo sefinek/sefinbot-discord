@@ -420,14 +420,12 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#27ae60')
-							.setTitle('✅ Weryfikacja ukończona! ❤️')
+							.setAuthor({ text: '✅ Weryfikacja ukończona', iconURL: guild.iconURL() })
 							.setDescription(`Witaj na **${guild.name}**! Twoje konto zostało pomyślnie zweryfikowane.`)
 							.addFields([
 								{ name: '🎉 Dostęp przyznany', value: 'Masz teraz pełny dostęp do wszystkich kanałów i funkcji serwera!', inline: false },
 								{ name: '💕 Znajdź swoją miłość', value: 'Śmiało poznawaj nowe osoby!', inline: false },
-							])
-							.setFooter({ text: `${guild.name} • Witamy w naszej społeczności!`, iconURL: guild.iconURL() })
-							.setTimestamp(),
+							]),
 					],
 				}),
 			},

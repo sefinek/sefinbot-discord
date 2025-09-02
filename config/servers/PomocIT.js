@@ -207,14 +207,12 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#27ae60')
-							.setTitle('✅ Weryfikacja ukończona!')
+							.setAuthor({ text: '✅ Weryfikacja ukończona', iconURL: guild.iconURL() })
 							.setDescription(`Witaj na **${guild.name}**! Twoje konto zostało pomyślnie zweryfikowane.`)
 							.addFields([
-								{ name: '🎉 Dostęp przyznany', value: 'Masz teraz pełny dostęp do wszystkich kanałów serwera i funkcji wsparcia IT.', inline: false },
+								{ name: '🎉 Dostęp przyznany', value: 'Masz teraz pełny dostęp do wszystkich kanałów i funkcji serwera!', inline: false },
 								{ name: '📝 Zasady serwera', value: 'Upewnij się, że przeczytałeś zasady serwera i wytyczne dotyczące wsparcia technicznego.', inline: false },
-							])
-							.setFooter({ text: `${guild.name} • Witamy!`, iconURL: guild.iconURL() })
-							.setTimestamp(),
+							]),
 					],
 				}),
 			},
