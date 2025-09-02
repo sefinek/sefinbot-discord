@@ -6,17 +6,16 @@ const ARROW_RESET_DELAY = 30000;
 const getMemberCount = guild => guild.members.cache.filter(member => !member.user.bot).size;
 
 const handleFarewellMessage = async (member, serverCfg) => {
-	const { farewellChannelId, farewellContent } = serverCfg;
-	if (!farewellChannelId || !farewellContent) return;
+	if (!serverCfg.events?.farewell?.channelId || !serverCfg.events?.farewell?.content) return;
 
-	const farewellChannel = member.guild.channels.cache.get(farewellChannelId);
+	const farewellChannel = member.guild.channels.cache.get(serverCfg.events.farewell.channelId);
 	if (!farewellChannel) {
-		return console.warn(`EventR » Farewell channel ${farewellChannelId} not found in ${member.guild.name}`);
+		return console.warn(`EventR » Farewell channel ${serverCfg.events.farewell.channelId} not found in ${member.guild.name}`);
 	}
 
 	try {
 		const memberCount = getMemberCount(member.guild);
-		const farewellMessage = farewellContent(member, memberCount);
+		const farewellMessage = serverCfg.events.farewell.content(member, memberCount);
 		await farewellChannel.send(farewellMessage);
 	} catch (err) {
 		console.warn(`EventR » Failed to send farewell message in ${farewellChannel.name}: ${err.message}`);
@@ -24,30 +23,27 @@ const handleFarewellMessage = async (member, serverCfg) => {
 };
 
 const handleMemberCountChannel = async (member, serverCfg) => {
-	const { vcMembers, vcMembersChannel, vcMembersName } = serverCfg;
-	if (!vcMembers || !vcMembersChannel || !vcMembersName) return;
+	if (!serverCfg.voiceChannels?.members?.enabled || !serverCfg.voiceChannels?.members?.channelId) return;
 
-	const memberCountChannel = member.guild.channels.cache.get(vcMembersChannel);
+	const memberCountChannel = member.guild.channels.cache.get(serverCfg.voiceChannels.members.channelId);
 	if (!memberCountChannel) {
-		return console.warn(`EventR » Member count channel ${vcMembersChannel} not found`);
+		return console.warn(`EventR » Member count channel ${serverCfg.voiceChannels.members.channelId} not found`);
 	}
 
 	try {
 		const memberCount = getMemberCount(member.guild);
 
-		// Set name with down arrow
-		const nameWithArrow = typeof vcMembersName === 'function'
-			? vcMembersName(memberCount, '⬇')
-			: vcMembersName;
+		const nameWithArrow = typeof serverCfg.voiceChannels.members.name === 'function'
+			? serverCfg.voiceChannels.members.name(memberCount, '⬇')
+			: serverCfg.voiceChannels.members.name;
 		await memberCountChannel.setName(nameWithArrow);
 
-		// Reset arrow after delay
 		setTimeout(async () => {
 			try {
 				const currentCount = getMemberCount(member.guild);
-				const nameWithoutArrow = typeof vcMembersName === 'function'
-					? vcMembersName(currentCount, '')
-					: vcMembersName;
+				const nameWithoutArrow = typeof serverCfg.voiceChannels.members.name === 'function'
+					? serverCfg.voiceChannels.members.name(currentCount, '')
+					: serverCfg.voiceChannels.members.name;
 				await memberCountChannel.setName(nameWithoutArrow);
 			} catch (err) {
 				console.warn(`EventR » Failed to reset member count channel name: ${err.message}`);

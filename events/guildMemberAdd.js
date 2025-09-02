@@ -11,17 +11,16 @@ const DISCORD_ERROR_CODES = {
 const getMemberCount = guild => guild.members.cache.filter(member => !member.user.bot).size;
 
 const handleWelcomeMessage = async (member, serverCfg) => {
-	const { welcomeChannelId, welcomeContent } = serverCfg;
-	if (!welcomeChannelId || !welcomeContent) return;
+	if (!serverCfg.events?.welcome?.channelId || !serverCfg.events?.welcome?.content) return;
 
-	const welcomeChannel = member.guild.channels.cache.get(welcomeChannelId);
+	const welcomeChannel = member.guild.channels.cache.get(serverCfg.events.welcome.channelId);
 	if (!welcomeChannel) {
-		return console.warn(`EventA » Welcome channel ${welcomeChannelId} not found in ${member.guild.name}`);
+		return console.warn(`EventA » Welcome channel ${serverCfg.events.welcome.channelId} not found in ${member.guild.name}`);
 	}
 
 	try {
 		const memberCount = getMemberCount(member.guild);
-		const welcomeMessage = welcomeContent(member, memberCount);
+		const welcomeMessage = serverCfg.events.welcome.content(member, memberCount);
 		await welcomeChannel.send(welcomeMessage);
 	} catch (err) {
 		console.warn(`EventA » Failed to send welcome message in ${welcomeChannel.name}:`, err.message);
@@ -29,11 +28,10 @@ const handleWelcomeMessage = async (member, serverCfg) => {
 };
 
 const handleDirectMessage = async (member, serverCfg) => {
-	const { joinMsgDM, joinMsgDMContent } = serverCfg;
-	if (!joinMsgDM || !joinMsgDMContent) return;
+	if (!serverCfg.events?.directMessages?.welcome?.enabled || !serverCfg.events?.directMessages?.welcome?.content) return;
 
 	try {
-		const dmContent = joinMsgDMContent(member);
+		const dmContent = serverCfg.events.directMessages.welcome.content(member);
 		await member.send(dmContent);
 	} catch (err) {
 		if (err.code === DISCORD_ERROR_CODES.CANNOT_SEND_DM) {
@@ -45,30 +43,27 @@ const handleDirectMessage = async (member, serverCfg) => {
 };
 
 const handleMemberCountChannel = async (member, serverCfg) => {
-	const { vcMembers, vcMembersChannel, vcMembersName } = serverCfg;
-	if (!vcMembers || !vcMembersChannel || !vcMembersName) return;
+	if (!serverCfg.voiceChannels?.members?.enabled || !serverCfg.voiceChannels?.members?.channelId) return;
 
-	const memberCountChannel = member.guild.channels.cache.get(vcMembersChannel);
+	const memberCountChannel = member.guild.channels.cache.get(serverCfg.voiceChannels.members.channelId);
 	if (!memberCountChannel) {
-		return console.warn(`EventA » Member count channel ${vcMembersChannel} not found`);
+		return console.warn(`EventA » Member count channel ${serverCfg.voiceChannels.members.channelId} not found`);
 	}
 
 	try {
 		const memberCount = getMemberCount(member.guild);
 
-		// Set name with up arrow
-		const nameWithArrow = typeof vcMembersName === 'function'
-			? vcMembersName(memberCount, '⬆')
-			: vcMembersName;
+		const nameWithArrow = typeof serverCfg.voiceChannels.members.name === 'function'
+			? serverCfg.voiceChannels.members.name(memberCount, '⬆')
+			: serverCfg.voiceChannels.members.name;
 		await memberCountChannel.setName(nameWithArrow);
 
-		// Reset arrow after delay
 		setTimeout(async () => {
 			try {
 				const currentCount = getMemberCount(member.guild);
-				const nameWithoutArrow = typeof vcMembersName === 'function'
-					? vcMembersName(currentCount, '')
-					: vcMembersName;
+				const nameWithoutArrow = typeof serverCfg.voiceChannels.members.name === 'function'
+					? serverCfg.voiceChannels.members.name(currentCount, '')
+					: serverCfg.voiceChannels.members.name;
 				await memberCountChannel.setName(nameWithoutArrow);
 			} catch (err) {
 				console.warn(`EventA » Failed to reset member count channel name: ${err.message}`);
@@ -80,18 +75,17 @@ const handleMemberCountChannel = async (member, serverCfg) => {
 };
 
 const handleNewestMemberChannel = async (member, serverCfg) => {
-	const { vcNew, vcNewChannel, vcNewName } = serverCfg;
-	if (!vcNew || !vcNewChannel || !vcNewName) return;
+	if (!serverCfg.voiceChannels?.newest?.enabled || !serverCfg.voiceChannels?.newest?.channelId) return;
 
-	const newMemberChannel = member.guild.channels.cache.get(vcNewChannel);
+	const newMemberChannel = member.guild.channels.cache.get(serverCfg.voiceChannels.newest.channelId);
 	if (!newMemberChannel) {
-		return console.warn(`EventA » Newest member channel ${vcNewChannel} not found`);
+		return console.warn(`EventA » Newest member channel ${serverCfg.voiceChannels.newest.channelId} not found`);
 	}
 
 	try {
-		const channelName = typeof vcNewName === 'function'
-			? vcNewName(member.user.username)
-			: vcNewName;
+		const channelName = typeof serverCfg.voiceChannels.newest.name === 'function'
+			? serverCfg.voiceChannels.newest.name(member.user.username)
+			: serverCfg.voiceChannels.newest.name;
 		await newMemberChannel.setName(channelName);
 	} catch (err) {
 		console.warn(`EventA » Failed to update newest member channel: ${err.message}`);
@@ -99,12 +93,11 @@ const handleNewestMemberChannel = async (member, serverCfg) => {
 };
 
 const handleVerification = async (member, serverCfg) => {
-	const { verificationEnabled, unverifiedRoleId } = serverCfg;
-	if (!verificationEnabled || !unverifiedRoleId) return;
+	if (!serverCfg.verification?.enabled || !serverCfg.verification?.unverifiedRoleId) return;
 
-	const unverifiedRole = member.guild.roles.cache.get(unverifiedRoleId);
+	const unverifiedRole = member.guild.roles.cache.get(serverCfg.verification.unverifiedRoleId);
 	if (!unverifiedRole) {
-		return console.warn(`EventA » Unverified role ${unverifiedRoleId} not found in ${member.guild.name}`);
+		return console.warn(`EventA » Unverified role ${serverCfg.verification.unverifiedRoleId} not found in ${member.guild.name}`);
 	}
 
 	try {

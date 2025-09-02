@@ -50,7 +50,7 @@ module.exports = {
 			});
 		}
 
-		if (command.category === '3_dating' && !serverCfg.isDatingServer) {
+		if (command.category === '3_dating' && !serverCfg.features?.isDatingServer) {
 			return msg.reply({
 				embeds: [new EmbedBuilder()
 					.setColor('#FF6B6B')

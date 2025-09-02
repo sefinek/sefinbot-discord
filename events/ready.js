@@ -1,6 +1,8 @@
 const { Events } = require('discord.js');
 const guilds = require('../config/guilds.js');
 
+const activeIntervals = new Map();
+
 module.exports = {
 	name: Events.ClientReady,
 	async execute(client) {
@@ -50,8 +52,13 @@ module.exports = {
 					}
 				};
 
+				// Clear existing interval if any
+				const existingInterval = activeIntervals.get(guild.id);
+				if (existingInterval) clearInterval(existingInterval);
+
 				await updateOnlineCountChannel();
-				setInterval(updateOnlineCountChannel, 5 * 60 * 1000); // Update every 5 minutes
+				const intervalId = setInterval(updateOnlineCountChannel, 5 * 60 * 1000);
+				activeIntervals.set(guild.id, intervalId);
 			}
 		}
 

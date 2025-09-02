@@ -243,15 +243,7 @@ module.exports = {
 					.setColor('#FF69B4')
 					.setTitle('🔧 Wymagana weryfikacja serwera')
 					.setDescription(`**Środowisko deweloperskie** 🚀\n\nWitaj na serwerze testowym **${guild.name}**!\n\nTo jest środowisko deweloperskie do testowania funkcji bota. Zweryfikuj swoje konto, aby uzyskać dostęp do wszystkich kanałów testowych i funkcji.`)
-					.addFields([
-						{ name: '🧪 Serwer testowy', value: 'To jest środowisko deweloperskie, gdzie testujemy nowe funkcje bota przed wydaniem na serwery produkcyjne.', inline: false },
-						{ name: '🚀 Szybka weryfikacja deweloperska', value: 'Ukończ weryfikację hCaptcha - ten proces jest taki sam jak na serwerach produkcyjnych!', inline: false },
-						{ name: '🔒 Bezpieczne testowanie', value: 'Twoje dane weryfikacyjne są chronione i traktowane tak samo jak dane produkcyjne.', inline: false },
-						{ name: '⚡ Co możesz testować', value: '• Funkcje randkowe\n• System weryfikacji\n• Tryby czasowe\n• Integracja CleverBot\n• Wszystkie funkcje premium', inline: false },
-					])
-					.setFooter({ text: `${guild.name} • Środowisko deweloperskie • Kliknij poniżej aby się zweryfikować`, iconURL: guild.iconURL() })
-					.setThumbnail(guild.iconURL())
-					.setTimestamp(),
+					.setThumbnail(guild.iconURL()),
 			],
 		}),
 		button: {
@@ -266,14 +258,7 @@ module.exports = {
 						new EmbedBuilder()
 							.setColor('#FF69B4')
 							.setTitle('🔧 Weryfikacja Discord')
-							.setDescription(`**Środowisko deweloperskie** 🚀\n\nAby uzyskać dostęp do serwera testowego **${guild.name}**, ukończ proces weryfikacji.`)
-							.addFields([
-								{ name: '🔗 Link weryfikacyjny', value: `[Kliknij tutaj aby się zweryfikować](${verificationUrl})`, inline: false },
-								{ name: '⏰ Wygasa za', value: '24 godziny', inline: true },
-								{ name: '🧪 Funkcja testowa', value: 'To testuje ten sam system weryfikacji używany na serwerach produkcyjnych', inline: true },
-							])
-							.setFooter({ text: 'Zachowaj ten link w tajemnicy • Test weryfikacji deweloperskiej', iconURL: guild.iconURL() })
-							.setTimestamp(),
+							.setDescription(`**Środowisko deweloperskie** 🚀\n\nAby uzyskać dostęp do serwera testowego **${guild.name}**, ukończ proces weryfikacji.\n\n[Kliknij tutaj aby się zweryfikować](${verificationUrl})`),
 					],
 				}),
 			},

@@ -6,17 +6,16 @@ const ARROW_RESET_DELAY = 30000;
 const getMemberCount = guild => guild.members.cache.filter(member => !member.user.bot).size;
 
 const handleBanNotification = async (user, guild, serverCfg) => {
-	const { banChannelId, banContent } = serverCfg;
-	if (!banChannelId || !banContent) return;
+	if (!serverCfg.events?.ban?.channelId || !serverCfg.events?.ban?.content) return;
 
-	const banNotificationChannel = guild.channels.cache.get(banChannelId);
+	const banNotificationChannel = guild.channels.cache.get(serverCfg.events.ban.channelId);
 	if (!banNotificationChannel) {
-		return console.warn(`EventB » Ban notification channel ${banChannelId} not found in ${guild.name}`);
+		return console.warn(`EventB » Ban notification channel ${serverCfg.events.ban.channelId} not found in ${guild.name}`);
 	}
 
 	try {
 		const memberCount = getMemberCount(guild);
-		const banMessage = banContent(user, guild, memberCount);
+		const banMessage = serverCfg.events.ban.content(user, guild, memberCount);
 		await banNotificationChannel.send(banMessage);
 	} catch (err) {
 		console.warn(`EventB » Failed to send ban notification in ${banNotificationChannel.name}: ${err.message}`);
@@ -24,30 +23,27 @@ const handleBanNotification = async (user, guild, serverCfg) => {
 };
 
 const handleMemberCountChannel = async (guild, serverCfg) => {
-	const { vcMembers, vcMembersChannel, vcMembersName } = serverCfg;
-	if (!vcMembers || !vcMembersChannel || !vcMembersName) return;
+	if (!serverCfg.voiceChannels?.members?.enabled || !serverCfg.voiceChannels?.members?.channelId) return;
 
-	const memberCountChannel = guild.channels.cache.get(vcMembersChannel);
+	const memberCountChannel = guild.channels.cache.get(serverCfg.voiceChannels.members.channelId);
 	if (!memberCountChannel) {
-		return console.warn(`EventB » Member count channel ${vcMembersChannel} not found`);
+		return console.warn(`EventB » Member count channel ${serverCfg.voiceChannels.members.channelId} not found`);
 	}
 
 	try {
 		const memberCount = getMemberCount(guild);
 
-		// Set name with down arrow
-		const nameWithArrow = typeof vcMembersName === 'function'
-			? vcMembersName(memberCount, '⬇')
-			: vcMembersName;
+		const nameWithArrow = typeof serverCfg.voiceChannels.members.name === 'function'
+			? serverCfg.voiceChannels.members.name(memberCount, '⬇')
+			: serverCfg.voiceChannels.members.name;
 		await memberCountChannel.setName(nameWithArrow);
 
-		// Reset arrow after delay
 		setTimeout(async () => {
 			try {
 				const currentCount = getMemberCount(guild);
-				const nameWithoutArrow = typeof vcMembersName === 'function'
-					? vcMembersName(currentCount, '')
-					: vcMembersName;
+				const nameWithoutArrow = typeof serverCfg.voiceChannels.members.name === 'function'
+					? serverCfg.voiceChannels.members.name(currentCount, '')
+					: serverCfg.voiceChannels.members.name;
 				await memberCountChannel.setName(nameWithoutArrow);
 			} catch (err) {
 				console.warn(`EventB » Failed to reset member count channel name: ${err.message}`);

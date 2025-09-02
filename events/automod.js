@@ -15,7 +15,7 @@ module.exports = {
 		if (!serverCfg) return console.warn(`EventM » Server config for ${msg.guild.id} was not found`);
 
 		// Bot trap channel logic
-		if (msg.channel.id === serverCfg.botTrapChannelId && !msg.member.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
+		if (msg.channel.id === serverCfg.features?.botTrap && !msg.member.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
 			try {
 				await msg.delete();
 				await msg.member.ban({ reason: `Bot trap: ${msg.content}`, deleteMessageSeconds: 604800 });

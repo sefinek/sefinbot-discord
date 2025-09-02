@@ -45,7 +45,6 @@ module.exports = {
   dev: false,
   
   // Main server settings
-  botTrapChannelId: 'channel_id_or_null',
   autoModChannel: 'channel_id',
 
   // Channel IDs organized by purpose
@@ -349,20 +348,17 @@ const guilds = require('./config/guilds.js');
 const serverConfig = guilds.getServerConfig('1234567890123456789');
 
 // Check features
-if (serverConfig.features.isDatingServer) {
+if (serverConfig.features?.isDatingServer) {
   // Dating server specific logic
 }
 
 // Access channels
-const generalChannel = serverConfig.channels.general;
+const generalChannel = serverConfig.channels?.general;
 
 // Access cleverBot configuration
-if (serverConfig.cleverBot) {
-  const cleverBotChannelId = serverConfig.cleverBotChannelId;
+if (serverConfig.features?.cleverBot) {
+  const cleverBotChannelId = serverConfig.features.cleverBot;
 }
-
-// Access legacy properties (backward compatibility)
-const welcomeChannelId = serverConfig.welcomeChannelId;
 ```
 
 ### Hot Reload
@@ -419,8 +415,8 @@ The old `guilds.js` file has been replaced with this modular system. Key changes
 // guilds.js - monolithic file
 const production = {
   '1234567890123456789': {
-    botTrapChannelId: null,
-    welcomeChannelId: 'channel_id',
+      botTrap: null,
+    events: { welcome: { channelId: 'channel_id' } },
     // ... 100+ lines per server
   },
 };
@@ -431,7 +427,7 @@ const production = {
 // config/servers/myServer.js - dedicated file
 module.exports = {
   id: '1234567890123456789',
-  botTrapChannelId: null,
+  features: { botTrap: null },
   events: { 
     welcome: { channelId: 'channel_id' } 
   },

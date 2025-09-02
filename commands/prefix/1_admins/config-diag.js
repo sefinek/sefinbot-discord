@@ -23,14 +23,14 @@ module.exports = {
 						id: guildId,
 						name: guild.name,
 						members: guild.memberCount,
-						cron: config.cronConfig?.enabled || false,
-						dating: config.isDatingServer || false,
-						env: config.config.dev ? 'development' : 'production',
+						cron: config.cron?.enabled || false,
+						dating: config.features?.isDatingServer || false,
+						env: config.dev ? 'development' : 'production',
 					});
 				} else {
 					missingServers.push({
 						id: guildId,
-						env: config.config.dev ? 'development' : 'production',
+						env: config.dev ? 'development' : 'production',
 					});
 				}
 			});
@@ -48,7 +48,7 @@ module.exports = {
 				{
 					name: '🎛️ Current Server',
 					value: currentServerConfig
-						? `✅ **Available**\n${currentServerConfig.cronConfig?.enabled ? '🕒 Cron enabled' : '⏸️ Cron disabled'}`
+						? `✅ **Available**\n${currentServerConfig.cron?.enabled ? '🕒 Cron enabled' : '⏸️ Cron disabled'}`
 						: '❌ **No configuration**',
 					inline: true,
 				},

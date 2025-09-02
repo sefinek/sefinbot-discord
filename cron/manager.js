@@ -31,8 +31,8 @@ class CronManager {
 
 		this.client.guilds.cache.forEach(guild => {
 			const config = guilds.getServerConfig(guild.id);
-			if (config?.cronConfig?.enabled) {
-				const { schedules } = config.cronConfig;
+			if (config?.cron?.enabled) {
+				const { schedules } = config.cron;
 				// Cache banners from all schedules
 				Object.entries(schedules).forEach(([scheduleName, schedule]) => {
 					if (schedule.banners) {
@@ -62,7 +62,7 @@ class CronManager {
 			if (!guild) return console.warn(`Cron   » Guild ${guildId} not found`);
 
 			const config = guilds.getServerConfig(guildId);
-			if (!config?.cronConfig?.enabled) return;
+			if (!config?.cron?.enabled) return;
 
 			if (!schedule.ignoreOnlineCheck) {
 				const onlineCount = guild.members.cache.filter(m =>
@@ -70,7 +70,7 @@ class CronManager {
 					['online', 'idle', 'dnd'].includes(m.presence.status)
 				).size;
 
-				if (onlineCount <= config.cronConfig.minimumOnlineMembers) {
+				if (onlineCount <= config.cron.minimumOnlineMembers) {
 					return console.log(`Cron   » Not enough online members (${onlineCount}) for ${scheduleName} on ${guild.name}`);
 				}
 			}
@@ -116,14 +116,15 @@ class CronManager {
 
 		// Check all configured servers first
 		const allConfigs = guilds.getAllServerConfigs();
+
 		allConfigs.forEach(({ guildId, config }) => {
-			if (!config?.cronConfig?.enabled) return;
+			if (!config?.cron?.enabled) return;
 
 			// In development mode, only process development servers
-			if (process.env.NODE_ENV === 'development' && !config.config.dev) return;
+			if (process.env.NODE_ENV === 'development' && !config.dev) return;
 
 			// In production mode, skip development servers
-			if (process.env.NODE_ENV === 'production' && config.config.dev) return;
+			if (process.env.NODE_ENV === 'production' && config.dev) return;
 
 			const guild = this.client.guilds.cache.get(guildId);
 			if (!guild) {
@@ -131,7 +132,7 @@ class CronManager {
 				return;
 			}
 
-			const { schedules, timezone } = config.cronConfig;
+			const { schedules, timezone } = config.cron;
 			console.log(`Cron   » Found ${Object.keys(schedules).length} schedules for ${guild.name}`);
 
 			Object.entries(schedules).forEach(([scheduleName, schedule]) => {

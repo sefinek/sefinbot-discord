@@ -2,7 +2,7 @@ const { Events } = require('discord.js');
 const CleverBot = require('@sefinek/cleverbot-free');
 const guilds = require('../config/guilds.js');
 
-const context = [];
+const contextMap = new Map();
 
 module.exports = {
 	name: Events.MessageCreate,
@@ -12,15 +12,24 @@ module.exports = {
 		const serverCfg = guilds.getServerConfig(msg.guild.id);
 		if (!serverCfg) return console.warn(`EventC » Server config for ${msg.guild.id} was not found`);
 
-		if (!serverCfg.cleverBot || msg.channel.id !== serverCfg.cleverBotChannelId) return;
+		if (!serverCfg.features?.cleverBot || msg.channel.id !== serverCfg.features.cleverBot) return;
 
 		await msg.channel.sendTyping();
 
 		try {
+			const channelKey = `${msg.guild.id}-${msg.channel.id}`;
+			let context = contextMap.get(channelKey) || [];
+			
 			const res = await CleverBot.interact(msg.content, context, 'pl');
 
 			context.push(msg.content, res);
-
+			
+			// Limit context size to prevent memory leak
+			if (context.length > 20) {
+				context = context.slice(-20);
+			}
+			
+			contextMap.set(channelKey, context);
 			msg.reply(res);
 		} catch (err) {
 			msg.reply(`❌ **This is not the bot's fault, but www.cleverbot.com**\n> ${err.message}`);

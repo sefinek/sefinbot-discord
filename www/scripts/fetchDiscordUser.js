@@ -24,7 +24,6 @@ module.exports = async (req, res, guildId, subscriberId) => {
 			return { success: false, status: 200, message: `User ${member.user.username} was not found on the Discord server ${guild.name}` };
 		}
 
-		// console.log(`[CheckDiscordUser]: Found member ${member.user.username} (${member.user.id}) on ${guild.name} (${guild.id})`);
 		return { success: true, status: 200, message: null, guild, member };
 	} catch (err) {
 		return { success: false, status: 500, message: err };
