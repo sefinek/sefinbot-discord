@@ -25,7 +25,7 @@ module.exports = {
 		members: {
 			enabled: true,
 			channelId: '1328500744361480192',
-			name: (count, arrow) => `👥・Members: ${count} ${arrow || ''}`,
+			name: (count, arrow) => `👥・Members: ${count} ${arrow}`,
 		},
 		online: {
 			enabled: true,
@@ -45,9 +45,9 @@ module.exports = {
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
-						.setColor('#2ECC71')
+						.setColor('#2EE47A')
 						.setAuthor({ name: `👋 Member ${member.user.tag} has joined the server`, iconURL: member.guild.iconURL() })
-						.setDescription(`Welcome, ${member}, to our server! You are our ${memberCount}th member.`)
+						.setDescription(`Welcome, ${member}, to our server! You are our **${memberCount}th member**.`)
 						.setThumbnail(member.user.displayAvatarURL()),
 				],
 			}),
@@ -57,7 +57,7 @@ module.exports = {
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
-						.setColor('#E74C3C')
+						.setColor('#29A6F9')
 						.setAuthor({ name: `😥 Member ${member.user.tag} has left the server`, iconURL: member.guild.iconURL() })
 						.setDescription(`Unfortunately, the user with the name ${member} has left our server. We hope that you will come back to us soon.`)
 						.setThumbnail(member.user.displayAvatarURL()),
@@ -69,7 +69,7 @@ module.exports = {
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
-						.setColor('#992D22')
+						.setColor('#E74C3C')
 						.setAuthor({ name: `⚠️ User ${member.tag} has been banned from the server`, iconURL: member.guild.iconURL() })
 						.setDescription(`The user with the name <@${member.id}> has been permanently banned from our server due to violations of our rules. We hope that the community remains safe and welcoming for all. Goodbye.`)
 						.setThumbnail(member.displayAvatarURL()),
@@ -82,9 +82,9 @@ module.exports = {
 				content: member => ({
 					embeds: [
 						new EmbedBuilder()
-							.setColor('#3498DB')
+							.setColor('#37b1ff')
 							.setAuthor({ name: `Welcome ${member.user.tag} to ${member.guild.name}!`, iconURL: member.guild.iconURL() })
-							.setDescription('Thank you for joining our server! Please read the rules and enjoy your stay.')
+							.setDescription('Thank you for joining our server!')
 							.setThumbnail(member.user.displayAvatarURL()),
 					],
 				}),
@@ -224,7 +224,7 @@ module.exports = {
 
 	features: {
 		isDatingServer: false,
-		cleverBot: null,
+		cleverBot: false,
 		botTrap: null,
 	},
 };

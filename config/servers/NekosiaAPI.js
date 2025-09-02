@@ -3,8 +3,8 @@ const { EmbedBuilder } = require('discord.js');
 const channels = {
 	welcome: '1328507335328661605',
 	automod: '1328507486101045340',
-	api1: '1276628914697015337',
-	api2: '1276628998914576404',
+	announcements: '1276628914697015337',
+	changelog: '1276628998914576404',
 };
 
 const roles = {
@@ -39,7 +39,7 @@ module.exports = {
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
-						.setColor('#1ABC9C')
+						.setColor('#03528E')
 						.setAuthor({ name: `👋 Member ${member.user.tag} has joined the server`, iconURL: member.guild.iconURL() })
 						.setDescription(`Welcome, ${member}, to our server!`)
 						.setThumbnail(member.user.displayAvatarURL()),
@@ -51,7 +51,7 @@ module.exports = {
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
-						.setColor('#F39C12')
+						.setColor('#ff9a17')
 						.setAuthor({ name: `😥 Member ${member.user.tag} has left the server`, iconURL: member.guild.iconURL() })
 						.setDescription(`Unfortunately, the user with the name ${member} has left our server. We hope that you will come back to us soon.`)
 						.setThumbnail(member.user.displayAvatarURL()),
@@ -63,7 +63,7 @@ module.exports = {
 			content: (member, guild, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
-						.setColor('#E74C3C')
+						.setColor('#ff4332')
 						.setAuthor({ name: `⚠️ User ${member.tag} has been banned from the server`, iconURL: member.guild.iconURL() })
 						.setDescription(`The user with the name <@${member.id}> has been permanently banned from our server due to violations of our rules. We hope that the community remains safe and welcoming for all. Goodbye.`)
 						.setThumbnail(member.displayAvatarURL()),
@@ -81,7 +81,7 @@ module.exports = {
 		{
 			name: 'api-approval',
 			enabled: true,
-			channels: [channels.api1, channels.api2],
+			channels: [channels.announcements, channels.changelog],
 			emojis: ['👍'],
 			thread: { enabled: false },
 			validation: {},
@@ -103,7 +103,7 @@ module.exports = {
 			embeds: [
 				new EmbedBuilder()
 					.setColor('#1ABC9C')
-					.setTitle('🔐 API Server Verification Required')
+					.setTitle('🔐 Server Verification Required')
 					.setDescription(`Welcome to **${guild.name}**!\n\nTo gain access to all channels and features, please complete the verification process by clicking the button below.`)
 					.addFields([
 						{ name: '🛡️ Why verify?', value: 'Verification helps keep our API server safe from bots and unauthorized access.', inline: false },
@@ -209,7 +209,7 @@ module.exports = {
 
 	features: {
 		isDatingServer: false,
-		cleverBot: null,
+		cleverBot: false,
 		botTrap: null,
 	},
 };

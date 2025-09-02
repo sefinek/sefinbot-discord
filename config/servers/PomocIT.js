@@ -25,7 +25,7 @@ module.exports = {
 		members: {
 			enabled: true,
 			channelId: '1328449218528022610',
-			name: (count, arrow) => `👥・${count} ${arrow || ''}ludu`,
+			name: (count, arrow) => `👥・${count} ludu ${arrow}`,
 		},
 		online: {
 			enabled: true,
@@ -45,7 +45,7 @@ module.exports = {
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
-						.setColor('#00D26A')
+						.setColor('#05ff81')
 						.setAuthor({ name: `👋 Użytkownik ${member.user.tag} dołączył do nas`, iconURL: member.guild.iconURL() })
 						.setDescription(`Witaj ${member} na naszym serwerze! Mamy wielką nadzieje, że zostaniesz u nas na dłuższy czas. Miłego pobytu.\nJesteś naszym **${memberCount}. gościem**. Dziękujemy Ci za dołączenie!`)
 						.setThumbnail(member.user.displayAvatarURL()),
@@ -57,7 +57,7 @@ module.exports = {
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
-						.setColor('#FF6B6B')
+						.setColor('#61d2ff')
 						.setAuthor({ name: `😥 Użytkownik ${member.user.tag} opuścił serwer`, iconURL: member.guild.iconURL() })
 						.setDescription(`Niestety osoba ${member} wyszła z naszego serwera.\nMamy nadzieję, że jeszcze wrócisz do nas. Wierzymy w Ciebie.\nPo stracie tego członka mamy w sumie **${memberCount} osób**.`)
 						.setThumbnail(member.user.displayAvatarURL()),
@@ -69,7 +69,7 @@ module.exports = {
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
-						.setColor('#FF4757')
+						.setColor('#ff4f62')
 						.setAuthor({ name: `⚠️ Użytkownik ${member.tag} otrzymał bana`, iconURL: member.guild.iconURL() })
 						.setDescription(`Osoba z nickiem <@${member.id}> została zbanowana na naszym serwerze przez jednego z administratorów. Cóż, bywa...\nPo stracie tego osobnika mamy w sumie **${memberCount} ludzi**.`)
 						.setThumbnail(member.displayAvatarURL()),
@@ -82,12 +82,11 @@ module.exports = {
 				content: member => ({
 					embeds: [
 						new EmbedBuilder()
-							.setColor('#0078FF')
+							.setColor('#1b87ff')
 							.setAuthor({ name: `Witaj ${member.user.tag} na naszym serwerze ${member.guild.name}`, iconURL: member.guild.iconURL() })
 							.setDescription('Dziękujemy za dołączenie do naszego serwera! Miłego pobytu.')
 							.setThumbnail(member.user.displayAvatarURL()),
 						new EmbedBuilder()
-							.setColor('#15070C')
 							.setFooter({ text: 'Copyright 2024-2025 © by Sefinek. All Rights Reserved.', iconURL: member.guild.iconURL() }),
 					],
 				}),
@@ -228,7 +227,7 @@ module.exports = {
 
 	features: {
 		isDatingServer: false,
-		cleverBot: null,
+		cleverBot: false,
 		botTrap: null,
 	},
 };

@@ -10,7 +10,6 @@ module.exports = {
 	ownerOnly: true,
 	cooldown: 1000,
 	async execute(client, msg, args) {
-
 		if (!args.length) {
 			return msg.reply({
 				embeds: [new EmbedBuilder()

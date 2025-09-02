@@ -7,10 +7,9 @@ module.exports = {
 	execute: async (client, msg) => {
 		await msg.channel.bulkDelete(48, true);
 
-
 		msg.channel.send({ embeds: [new EmbedBuilder()
 			.setColor('#124C1D')
-			.setAuthor({ name: '🌍 Ciemna strona neta', iconURL: msg.guild.iconURL(), url: process.env.URL_SEFINEK })
+			.setAuthor({ name: '🌍 Ciemna strona neta', iconURL: msg.guild.iconURL() })
 			.addFields([
 				{
 					name: '» O co chodzi z niewolnikami?',

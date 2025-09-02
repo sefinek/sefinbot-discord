@@ -10,7 +10,7 @@ module.exports = {
 
 		await msg.channel.send({ embeds: [new EmbedBuilder()
 			.setColor('#79E0F2')
-			.setAuthor({ name: 'Weryfikacja numer 1 na serwerze Miłosna Grota・😻', iconURL: msg.guild.iconURL(), url: process.env.URL_SEFINEK })
+			.setAuthor({ name: 'Weryfikacja numer 1 na serwerze Miłosna Grota・😻', iconURL: msg.guild.iconURL() })
 			.setDescription(
 				'👋 » Serdecznie dziękujemy za dołączenie na nasz serwer! Jeśli chcesz uzyskać dostęp do wszystkich kanałów, najpierw musisz się zweryfikować.\n\n' +
 				'✨ » Napisz słowo `Love` na tym kanale, aby się zweryfikować. Wielkość liter nie ma znaczenia.\n\n' +

@@ -2,8 +2,8 @@ const { EmbedBuilder } = require('discord.js');
 const { version } = require('../../package.json');
 
 const channels = {
-	botTrap: '1224420495710228540',
 	welcome: '1044714444393029722',
+	botTrap: '1224420495710228540',
 
 	announcementsPlus: '1065275114687570011',
 	earlyAccessPlus: '1181323568794063110',
@@ -16,8 +16,8 @@ const channels = {
 };
 
 const roles = {
-	verified: '1044720100000000000',
-	unverified: '1044720000000000000',
+	verified: '1411972451163963412',
+	unverified: '1411972733578903592',
 };
 
 module.exports = {
@@ -33,7 +33,7 @@ module.exports = {
 		members: {
 			enabled: true,
 			channelId: '1044714427263500288',
-			name: (count, arrow) => `👥・Members: ${count} ${arrow || ''}`,
+			name: (count, arrow) => `👥・Members: ${count} ${arrow}`,
 		},
 		online: {
 			enabled: true,
@@ -53,7 +53,7 @@ module.exports = {
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
-						.setColor('#2EE47A')
+						.setColor('#19ff76')
 						.setAuthor({ name: `👋 Member ${member.user.tag} has joined the server`, iconURL: member.guild.iconURL() })
 						.setDescription(`Welcome ${member} to our server! We hope our project grabs your interest and gets you hyped to dive into Genshin Impact. Have fun! You are our ${memberCount}th member.`)
 						.setThumbnail(member.user.displayAvatarURL()),
@@ -65,7 +65,7 @@ module.exports = {
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
-						.setColor('#29A6F9')
+						.setColor('#25acff')
 						.setAuthor({ name: `😥 Member ${member.user.tag} has left the server`, iconURL: member.guild.iconURL() })
 						.setDescription(`Unfortunately, the user ${member} has left our server. We hope you'll come back soon.`)
 						.setThumbnail(member.user.displayAvatarURL()),
@@ -77,7 +77,7 @@ module.exports = {
 			content: (member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
-						.setColor('#E13A2A')
+						.setColor('#ff4e3d')
 						.setAuthor({ name: `⚠️ User ${member.tag} has been banned from the server`, iconURL: member.guild.iconURL() })
 						.setDescription(`The user <@${member.id}> has been permanently banned from our server due to rule violations. We hope the community continues to be a safe and welcoming place for everyone. Goodbye.`)
 						.setThumbnail(member.displayAvatarURL()),
@@ -90,7 +90,7 @@ module.exports = {
 				content: member => ({
 					embeds: [
 						new EmbedBuilder()
-							.setColor('#8E44AD')
+							.setColor('#3c94ff')
 							.setAuthor({ name: `Welcome ${member.user.tag} to our server ${member.guild.name}`, iconURL: member.guild.iconURL() })
 							.addFields([
 								{
@@ -259,7 +259,7 @@ module.exports = {
 
 	features: {
 		isDatingServer: false,
-		cleverBot: null,
+		cleverBot: false,
 		botTrap: channels.botTrap,
 	},
 };

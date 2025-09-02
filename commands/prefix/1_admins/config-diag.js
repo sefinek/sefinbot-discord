@@ -7,108 +7,95 @@ module.exports = {
 	description: 'Comprehensive server configuration diagnostics and health report',
 	cooldown: 3000,
 	async execute(client, msg) {
+		const allConfigs = guilds.getAllServerConfigs();
+		const botGuilds = client.guilds.cache;
 
-		try {
-			const allConfigs = guilds.getAllServerConfigs();
-			const botGuilds = client.guilds.cache;
+		const connectedServers = [];
+		const missingServers = [];
+		const currentServerConfig = guilds.getServerConfig(msg.guild.id);
 
-			const connectedServers = [];
-			const missingServers = [];
-			const currentServerConfig = guilds.getServerConfig(msg.guild.id);
-
-			allConfigs.forEach(({ guildId, config }) => {
-				const guild = botGuilds.get(guildId);
-				if (guild) {
-					connectedServers.push({
-						id: guildId,
-						name: guild.name,
-						members: guild.memberCount,
-						cron: config.cron?.enabled || false,
-						dating: config.features?.isDatingServer || false,
-						env: config.dev ? 'development' : 'production',
-					});
-				} else {
-					missingServers.push({
-						id: guildId,
-						env: config.dev ? 'development' : 'production',
-					});
-				}
-			});
-
-			const cronEnabled = connectedServers.filter(s => s.cron).length;
-			const datingServers = connectedServers.filter(s => s.dating).length;
-			const devServers = connectedServers.filter(s => s.env === 'development').length;
-
-			const fields = [
-				{
-					name: '📊 Server Overview',
-					value: `**${allConfigs.length}** total configs\n**${connectedServers.length}** connected\n**${missingServers.length}** missing`,
-					inline: true,
-				},
-				{
-					name: '🎛️ Current Server',
-					value: currentServerConfig
-						? `✅ **Available**\n${currentServerConfig.cron?.enabled ? '🕒 Cron enabled' : '⏸️ Cron disabled'}`
-						: '❌ **No configuration**',
-					inline: true,
-				},
-				{
-					name: '⚙️ Features Active',
-					value: `🕒 **${cronEnabled}** with cron\n💕 **${datingServers}** dating servers\n🔧 **${devServers}** development`,
-					inline: true,
-				},
-			];
-
-			if (connectedServers.length > 0) {
-				const serverList = connectedServers.map(s => {
-					const features = [
-						s.cron ? '🕒' : '⏸️',
-						s.dating ? '💕' : '🔒',
-						s.env === 'development' ? '🔧' : '🌐',
-					].join(' ');
-					return `**${s.name}** \`${s.members} members\`\n${features}`;
-				}).join('\n\n');
-
-				fields.push({
-					name: `🌐 Connected Servers (${connectedServers.length})`,
-					value: serverList.length > 1000 ? serverList.substring(0, 1000) + '\n*...truncated*' : serverList,
-					inline: false,
+		allConfigs.forEach(({ guildId, config }) => {
+			const guild = botGuilds.get(guildId);
+			if (guild) {
+				connectedServers.push({
+					id: guildId,
+					name: guild.name,
+					members: guild.memberCount,
+					cron: config.cron?.enabled || false,
+					dating: config.features?.isDatingServer || false,
+					env: config.dev ? 'development' : 'production',
+				});
+			} else {
+				missingServers.push({
+					id: guildId,
+					env: config.dev ? 'development' : 'production',
 				});
 			}
+		});
 
-			if (missingServers.length > 0) {
-				const missingList = missingServers.map(s =>
-					`\`${s.id}\` ${s.env === 'development' ? '🔧 dev' : '🌐 prod'}`
-				).join('\n');
+		const cronEnabled = connectedServers.filter(s => s.cron).length;
+		const datingServers = connectedServers.filter(s => s.dating).length;
+		const devServers = connectedServers.filter(s => s.env === 'development').length;
 
-				fields.push({
-					name: `⚠️ Missing Servers (${missingServers.length})`,
-					value: missingList.length > 1000 ? missingList.substring(0, 1000) + '\n*...truncated*' : missingList,
-					inline: false,
-				});
-			}
+		const fields = [
+			{
+				name: '📊 Server Overview',
+				value: `**${allConfigs.length}** total configs\n**${connectedServers.length}** connected\n**${missingServers.length}** missing`,
+				inline: true,
+			},
+			{
+				name: '🎛️ Current Server',
+				value: currentServerConfig
+					? `✅ **Available**\n${currentServerConfig.cron?.enabled ? '🕒 Cron enabled' : '⏸️ Cron disabled'}`
+					: '❌ **No configuration**',
+				inline: true,
+			},
+			{
+				name: '⚙️ Features Active',
+				value: `🕒 **${cronEnabled}** with cron\n💕 **${datingServers}** dating servers\n🔧 **${devServers}** development`,
+				inline: true,
+			},
+		];
 
-			const diagnosticColor = missingServers.length > 0 ? '#FFA500' : '#0099FF';
+		if (connectedServers.length > 0) {
+			const serverList = connectedServers.map(s => {
+				const features = [
+					s.cron ? '🕒' : '⏸️',
+					s.dating ? '💕' : '🔒',
+					s.env === 'development' ? '🔧' : '🌐',
+				].join(' ');
+				return `**${s.name}** \`${s.members} members\`\n${features}`;
+			}).join('\n\n');
 
-			return msg.reply({
-				embeds: [new EmbedBuilder()
-					.setColor(diagnosticColor)
-					.setTitle('🔍 Configuration Diagnostics')
-					.setDescription('**Server configuration status and connectivity overview**')
-					.addFields(fields)
-					.setFooter({ text: '🕒 Cron Active • 💕 Dating Server • 🔧 Development • 🌐 Production' })
-					.setTimestamp()],
-			});
-
-		} catch (err) {
-			console.error('ConfigDiag » Error:', err.message);
-			return msg.reply({
-				embeds: [new EmbedBuilder()
-					.setColor('#FF6B6B')
-					.setTitle('❌ Diagnostic Failed')
-					.setDescription(`\`\`\`${err.message}\`\`\``)
-					.setTimestamp()],
+			fields.push({
+				name: `🌐 Connected Servers (${connectedServers.length})`,
+				value: serverList.length > 1000 ? serverList.substring(0, 1000) + '\n*...truncated*' : serverList,
+				inline: false,
 			});
 		}
+
+		if (missingServers.length > 0) {
+			const missingList = missingServers.map(s =>
+				`\`${s.id}\` ${s.env === 'development' ? '🔧 dev' : '🌐 prod'}`
+			).join('\n');
+
+			fields.push({
+				name: `⚠️ Missing Servers (${missingServers.length})`,
+				value: missingList.length > 1000 ? missingList.substring(0, 1000) + '\n*...truncated*' : missingList,
+				inline: false,
+			});
+		}
+
+		const diagnosticColor = missingServers.length > 0 ? '#FFA500' : '#0099FF';
+
+		return msg.reply({
+			embeds: [new EmbedBuilder()
+				.setColor(diagnosticColor)
+				.setTitle('🔍 Configuration Diagnostics')
+				.setDescription('**Server configuration status and connectivity overview**')
+				.addFields(fields)
+				.setFooter({ text: '🕒 Cron Active • 💕 Dating Server • 🔧 Development • 🌐 Production' })
+				.setTimestamp()],
+		});
 	},
 };

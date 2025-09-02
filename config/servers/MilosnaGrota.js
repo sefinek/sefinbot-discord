@@ -61,7 +61,7 @@ module.exports = {
 		members: {
 			enabled: true,
 			channelId: '1122001070877581373',
-			name: (count, arrow) => `👥・Osoby: ${count} ${arrow || ''}`,
+			name: (count, arrow) => `👥・Osoby: ${count} ${arrow}`,
 		},
 		online: {
 			enabled: true,
@@ -127,10 +127,6 @@ module.exports = {
 							.setAuthor({ name: `Witamy serdecznie na ${member.guild.name}`, iconURL: member.guild.iconURL() })
 							.setDescription(`Dziękujemy za dołączenie! Po zweryfikowaniu zapoznaj się z [regulaminem](https://github.com/sefinek/Milosna_Grota/blob/main/Rules.md) serwera.\nNastępnie zachęcam do przywitania się z nami na kanale <#${process.env.CH_GENERALY}>!`)
 							.addFields([
-								{
-									name: '💗 » Czy naprawdę jest to serwer randkowy?',
-									value: 'Cóż, otóż tak! Jest to serwer stworzony z myślą o randkach. Dlaczego akurat taka tematyka? Na tego typu serwerach zwykle jest dużo kontekstu do rozmowy. Macie szansę poznać tu swoją drugą połówkę lub przyjaźń na długie lata.',
-								},
 								{
 									name: '😍 » Jesteś może graczem Genshin Impact?',
 									value: 'Jeśli tak, odwiedź projekt [Genshin Stella Mod](https://stella.sefinek.net).\nW zupełności nie pożałujesz, a nawet zyskasz - lepszą grafikę w grze i nie tylko! Zapoznaj się z dostępnymi informacjami na stronie.',
@@ -348,22 +344,16 @@ module.exports = {
 			kickWarningAfter: 3 * 24 * 60 * 60 * 1000, // 3 days before kick warning
 			kickAfter: 4 * 24 * 60 * 60 * 1000, // 4 days before actual kick
 		},
-		content: guild => ({
-			embeds: [
-				new EmbedBuilder()
-					.setColor('#00D26A')
-					.setTitle('🔐 Weryfikacja na Miłosnej Grocie')
-					.setDescription(`Witaj na **${guild.name}**! ❤️\n\nAby uzyskać dostęp do wszystkich kanałów randkowych i funkcji, ukończ proces weryfikacji klikając przycisk poniżej.`)
-					.addFields([
-						{ name: '🛡️ Dlaczego weryfikacja?', value: 'Weryfikacja pomaga utrzymać naszą społeczność randkową bezpieczną przed botami i trollami.', inline: false },
-						{ name: '⚡ Szybki proces', value: 'Ukończ weryfikację hCaptcha w przeglądarce - zajmie to tylko kilka sekund!', inline: false },
-						{ name: '🔒 Bezpieczne i prywatne', value: 'Twoje dane są chronione, a proces jest całkowicie bezpieczny.', inline: false },
-						{ name: '💕 Randki i znajomości', value: 'Po weryfikacji uzyskasz dostęp do kanałów randkowych i możliwość poznawania nowych osób!', inline: false },
-					])
-					.setFooter({ text: `${guild.name} • Kliknij przycisk poniżej aby się zweryfikować`, iconURL: guild.iconURL() })
-					.setThumbnail(guild.iconURL())
-					.setTimestamp(),
-			],
+		content: guild => ({ embeds: [
+			new EmbedBuilder()
+				.setColor('#79E0F2')
+				.setAuthor({ name: 'Weryfikacja numer 1 na serwerze Miłosna Grota・😻', iconURL: guild.iconURL() })
+				.setDescription(
+					'👋 » Serdecznie dziękujemy za dołączenie na nasz serwer! Jeśli chcesz uzyskać dostęp do wszystkich kanałów, najpierw musisz się zweryfikować.\n\n' +
+					'✨ » Kliknij przycisk poniżej, aby tego dokonać. Zajme to tylko chwilkę...\n\n' +
+					`⚡ » Masz problem ze zweryfikowaniem się? Skontaktuj się z <@${process.env.BOT_OWNER}>!`
+				),
+		],
 		}),
 		button: {
 			label: 'Zweryfikuj się ❤️',
@@ -394,7 +384,7 @@ module.exports = {
 						new EmbedBuilder()
 							.setColor('#FF6B35')
 							.setTitle('⚠️ Wymagana weryfikacja - Miłosna Grota')
-							.setDescription(`Cześć ${member.user.username}! ❤️\n\nTwój link weryfikacyjny dla **${guild.name}** wygasł. Musisz zweryfikować swoje konto, aby dalej korzystać z serwera randkowego.`)
+							.setDescription(`Cześć ${member.user.username}! ❤️\n\nTwój link weryfikacyjny dla **${guild.name}** wygasł. Musisz zweryfikować swoje konto, aby dalej korzystać z serwera.`)
 							.addFields([
 								{ name: '🔗 Jak się zweryfikować', value: 'Kliknij przycisk weryfikacji na serwerze, aby otrzymać nowy link weryfikacyjny.', inline: false },
 								{ name: '⏰ Ważne', value: 'Jeśli nie zweryfikujesz się w ciągu 4 dni od dołączenia, zostaniesz usunięty z serwera.', inline: false },
@@ -429,7 +419,7 @@ module.exports = {
 							.setTitle('👋 Usunięto z Miłosnej Groty')
 							.setDescription(`Cześć ${member.user.username},\n\nZostałeś usunięty z **${guild.name}**, ponieważ nie ukończyłeś weryfikacji w wymaganym 4-dniowym okresie.`)
 							.addFields([
-								{ name: '🔄 Chcesz wrócić?', value: 'Możesz dołączyć ponownie do serwera randkowego w każdej chwili, ale będziesz musiał ukończyć weryfikację w ciągu 4 dni.', inline: false },
+								{ name: '🔄 Chcesz wrócić?', value: 'Możesz dołączyć ponownie na nasz serwer w każdej chwili, ale będziesz musiał ukończyć weryfikację w ciągu 4 dni.', inline: false },
 								{ name: '❓ Pytania?', value: 'Skontaktuj się z moderatorami serwera, jeśli masz pytania dotyczące tej polityki.', inline: false },
 							])
 							.setFooter({ text: `${guild.name} • Konto usunięte`, iconURL: guild.iconURL() })
@@ -445,8 +435,8 @@ module.exports = {
 							.setTitle('✅ Weryfikacja ukończona! ❤️')
 							.setDescription(`Witaj na **${guild.name}**! Twoje konto zostało pomyślnie zweryfikowane.`)
 							.addFields([
-								{ name: '🎉 Dostęp przyznany', value: 'Masz teraz pełny dostęp do wszystkich kanałów randkowych i funkcji serwera!', inline: false },
-								{ name: '💕 Znajdź swoją miłość', value: 'Możesz teraz korzystać z kanałów randkowych i poznawać nowe osoby.', inline: false },
+								{ name: '🎉 Dostęp przyznany', value: 'Masz teraz pełny dostęp do wszystkich kanałów i funkcji serwera!', inline: false },
+								{ name: '💕 Znajdź swoją miłość', value: 'Poznaj nowe osoby!', inline: false },
 								{ name: '📝 Zasady serwera', value: 'Upewnij się, że przeczytałeś [regulamin](https://github.com/sefinek/Milosna_Grota/blob/main/Rules.md) serwera.', inline: false },
 							])
 							.setFooter({ text: `${guild.name} • Witamy w naszej społeczności!`, iconURL: guild.iconURL() })

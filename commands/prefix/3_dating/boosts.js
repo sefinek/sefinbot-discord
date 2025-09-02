@@ -11,7 +11,7 @@ module.exports = {
 
 		msg.channel.send({ embeds: [new EmbedBuilder()
 			.setColor('#FFFFFF')
-			.setAuthor({ name: 'Co można otrzymać w zamian za ulepszenie serwera? 💗', iconURL: msg.guild.iconURL(), url: process.env.URL_SEFINEK })
+			.setAuthor({ name: 'Co można otrzymać w zamian za ulepszenie serwera? 💗', iconURL: msg.guild.iconURL() })
 			.addFields([
 				{
 					name: '🥉 » Nagrody za 1 poziom',

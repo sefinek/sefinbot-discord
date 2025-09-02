@@ -10,33 +10,29 @@ module.exports = {
 	ownerOnly: true,
 	cooldown: 1000,
 	async execute(client, msg, args) {
-
 		if (!args.length) {
-			return msg.reply({
-				embeds: [new EmbedBuilder()
-					.setColor('#FF6B6B')
-					.setTitle('❌ Missing Command')
-					.setDescription('Please provide a command to execute.')],
+			return msg.reply({ embeds: [new EmbedBuilder()
+				.setColor('#FF6B6B')
+				.setTitle('❌ Missing Command')
+				.setDescription('Please provide a command to execute.')],
 			});
 		}
 
 		const command = args.join(' ');
 		if (FORBIDDEN_PATTERNS.test(command)) {
 			console.log('Shell » Blocked dangerous command:', command);
-			return msg.reply({
-				embeds: [new EmbedBuilder()
-					.setColor('#FF6B6B')
-					.setTitle('❌ Forbidden Command')
-					.setDescription('This command contains dangerous patterns.')],
+			return msg.reply({ embeds: [new EmbedBuilder()
+				.setColor('#FF6B6B')
+				.setTitle('❌ Forbidden Command')
+				.setDescription('This command contains dangerous patterns.')],
 			});
 		}
 
-		const loading = await msg.reply({
-			embeds: [new EmbedBuilder()
-				.setColor('#4169E1')
-				.setTitle('⏳ Executing...')
-				.setDescription(`\`${command}\``)
-				.setFooter({ text: 'Command execution in progress' })],
+		const loading = await msg.reply({ embeds: [new EmbedBuilder()
+			.setColor('#4169E1')
+			.setTitle('⏳ Executing...')
+			.setDescription(`\`${command}\``)
+			.setFooter({ text: 'Command execution in progress' })],
 		});
 
 		exec(command, { timeout: 30000 }, async (error, stdout, stderr) => {
@@ -50,12 +46,11 @@ module.exports = {
 			const color = error ? '#FF6B6B' : '#00D26A';
 			const title = error ? '❌ Command Failed' : '✅ Command Executed';
 
-			await loading.edit({
-				embeds: [new EmbedBuilder()
-					.setColor(color)
-					.setTitle(title)
-					.setDescription(`**Command:** \`${command}\`\n\n${output.slice(0, 3500)}${output.length > 3500 ? '\n*...output truncated*' : ''}`)
-					.setTimestamp()],
+			await loading.edit({ embeds: [new EmbedBuilder()
+				.setColor(color)
+				.setTitle(title)
+				.setDescription(`**Command:** \`${command}\`\n\n${output.slice(0, 3500)}${output.length > 3500 ? '\n*...output truncated*' : ''}`)
+				.setTimestamp()],
 			});
 
 			console.log(`Shell » ${error ? 'Error' : 'Success'}:`, command);

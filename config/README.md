@@ -66,7 +66,7 @@ module.exports = {
     members: {
       enabled: true,
       channelId: 'channel_id',
-      name: (count, arrow) => `👥・Members: ${count} ${arrow || ''}`,
+      name: (count, arrow) => `👥・Members: ${count} ${arrow}`,
     },
     // ... more voice channels
   },
