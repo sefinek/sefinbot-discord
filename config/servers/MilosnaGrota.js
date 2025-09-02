@@ -347,8 +347,8 @@ module.exports = {
 		],
 		}),
 		button: {
-			label: 'Zweryfikuj się ❤️',
-			emoji: '✅',
+			label: 'Zweryfikuj się',
+			emoji: '❤️',
 			style: 'Primary',
 		},
 		messages: {

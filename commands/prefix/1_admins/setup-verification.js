@@ -1,4 +1,4 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require('discord.js');
 const { getServerConfig } = require('../../../config/guilds.js');
 
 module.exports = {
@@ -28,49 +28,25 @@ module.exports = {
 
 		// Build content from server configuration
 		const verificationContent = serverConfig.verification.content;
-		const buttonConfig = serverConfig.verification.button;
+		if (!verificationContent || typeof verificationContent !== 'function') return msg.reply('❌ Verification content configuration is missing or invalid.');
 
-		// Get verification message content
-		const messageContent = verificationContent ? verificationContent(msg.guild) : {
-			embeds: [
-				new EmbedBuilder()
-					.setColor('#3498DB')
-					.setTitle('🔐 Server Verification Required')
-					.setDescription(`Welcome to **${msg.guild.name}**!\n\nTo gain access to all channels and features, please complete the verification process by clicking the button below.`)
-					.setFooter({ text: `${msg.guild.name} • Click the button below to verify`, iconURL: msg.guild.iconURL() })
-					.setTimestamp(),
-			],
-		};
+		const buttonConfig = serverConfig.verification.button;
+		if (!buttonConfig) throw new Error('Button configuration is missing in server settings.');
 
 		const button = new ButtonBuilder()
 			.setCustomId('verify_account')
 			.setLabel(buttonConfig?.label || 'Verify Account')
 			.setStyle(ButtonStyle[buttonConfig?.style] || ButtonStyle.Primary);
-
-		// Add emoji if configured
-		if (buttonConfig?.emoji) button.setEmoji(buttonConfig.emoji);
+		if (buttonConfig.emoji) button.setEmoji(buttonConfig.emoji);
 
 		const row = new ActionRowBuilder().addComponents(button);
 
 		// Send verification message
 		await msg.channel.send({
-			...messageContent,
+			...verificationContent(msg.guild),
 			components: [row],
 		});
 
-		// Reply with setup information
-		const setupEmbed = new EmbedBuilder()
-			.setColor('#00FF00')
-			.setTitle('✅ Verification Setup Complete')
-			.setDescription('Verification message has been created successfully!')
-			.addFields(
-				{ name: '✅ Ready to use', value: 'Users can now click the button to verify their accounts. The button will work even after bot restarts.', inline: false },
-				{ name: '🔧 Channel Configuration', value: 'Consider restricting this channel to prevent regular messaging and only allow button interactions.', inline: false }
-			)
-			.setFooter({ text: 'Verification system is now active' })
-			.setTimestamp();
-
-		await msg.reply({ embeds: [setupEmbed] });
 		msg.delete();
 
 		console.log(`Verifi » Setup message created in ${msg.guild.name} (${msg.guild.id}) - Channel: ${msg.channel.id}`);
