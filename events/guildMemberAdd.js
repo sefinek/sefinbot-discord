@@ -100,14 +100,6 @@ const handleVerification = async (member, serverCfg) => {
 
 	try {
 		await member.roles.add(unverifiedRole);
-
-		await VerificationStatus.create({
-			userId: member.id,
-			guildId: member.guild.id,
-			joinedAt: member.joinedAt || new Date(),
-		});
-
-		console.log(`EventA » Added unverified role to ${member.user.tag} (${member.id})`);
 	} catch (err) {
 		console.warn(`EventA » Failed to setup verification for ${member.user.tag}: ${err.message}`);
 	}
