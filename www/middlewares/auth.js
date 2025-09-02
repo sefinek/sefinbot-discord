@@ -7,30 +7,30 @@ const validateSefinekToken = (req, res, next) => {
 		const apiKey = req.headers['x-secret-key'];
 		if (!apiKey) {
 			console.log('Auth » Missing X-Secret-Key header');
-			return res.status(401).json({ success: false, status: 401, message: 'X-Secret-Key header required', error: 'MISSING_SECRET_KEY' });
+			return res.status(401).json({ success: false, status: 401, message: 'X-Secret-Key header required' });
 		}
 
 		// Verify against shared secret
 		if (!expectedApiKey) {
 			console.error('Auth » SEFINEK_SECRET environment variable not configured');
-			return res.status(500).json({ success: false, status: 500, message: 'Server configuration error', error: 'SERVER_CONFIG_ERROR' });
+			return res.status(500).json({ success: false, status: 500, message: 'Server configuration error' });
 		}
 
 		// Secure comparison to prevent timing attacks
 		if (!crypto.timingSafeEqual(Buffer.from(apiKey), Buffer.from(expectedApiKey))) {
-			return res.status(403).json({ success: false, status: 403, message: 'Invalid API key', error: 'INVALID_TOKEN' });
+			return res.status(403).json({ success: false, status: 403, message: 'Invalid API key' });
 		}
 
 		// Token is valid, continue to next middleware/route
 		next();
 	} catch (err) {
 		console.error('Auth » Token validation error:', err);
-		return res.status(500).json({ success: false, status: 500, message: 'Authentication error', error: 'AUTH_ERROR' });
+		return res.status(500).json({ success: false, status: 500, message: 'Authentication error' });
 	}
 };
 
 const ensureBotClient = (req, res, next) => {
-	if (!req.bot?.user) return res.status(503).json({ success: false, status: 503, message: 'Bot service unavailable', error: 'BOT_UNAVAILABLE' });
+	if (!req.bot?.user) return res.status(503).json({ success: false, status: 503, message: 'Bot service unavailable' });
 	next();
 };
 
