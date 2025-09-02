@@ -39,8 +39,8 @@ const roles = {
 	realizatorPartnerstw: '1127476600598954094',
 	pingPapiezowa: '1121997761311678474',
 	pingDeadchat: '1121997762578370620',
-	weryfikacja: '1122000522132598784',
 	randkowicz: '1122000190807752817',
+	weryfikacja: '1122000522132598784',
 };
 
 module.exports = {
@@ -326,8 +326,8 @@ module.exports = {
 
 	verification: {
 		enabled: true,
-		unverifiedRoleId: roles.randkowicz,
-		verifiedRoleId: roles.weryfikacja,
+		unverifiedRoleId: roles.weryfikacja,
+		verifiedRoleId: roles.randkowicz,
 		timeouts: {
 			tokenExpiry: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
 			tokenCooldown: 5 * 60 * 1000, // 5 minutes cooldown between token requests

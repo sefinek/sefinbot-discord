@@ -96,9 +96,7 @@ const handleVerification = async (member, serverCfg) => {
 	if (!serverCfg.verification?.enabled || !serverCfg.verification?.unverifiedRoleId) return;
 
 	const unverifiedRole = member.guild.roles.cache.get(serverCfg.verification.unverifiedRoleId);
-	if (!unverifiedRole) {
-		return console.warn(`EventA » Unverified role ${serverCfg.verification.unverifiedRoleId} not found in ${member.guild.name}`);
-	}
+	if (!unverifiedRole) return console.warn(`EventA » Unverified role ${serverCfg.verification.unverifiedRoleId} not found in ${member.guild.name}`);
 
 	try {
 		await member.roles.add(unverifiedRole);
