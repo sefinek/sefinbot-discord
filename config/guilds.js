@@ -10,20 +10,18 @@ const loadServerConfigs = () => {
 
 	try {
 		const configFiles = readdirSync(configPath).filter(fileFilter);
-		
+
 		for (const file of configFiles) {
 			try {
 				const config = require(join(configPath, file));
-				
+
 				if (!config.id) {
 					console.warn(`Config » Server config ${file} missing ID field`);
 					continue;
 				}
 
 				const isConfigDev = config.dev === true;
-				const shouldLoad = (isDev && isConfigDev) || (!isDev && !isConfigDev);
-				
-				if (shouldLoad) {
+				if ((isDev && isConfigDev) || (!isDev && !isConfigDev)) {
 					configs[config.id] = config;
 					console.log(`Config » Loaded ${file} (${isDev ? 'dev' : 'prod'} mode)`);
 				}
@@ -43,7 +41,25 @@ let serverConfigs = loadServerConfigs();
 
 const getServerConfig = guildId => serverConfigs[guildId] || null;
 
-const getAllServerConfigs = () => 
+const shouldIgnoreGuild = guildId => {
+	if (isDev || serverConfigs[guildId]) return false;
+
+	try {
+		const configFiles = readdirSync(configPath).filter(fileFilter);
+		for (const file of configFiles) {
+			try {
+				const config = require(join(configPath, file));
+				if (config.id === guildId && config.dev === true) return true;
+			} catch (err) {}
+		}
+	} catch (err) {
+		console.error(`Config » Error checking dev servers: ${err.message}`);
+	}
+
+	return false;
+};
+
+const getAllServerConfigs = () =>
 	Object.entries(serverConfigs).map(([guildId, config]) => ({ guildId, config }));
 
 const reloadConfigs = () => {
@@ -63,4 +79,5 @@ module.exports = {
 	getServerConfig,
 	getAllServerConfigs,
 	reloadConfigs,
+	shouldIgnoreGuild,
 };

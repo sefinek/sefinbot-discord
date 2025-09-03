@@ -24,7 +24,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Event-Driven**: Discord events handled in `events/` directory
 - **Command System**: Commands in `commands/` with handlers in `handlers/`
 - **Database**: MongoDB via Mongoose (`database/mongoose.js`)
-- **Web Server**: Express server in `web/` directory
+- **Web Server**: Express server in `www/` directory
 - **Automation**: Cron jobs in `cron/` for scheduled tasks
 
 ### Handler System
@@ -90,11 +90,14 @@ reactions: [
 
 ### File Organization
 - Event handlers in `events/` directory
-- Commands in `commands/` directory  
+- Commands in `commands/` directory with subdirectories:
+  - `commands/prefix/` - Traditional prefix commands (loaded by `handlers/command.js`)
+  - `commands/slashes/` - Slash commands (loaded by `handlers/slash.js`)
 - Configuration files in `config/servers/` directory
 - Utility scripts in `scripts/` directory
 - Database models likely in `models/` directory
-- Web routes in `web/` directory
+- Web routes in `www/` directory (not `web/`)
+- Automation tasks in `cron/` directory
 
 ### Dependencies
 - **discord.js v14** - Main Discord API wrapper
@@ -112,3 +115,31 @@ reactions: [
 - No test suite currently configured
 - Development/production split handled through NODE_ENV and config flags
 - Hot reload supported for configuration changes via Discord commands
+
+## Command Structure Details
+
+### Prefix Commands Structure
+Prefix commands are organized in subdirectories by permission level:
+- `1_admins/` - Administrator-only commands (eval, shell, shutdown, etc.)
+- `2_mods/` - Moderator commands (clear, reload-config)  
+- `3_dating/` - General/dating server specific commands
+
+### Handler Loading Process
+1. `handlers/command.js` recursively loads all `.js` files from `commands/prefix/`
+2. `handlers/event.js` loads all event files from `events/` directory
+3. `handlers/slash.js` loads slash commands from `commands/slashes/`
+4. Commands must have proper `name` property and `execute` function
+5. Events must have `name` and `execute` properties
+
+### Configuration Loading Logic
+Server configs in `config/servers/` are loaded with environment awareness:
+- In development (`NODE_ENV=development`): Prefers configs with `dev: true`
+- In production: Uses configs without `dev: true` flag
+- Each config must have unique `id` matching Discord server ID
+- Template available at `config/servers/template.example.js`
+
+## Database Integration
+- MongoDB connection established in `database/mongoose.js`
+- Connection uses `MONGODB_URL` environment variable  
+- Automatic reconnection and error handling built-in
+- Process exits on connection failure for fail-fast behavior

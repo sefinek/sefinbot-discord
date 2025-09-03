@@ -8,7 +8,10 @@ module.exports = {
 
 		// Fetch server configuration
 		const serverCfg = guilds.getServerConfig(msg.member.guild.id);
-		if (!serverCfg) return console.warn(`EventA » Server config for ${msg.member.guild.id} was not found`);
+		if (!serverCfg) {
+			if (guilds.shouldIgnoreGuild(msg.member.guild.id)) return;
+			return console.warn(`EventA » Server config for ${msg.member.guild.id} was not found`);
+		}
 
 		const args = msg.content.slice(process.env.PREFIX.length).split(/ +/);
 		const cmd = args.shift().toLowerCase();

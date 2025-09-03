@@ -149,11 +149,11 @@ class CronManager {
 				);
 
 				this.jobs.push({ guildId: guild.id, scheduleName, job });
-				console.log(`Cron   » Scheduled '${scheduleName}' for '${guild.name}' at '${schedule.time}'`);
+				// console.log(`Cron   » Scheduled '${scheduleName}' for '${guild.name}' at '${schedule.time}'`);
 			});
 		});
 
-		console.log(`Cron   » Loaded ${this.jobs.length} scheduled tasks`);
+		// console.log(`Cron   » Loaded ${this.jobs.length} scheduled tasks`);
 	}
 
 	stop() {

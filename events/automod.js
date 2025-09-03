@@ -12,7 +12,10 @@ module.exports = {
 		}
 
 		const serverCfg = guilds.getServerConfig(msg.guild.id);
-		if (!serverCfg) return console.warn(`EventM » Server config for ${msg.guild.id} was not found`);
+		if (!serverCfg) {
+			if (guilds.shouldIgnoreGuild(msg.guild.id)) return;
+			return console.warn(`EventM » Server config for ${msg.guild.id} was not found`);
+		}
 
 		// Bot trap channel logic
 		if (msg.channel.id === serverCfg.features?.botTrap && !msg.member.permissions.has(PermissionsBitField.Flags.ManageMessages)) {

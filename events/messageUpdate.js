@@ -9,7 +9,10 @@ module.exports = {
 
 		// Retrieve the server configuration
 		const serverCfg = guilds.getServerConfig(newMsg.guild.id);
-		if (!serverCfg) return console.warn(`EventU » Unable to find server configuration for guild ID ${newMsg.guild.id}`);
+		if (!serverCfg) {
+			if (guilds.shouldIgnoreGuild(newMsg.guild.id)) return;
+			return console.warn(`EventU » Unable to find server configuration for guild ID ${newMsg.guild.id}`);
+		}
 
 		// Validate and process the updated message
 		try {

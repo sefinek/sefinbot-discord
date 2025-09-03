@@ -10,7 +10,10 @@ module.exports = {
 		if (!msg.guild || msg.author.bot || msg.content?.length <= 1) return;
 
 		const serverCfg = guilds.getServerConfig(msg.guild.id);
-		if (!serverCfg) return console.warn(`EventC » Server config for ${msg.guild.id} was not found`);
+		if (!serverCfg) {
+			if (guilds.shouldIgnoreGuild(msg.guild.id)) return;
+			return console.warn(`EventC » Server config for ${msg.guild.id} was not found`);
+		}
 
 		if (!serverCfg.features?.cleverBot || msg.channel.id !== serverCfg.features.cleverBot) return;
 

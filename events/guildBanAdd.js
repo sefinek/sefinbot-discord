@@ -65,6 +65,7 @@ module.exports = {
 		// Get server configuration
 		const serverCfg = guilds.getServerConfig(guild.id);
 		if (!serverCfg) {
+			if (guilds.shouldIgnoreGuild(guild.id)) return;
 			return console.warn(`EventB » No server config found for guild ${guild.id}`);
 		}
 
