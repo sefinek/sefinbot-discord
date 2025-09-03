@@ -101,7 +101,6 @@ module.exports = {
 						{ name: '🛡️ Why verify?', value: 'Verification helps keep our server safe from bots and unauthorized access.', inline: false },
 						{ name: '⚡ Quick Process', value: 'Complete hCaptcha verification in your browser - takes just a few seconds!', inline: false },
 						{ name: '🔒 Secure & Private', value: 'Your data is protected and the process is completely secure.', inline: false },
-						{ name: '🔌 API Access', value: 'After verification, you\'ll gain access to API documentation and support channels.', inline: false },
 					])
 					.setThumbnail(guild.iconURL()),
 			],

@@ -157,7 +157,6 @@ module.exports = {
 						{ name: '🛡️ Why verify?', value: 'Verification helps keep our modding community safe from bots and ensures quality discussions about Stella Mod.', inline: false },
 						{ name: '⚡ Quick Process', value: 'Complete hCaptcha verification in your browser - takes just a few seconds!', inline: false },
 						{ name: '🔒 Secure & Private', value: 'Your data is protected and the process is completely secure.', inline: false },
-						{ name: '🎮 Stella Mod Access', value: 'After verification, you\'ll gain access to mod downloads, support channels, and the community.', inline: false },
 					]),
 			],
 		}),
