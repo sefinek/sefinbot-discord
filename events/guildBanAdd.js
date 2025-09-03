@@ -26,9 +26,7 @@ const handleMemberCountChannel = async (guild, serverCfg) => {
 	if (!serverCfg.voiceChannels?.members?.enabled || !serverCfg.voiceChannels?.members?.channelId) return;
 
 	const memberCountChannel = guild.channels.cache.get(serverCfg.voiceChannels.members.channelId);
-	if (!memberCountChannel) {
-		return console.warn(`EventB » Member count channel ${serverCfg.voiceChannels.members.channelId} not found`);
-	}
+	if (!memberCountChannel) return console.warn(`EventB » Member count channel ${serverCfg.voiceChannels.members.channelId} not found`);
 
 	try {
 		const memberCount = getMemberCount(guild);
