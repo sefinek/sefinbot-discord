@@ -22,16 +22,16 @@ module.exports = {
 		try {
 			const channelKey = `${msg.guild.id}-${msg.channel.id}`;
 			let context = contextMap.get(channelKey) || [];
-			
+
 			const res = await CleverBot.interact(msg.content, context, 'pl');
 
 			context.push(msg.content, res);
-			
+
 			// Limit context size to prevent memory leak
 			if (context.length > 20) {
 				context = context.slice(-20);
 			}
-			
+
 			contextMap.set(channelKey, context);
 			msg.reply(res);
 		} catch (err) {

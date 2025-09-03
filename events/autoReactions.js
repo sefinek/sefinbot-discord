@@ -15,7 +15,7 @@ const sendErrorMessage = async (msg, description) => {
 		]);
 
 		if (errorMsg.status === 'fulfilled') {
-			setTimeout(() => errorMsg.value.delete().catch(() => {}), 15 * 1000);
+			setTimeout(() => errorMsg.value.delete().catch(() => null), 15 * 1000);
 		}
 
 		console.log(`React  » User ${msg.author.tag} (${msg.author.id}) tried invalid action in ${msg.channel.name} (${msg.channel.id}): ${description}\n${msg.content.slice(0, 100)}`);
