@@ -122,7 +122,7 @@ module.exports = {
 
 	reactions: [
 		{
-			name: 'announcement-approval',
+			name: 'check-mark-button',
 			enabled: true,
 			channels: [
 				channels.announcementsPlus,
@@ -162,8 +162,8 @@ module.exports = {
 			],
 		}),
 		button: {
-			label: 'Verify for Stella Mod',
-			emoji: '⭐',
+			label: 'Verify',
+			emoji: '🔎',
 			style: 'Primary',
 		},
 		messages: {

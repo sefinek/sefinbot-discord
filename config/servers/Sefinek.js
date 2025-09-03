@@ -94,7 +94,7 @@ module.exports = {
 
 	reactions: [
 		{
-			name: 'admin-approval',
+			name: 'check-mark-button',
 			enabled: true,
 			channels: [channels.announcements, channels.changelogs],
 			emojis: ['✅'],

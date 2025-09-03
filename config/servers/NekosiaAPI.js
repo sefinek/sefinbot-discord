@@ -22,15 +22,9 @@ module.exports = {
 	roles,
 
 	voiceChannels: {
-		members: {
-			enabled: false,
-		},
-		online: {
-			enabled: false,
-		},
-		newest: {
-			enabled: false,
-		},
+		members: { enabled: false },
+		online: { enabled: false },
+		newest: { enabled: false },
 	},
 
 	events: {
@@ -71,15 +65,13 @@ module.exports = {
 			}),
 		},
 		directMessages: {
-			welcome: {
-				enabled: false,
-			},
+			welcome: { enabled: false },
 		},
 	},
 
 	reactions: [
 		{
-			name: 'api-approval',
+			name: 'thumbs-up',
 			enabled: true,
 			channels: [channels.announcements, channels.changelog],
 			emojis: ['👍'],
@@ -115,8 +107,8 @@ module.exports = {
 			],
 		}),
 		button: {
-			label: 'Verify API Access',
-			emoji: '🔐',
+			label: 'Verify',
+			emoji: '🔎',
 			style: 'Primary',
 		},
 		messages: {
