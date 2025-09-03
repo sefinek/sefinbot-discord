@@ -358,11 +358,10 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#5865F2')
-							.setDescription(`Aby uzyskać dostęp do **${guild.name}**, ukończ proces weryfikacji. Zachowaj link w tajemnicy.`)
+							.setAuthor({ name: '🔐 Weryfikacja na serwerze Miłosna Grota', iconURL: guild.iconURL() })
+							.setDescription('Aby uzyskać dostęp do wszystkich kanałów, ukończ proces weryfikacji. Zachowaj link w tajemnicy.')
 							.addFields([
-								{ name: '🔗 Link weryfikacyjny', value: `[Kliknij tutaj aby się zweryfikować](${verificationUrl})`, inline: false },
-								{ name: '⏰ Wygasa za', value: '24 godziny', inline: true },
-								{ name: '🛡️ Bezpieczeństwo', value: 'Ukończ wyzwanie hCaptcha', inline: true },
+								{ name: '🔗 Link weryfikacyjny', value: `[Kliknij tutaj aby się zweryfikować](${verificationUrl}) (wygasa za 24h)`, inline: false },
 							]),
 					],
 				}),
@@ -371,8 +370,8 @@ module.exports = {
 				content: (member, guild) => ({
 					embeds: [
 						new EmbedBuilder()
-							.setColor('#FF6B35')
-							.setAuthor({ name: '⚠️ Wymagana weryfikacja - Miłosna Grota', iconURL: guild.iconURL() })
+							.setColor('#ff7746')
+							.setAuthor({ name: '⚠️ Wymagana weryfikacja - Przypomnienie', iconURL: guild.iconURL() })
 							.setDescription(`Cześć ${member.user.username}! ❤️\n\nTwój link weryfikacyjny dla **${guild.name}** wygasł. Musisz zweryfikować swoje konto, aby dalej korzystać z serwera.`)
 							.addFields([
 								{ name: '🔗 Jak się zweryfikować', value: 'Kliknij przycisk weryfikacji na serwerze, aby otrzymać nowy link weryfikacyjny.', inline: false },
@@ -385,7 +384,7 @@ module.exports = {
 				content: (member, guild) => ({
 					embeds: [
 						new EmbedBuilder()
-							.setColor('#E74C3C')
+							.setColor('#ff4f3d')
 							.setAuthor({ name: '🚨 Ostatnie ostrzeżenie - Usunięcie konta', iconURL: guild.iconURL() })
 							.setDescription(`**WAŻNE POWIADOMIENIE**\n\nCześć ${member.user.username},\n\nJesteś na **${guild.name}** już ponad 3 dni bez ukończenia weryfikacji. **Masz 24 godziny na zweryfikowanie konta lub zostaniesz usunięty z serwera.**`)
 							.addFields([
@@ -400,7 +399,7 @@ module.exports = {
 				content: (member, guild) => ({
 					embeds: [
 						new EmbedBuilder()
-							.setColor('#992D22')
+							.setColor('#ff331a')
 							.setAuthor({ name: '👋 Usunięto z Miłosnej Groty', iconURL: guild.iconURL() })
 							.setDescription(`Cześć ${member.user.username},\n\nZostałeś usunięty z **${guild.name}**, ponieważ nie ukończyłeś weryfikacji w wymaganym 4-dniowym okresie.`)
 							.addFields([

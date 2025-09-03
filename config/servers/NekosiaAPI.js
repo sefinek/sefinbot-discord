@@ -119,9 +119,7 @@ module.exports = {
 							.setAuthor({ name: '🔐 Server Verification', iconURL: guild.iconURL() })
 							.setDescription(`To gain access to **${guild.name}**, please complete the verification process.`)
 							.addFields([
-								{ name: '🔗 Verification Link', value: `[Click here to verify](${verificationUrl})`, inline: false },
-								{ name: '⏰ Expires in', value: '24 hours', inline: true },
-								{ name: '🛡️ Security', value: 'Complete hCaptcha challenge', inline: true },
+								{ name: '🔗 Verification Link', value: `[Click here to verify](${verificationUrl}) (expires in 24h)`, inline: false },
 							]),
 					],
 				}),
@@ -130,9 +128,9 @@ module.exports = {
 				content: (member, guild) => ({
 					embeds: [
 						new EmbedBuilder()
-							.setColor('#FF6B35')
-							.setAuthor({ name: '⚠️ Verification Required', iconURL: guild.iconURL() })
-							.setDescription(`Hello ${member.user.username}! Your verification link for **${guild.name}** has expired. You need to verify your account to continue accessing the server.`)
+							.setColor('#ff7746')
+							.setAuthor({ name: `⚠️ Verification Required - ${guild.name}`, iconURL: guild.iconURL() })
+							.setDescription(`Hello ${member.user.username}! Your verification link has expired. You need to verify your account to continue accessing the server.`)
 							.addFields([
 								{ name: '🔗 How to verify', value: 'Click the verification button in the server to get a new verification link.', inline: false },
 								{ name: '⏰ Important', value: 'If you don\'t verify within 4 days of joining, you will be removed from the server.', inline: false },
@@ -144,7 +142,7 @@ module.exports = {
 				content: (member, guild) => ({
 					embeds: [
 						new EmbedBuilder()
-							.setColor('#E74C3C')
+							.setColor('#ff4f3d')
 							.setAuthor({ name: '🚨 Final Warning - Account Removal', iconURL: guild.iconURL() })
 							.setDescription(`**IMPORTANT NOTICE**\n\nHello ${member.user.username},\n\nYou have been on **${guild.name}** for over 3 days without completing verification. **You have 24 hours to verify your account or you will be removed from the server.**`)
 							.addFields([
@@ -159,7 +157,7 @@ module.exports = {
 				content: (member, guild) => ({
 					embeds: [
 						new EmbedBuilder()
-							.setColor('#992D22')
+							.setColor('#ff331a')
 							.setAuthor({ name: `👋 Removed from ${guild.name}`, iconURL: guild.iconURL() })
 							.setDescription(`Hello ${member.user.username},\n\nYou have been removed from **${guild.name}** because you did not complete verification within the required 4-day period.`)
 							.addFields([
@@ -173,7 +171,7 @@ module.exports = {
 				content: (member, guild) => ({
 					embeds: [
 						new EmbedBuilder()
-							.setColor('#27ae60')
+							.setColor('#00d26a')
 							.setAuthor({ name: '✅ Verification Complete', iconURL: guild.iconURL() })
 							.setDescription(`Welcome to **${guild.name}**! Your account has been successfully verified.`),
 					],
