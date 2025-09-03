@@ -335,16 +335,17 @@ module.exports = {
 			kickWarningAfter: 3 * 24 * 60 * 60 * 1000, // 3 days before kick warning
 			kickAfter: 4 * 24 * 60 * 60 * 1000, // 4 days before actual kick
 		},
-		content: guild => ({ embeds: [
-			new EmbedBuilder()
-				.setColor('#79E0F2')
-				.setAuthor({ name: 'Weryfikacja numer 1 na serwerze Miłosna Grota・😻', iconURL: guild.iconURL() })
-				.setDescription(
-					'👋 » Serdecznie dziękujemy za dołączenie na nasz serwer! Jeśli chcesz uzyskać dostęp do wszystkich kanałów, najpierw musisz się zweryfikować.\n\n' +
-					'✨ » Kliknij przycisk poniżej, aby tego dokonać. Zajme to tylko chwilkę...\n\n' +
-					`⚡ » Masz problem ze zweryfikowaniem się? Skontaktuj się z <@${process.env.OWNER}>!`
-				),
-		],
+		content: (client, guild) => ({
+			embeds: [
+				new EmbedBuilder()
+					.setColor('#79E0F2')
+					.setAuthor({ name: 'Weryfikacja na serwerze Miłosna Grota', iconURL: client.user.displayAvatarURL() })
+					.setDescription(
+						'👋 » Serdecznie dziękujemy za dołączenie na nasz serwer! Jeśli chcesz uzyskać dostęp do wszystkich kanałów, najpierw musisz się zweryfikować.\n\n' +
+						'✨ » Kliknij przycisk poniżej, aby tego dokonać. Zajme to tylko chwilkę...\n\n' +
+						`⚡ » Masz problem ze zweryfikowaniem się? Skontaktuj się z <@${process.env.OWNER}>!`
+					),
+			],
 		}),
 		button: {
 			label: 'Zweryfikuj się',

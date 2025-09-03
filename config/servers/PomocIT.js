@@ -114,11 +114,11 @@ module.exports = {
 			kickWarningAfter: 3 * 24 * 60 * 60 * 1000, // 3 days before kick warning
 			kickAfter: 4 * 24 * 60 * 60 * 1000, // 4 days before actual kick
 		},
-		content: guild => ({
+		content: (client, guild) => ({
 			embeds: [
 				new EmbedBuilder()
 					.setColor('#00D26A')
-					.setAuthor({ name: `🔐 Weryfikacja na serwerze ${guild.name}`, iconURL: guild.iconURL() })
+					.setAuthor({ name: `🔐 Weryfikacja na serwerze ${guild.name}`, iconURL: client.user.displayAvatarURL() })
 					.setDescription('Witamy! Aby uzyskać dostęp do wszystkich kanałów i funkcji, ukończ proces weryfikacji klikając przycisk poniżej.')
 					.addFields([
 						{ name: '🛡️ Dlaczego weryfikacja?', value: 'Weryfikacja pomaga utrzymać naszą społeczność bezpieczną przed botami i spamem.', inline: false },

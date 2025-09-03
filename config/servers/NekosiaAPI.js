@@ -91,11 +91,11 @@ module.exports = {
 			kickWarningAfter: 3 * 24 * 60 * 60 * 1000, // 3 days before kick warning
 			kickAfter: 4 * 24 * 60 * 60 * 1000, // 4 days before actual kick
 		},
-		content: guild => ({
+		content: (client, guild) => ({
 			embeds: [
 				new EmbedBuilder()
 					.setColor('#1ABC9C')
-					.setAuthor({ name: '🔐 Server Verification Required', iconURL: guild.iconURL() })
+					.setAuthor({ name: '🔐 Server Verification Required', iconURL: client.user.displayAvatarURL() })
 					.setDescription(`Welcome to **${guild.name}**!\n\nTo gain access to all channels and features, please complete the verification process by clicking the button below.`)
 					.addFields([
 						{ name: '🛡️ Why verify?', value: 'Verification helps keep our server safe from bots and unauthorized access.', inline: false },

@@ -175,7 +175,7 @@ module.exports = {
 			kickWarningAfter: 3 * 24 * 60 * 60 * 1000, // 3 days
 			kickAfter: 4 * 24 * 60 * 60 * 1000, // 4 days
 		},
-		content: guild => ({
+		content: (client, guild) => ({
 			embeds: [
 				new EmbedBuilder()
 					.setColor('#2EE47A')

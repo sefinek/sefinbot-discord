@@ -236,11 +236,11 @@ module.exports = {
 			kickWarningAfter: 3 * 24 * 60 * 60 * 1000, // 3 days before kick warning
 			kickAfter: 4 * 24 * 60 * 60 * 1000, // 4 days before actual kick
 		},
-		content: guild => ({
+		content: (client, guild) => ({
 			embeds: [
 				new EmbedBuilder()
 					.setColor('#FF69B4')
-					.setAuthor({ name: '🔧 Wymagana weryfikacja serwera', iconURL: guild.iconURL() })
+					.setAuthor({ name: '🔧 Wymagana weryfikacja serwera', iconURL: client.user.displayAvatarURL() })
 					.setDescription(`**Środowisko deweloperskie** 🚀\n\nWitaj na serwerze testowym **${guild.name}**!\n\nTo jest środowisko deweloperskie do testowania funkcji bota. Zweryfikuj swoje konto, aby uzyskać dostęp do wszystkich kanałów testowych i funkcji.`)
 					.setThumbnail(guild.iconURL()),
 			],

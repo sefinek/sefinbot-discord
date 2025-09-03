@@ -34,7 +34,7 @@ module.exports = {
 
 		const row = new ActionRowBuilder().addComponents(button);
 		await msg.channel.send({
-			...verificationContent(msg.guild),
+			...verificationContent(client, msg.guild),
 			components: [row],
 		});
 
