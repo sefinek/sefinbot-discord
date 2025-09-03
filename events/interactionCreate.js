@@ -13,7 +13,11 @@ module.exports = {
 		if (inter.isButton()) {
 			if (inter.customId === 'verify_account') {
 				const serverConfig = getServerConfig(inter.guild.id);
-				if (!serverConfig?.verification?.enabled) return inter.reply({ content: '❌ Verification is not enabled on this server.', flags: MessageFlags.Ephemeral });
+				if (!serverConfig?.verification?.enabled) {
+					const { shouldIgnoreGuild } = require('../config/guilds.js');
+					if (shouldIgnoreGuild(inter.guild.id)) return;
+					return inter.reply({ content: '❌ Verification is not enabled on this server.', flags: MessageFlags.Ephemeral });
+				}
 
 				// Check if user has unverified role (required for verification process)
 				const member = inter.member;

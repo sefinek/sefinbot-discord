@@ -37,7 +37,7 @@ module.exports = {
 				.setFooter({ text: 'This message will be deleted in 5 seconds' })],
 			});
 
-			setTimeout(() => successMsg.delete().catch(() => {}), 5000);
+			setTimeout(() => successMsg.delete().catch(() => null), 5000);
 		} catch (err) {
 			console.warn('Clear » Error:', err.message);
 			return msg.reply({ embeds: [new EmbedBuilder()

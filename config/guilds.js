@@ -41,22 +41,31 @@ let serverConfigs = loadServerConfigs();
 
 const getServerConfig = guildId => serverConfigs[guildId] || null;
 
-const shouldIgnoreGuild = guildId => {
-	if (isDev || serverConfigs[guildId]) return false;
+let allConfigs = null;
+
+const loadAllConfigs = () => {
+	if (allConfigs) return allConfigs;
+	allConfigs = {};
 
 	try {
 		const configFiles = readdirSync(configPath).filter(fileFilter);
 		for (const file of configFiles) {
 			try {
 				const config = require(join(configPath, file));
-				if (config.id === guildId && config.dev === true) return true;
-			} catch (err) {}
+				if (config.id) allConfigs[config.id] = config;
+			} catch { /* ignore */ }
 		}
 	} catch (err) {
-		console.error(`Config » Error checking dev servers: ${err.message}`);
+		console.error(`Config » Error loading all configs: ${err.message}`);
 	}
 
-	return false;
+	return allConfigs;
+};
+
+const shouldIgnoreGuild = guildId => {
+	if (isDev || serverConfigs[guildId]) return false;
+	const configs = loadAllConfigs();
+	return configs[guildId]?.dev === true;
 };
 
 const getAllServerConfigs = () =>
@@ -69,6 +78,7 @@ const reloadConfigs = () => {
 			.forEach(file => delete require.cache[require.resolve(join(configPath, file))]);
 
 		serverConfigs = loadServerConfigs();
+		allConfigs = null;
 		console.log('Config » Server configurations reloaded successfully');
 	} catch (err) {
 		console.error(`Config » Failed to reload configurations: ${err.message}`);
