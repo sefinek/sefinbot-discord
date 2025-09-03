@@ -8,8 +8,8 @@ const channels = {
 };
 
 const roles = {
-	verified: '1328507800000000000',
-	unverified: '1328507700000000000',
+	member: '1412778207945691197',
+	unverified: '1412778261892567110',
 };
 
 module.exports = {
@@ -91,7 +91,7 @@ module.exports = {
 	verification: {
 		enabled: true,
 		unverifiedRoleId: roles.unverified,
-		verifiedRoleId: roles.verified,
+		verifiedRoleId: roles.member,
 		timeouts: {
 			tokenExpiry: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
 			tokenCooldown: 5 * 60 * 1000, // 5 minutes cooldown between token requests
