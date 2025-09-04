@@ -307,7 +307,7 @@ module.exports = {
 				name: 'Miłosna Grota・✝️',
 				banners: ['papiezowa.gif'],
 				messageChannel: channels.generaly,
-				// message: `🙏 **GODZINA PAPIEŻOWA** 🙏\nWybiła godzina <@&${roles.pingPapiezowa}>!\n\n> https://www.youtube.com/watch?v=1vZ28SAgzKc`,
+				// message: `🙏 **GODZINA PAPIEŻOWA** 🙏\nWybiła godzina <@&${roles.pingPapiezowa}>!\n\n> https://www.youtube.com/watch?v=2yusdx60_aw`,
 				rateLimits: {},
 				ignoreOnlineCheck: true,
 			},
