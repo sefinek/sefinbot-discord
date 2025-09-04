@@ -9,7 +9,7 @@ const channels = {
 	generaly: '1279200514499805316',
 	przedstawSie: '1122002428510863451',
 	pokazRyjek: '1122002450807804034',
-	animeIManga: '1122002402120314970',
+	animeManga: '1122002402120314970',
 	muzyka: '1122003104049668207',
 	fimly: '1122006225429725294',
 	ksiazki: '1122006384796520559',
@@ -248,12 +248,12 @@ module.exports = {
 				name: 'Miłosna Grota・😻',
 				banners: ['cat-love-you.gif', 'cat_and_fish.jpg', 'cat_purple.jpg', 'falling-into-snow-fox.gif', 'happy-senko.gif', 'senko-hearts.gif'],
 				messageChannel: channels.generaly,
-				message: '☀️ » **Tryb nocny został wyłączony**\nDzień dobry moi drodzy! Miłego dnia życzę! 😊',
+				// message: '☀️ » **Tryb nocny został wyłączony**\nDzień dobry moi drodzy! Miłego dnia życzę! 😊',
 				rateLimits: {
 					[channels.generaly]: 0,
 					[channels.przedstawSie]: 1800,
 					[channels.pokazRyjek]: 3600,
-					[channels.animeIManga]: 0,
+					[channels.animeManga]: 0,
 					[channels.muzyka]: 0,
 					[channels.fimly]: 0,
 					[channels.ksiazki]: 0,
@@ -282,12 +282,12 @@ module.exports = {
 				name: 'Miłosna Grota・😴',
 				banners: ['cat_boat.jpg', 'cat_cute.jpg', 'girl.gif', 'senko.gif', 'sleepy-fox_1.gif', 'sleepy-fox_2.gif'],
 				messageChannel: channels.generaly,
-				message: '🌙 » **Tryb nocny został włączony**\nMiłej nocki moi mili oraz spokojnego pobytu na serwerze! 😴',
+				// message: '🌙 » **Tryb nocny został włączony**\nMiłej nocki moi mili oraz spokojnego pobytu na serwerze! 😴',
 				rateLimits: {
 					[channels.generaly]: 1,
 					[channels.przedstawSie]: 3600,
 					[channels.pokazRyjek]: 7200,
-					[channels.animeIManga]: 1,
+					[channels.animeManga]: 1,
 					[channels.muzyka]: 1,
 					[channels.fimly]: 2,
 					[channels.ksiazki]: 2,
@@ -304,10 +304,10 @@ module.exports = {
 			papajStart: {
 				enabled: true,
 				time: '37 21 * * *',
-				name: 'Miłosna Grota・🙏',
+				name: 'Miłosna Grota・✝️',
 				banners: ['papiezowa.gif'],
 				messageChannel: channels.generaly,
-				message: `🙏 **GODZINA PAPIEŻOWA** 🙏\nWybiła godzina <@&${roles.pingPapiezowa}>!\n\n> https://www.youtube.com/watch?v=1vZ28SAgzKc`,
+				// message: `🙏 **GODZINA PAPIEŻOWA** 🙏\nWybiła godzina <@&${roles.pingPapiezowa}>!\n\n> https://www.youtube.com/watch?v=1vZ28SAgzKc`,
 				rateLimits: {},
 				ignoreOnlineCheck: true,
 			},
@@ -335,7 +335,7 @@ module.exports = {
 			kickWarningAfter: 3 * 24 * 60 * 60 * 1000, // 3 days before kick warning
 			kickAfter: 4 * 24 * 60 * 60 * 1000, // 4 days before actual kick
 		},
-		content: (client, guild) => ({
+		content: client => ({
 			embeds: [
 				new EmbedBuilder()
 					.setColor('#79E0F2')
