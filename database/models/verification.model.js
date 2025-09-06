@@ -1,11 +1,30 @@
 const { Schema, model } = require('mongoose');
 
 const VerificationStatusSchema = new Schema({
+	// User & Guild identification
 	userId: { type: String, required: true, index: true },
 	guildId: { type: String, required: true, index: true },
+	country: { type: String, default: null, maxlength: 2 },
 
+	// User data (cached from Discord)
+	user: {
+		displayName: { type: String, default: null },
+		username: { type: String, default: null },
+		avatar: { type: String, default: null },
+	},
+
+	// Server data (cached from Discord)
+	server: {
+		name: { type: String, default: null },
+		icon: { type: String, default: null },
+	},
+
+	// Verification status
+	verified: { type: Boolean, default: false, index: true },
+	verifiedAt: { type: Date, default: null },
 	joinedAt: { type: Date, required: true, default: Date.now, index: true },
 
+	// Token management
 	token: {
 		type: String,
 		minlength: 128,
@@ -14,14 +33,11 @@ const VerificationStatusSchema = new Schema({
 	},
 	tokenExpiresAt: { type: Date },
 	tokenUsed: { type: Boolean, default: false },
-
 	firstTokenGeneratedAt: { type: Date, default: null },
+
+	// Reminder system
 	lastReminderSentAt: { type: Date, default: null },
 	reminderCount: { type: Number, default: 0 },
-
-	verified: { type: Boolean, default: false, index: true },
-	verifiedAt: { type: Date, default: null },
-
 	kickWarningAt: { type: Date, default: null },
 }, { versionKey: false, timestamps: true });
 
