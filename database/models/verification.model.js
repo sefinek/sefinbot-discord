@@ -6,14 +6,14 @@ const VerificationStatusSchema = new Schema({
 	guildId: { type: String, required: true, index: true },
 	country: { type: String, default: null, maxlength: 2 },
 
-	// User data (cached from Discord)
+	// User data
 	user: {
 		displayName: { type: String, default: null },
 		username: { type: String, default: null },
 		avatar: { type: String, default: null },
 	},
 
-	// Server data (cached from Discord)
+	// Server data
 	server: {
 		name: { type: String, default: null },
 		icon: { type: String, default: null },
