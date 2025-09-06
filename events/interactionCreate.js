@@ -91,7 +91,7 @@ module.exports = {
 						flags: MessageFlags.Ephemeral,
 					});
 
-					console.log(`Verifi » Generated verification link for ${member.user.tag} (${member.id}) in guild ${inter.guild.id}`);
+					console.log(`Verifi » Generated verification link for ${member.user.tag} (${member.id}) in guild ${inter.guild.name}`);
 				} catch (err) {
 					console.error('Verifi » Error generating verification token:', err);
 

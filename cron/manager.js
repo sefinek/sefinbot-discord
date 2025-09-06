@@ -128,7 +128,7 @@ class CronManager {
 
 			const guild = this.client.guilds.cache.get(guildId);
 			if (!guild) {
-				console.error(`Cron   » ERROR: Bot is not in guild ${guildId} but cron is enabled in config!`);
+				console.error(`Cron   » Bot is not in guild ${guildId} but cron is enabled in config!`);
 				return;
 			}
 

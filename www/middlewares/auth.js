@@ -30,7 +30,7 @@ const validateSefinekToken = (req, res, next) => {
 };
 
 const ensureBotClient = (req, res, next) => {
-	if (!req.bot?.user) return res.status(503).json({ success: false, status: 503, message: 'Bot service unavailable' });
+	if (!req.bot?.user) return res.status(503).json({ success: false, status: 503, message: 'Discord bot service is currently unavailable. Please try again later.' });
 	next();
 };
 
