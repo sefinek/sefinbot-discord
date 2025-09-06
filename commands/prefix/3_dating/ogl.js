@@ -1,5 +1,5 @@
 const { PermissionsBitField, EmbedBuilder } = require('discord.js');
-const Announcements = require('../../../database/models/Announcements.js');
+const Announcements = require('../../../database/models/announcements.model.js');
 
 module.exports = {
 	name: 'ogl',

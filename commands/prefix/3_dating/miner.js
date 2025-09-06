@@ -1,6 +1,6 @@
 const { EmbedBuilder, PermissionsBitField } = require('discord.js');
 const Items = require('../../../database/models/items.model');
-const Members = require('../../../database/models/Members');
+const Members = require('../../../database/models/members.model');
 
 module.exports = {
 	name: 'miner',

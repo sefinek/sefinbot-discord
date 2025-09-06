@@ -63,6 +63,15 @@ module.exports = {
 							$setOnInsert: {
 								joinedAt: member.joinedAt,
 								firstTokenGeneratedAt: new Date(),
+								user: {
+									displayName: member.displayName,
+									username: member.user.username,
+									avatar: member.user.displayAvatarURL({ size: 128 }),
+								},
+								server: {
+									name: inter.guild.name,
+									icon: inter.guild.iconURL({ size: 128 }),
+								},
 							},
 							$set: {
 								token: verificationToken,
@@ -97,7 +106,7 @@ module.exports = {
 
 					const errorMessage = err.code === 11000 ?
 						'❌ A verification request is already being processed. Please wait a moment and try again.' :
-						'❌ An error occurred while generating your verification link. Please try again later.';
+						'❌ An error occurred while generating your verification link. Please report this problem.';
 					return inter.reply({ content: errorMessage, flags: MessageFlags.Ephemeral });
 				}
 			}
