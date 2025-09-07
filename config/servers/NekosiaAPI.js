@@ -107,13 +107,13 @@ module.exports = {
 		content: (client, guild) => ({
 			embeds: [
 				new EmbedBuilder()
-					.setColor('#1ABC9C')
-					.setAuthor({ name: '🔐 Wymagana weryfikacja na serwerze', iconURL: client.user.displayAvatarURL() })
-					.setDescription(`Witamy na **${guild.name}**!\n\nAby uzyskać dostęp do wszystkich kanałów na tym serwerze, pomyślnie ukończ proces weryfikacji, klikając przycisk poniżej.`)
+					.setColor('#04568e')
+					.setAuthor({ name: '🔐 Server Verification Required', iconURL: client.user.displayAvatarURL() })
+					.setDescription(`Welcome to **${guild.name}**!\n\nTo gain access to all channels on this server, please complete the verification process successfully by clicking the button below.`)
 					.addFields([
-						{ name: '🛡️ Dlaczego warto się zweryfikować?', value: 'Weryfikacja pomaga chronić nasz serwer przed botami oraz innymi szkodliwymi użytkownikami.', inline: false },
-						{ name: '⚡ Szybki proces', value: 'Ukończ weryfikację hCaptcha w swojej przeglądarce oraz potwierdź swój wiek. To zajmie tylko kilka sekund!', inline: false },
-						{ name: '🔒 Bezpiecznie i prywatnie', value: 'Uwierzytelnienie za pomocą konta Discord nie będzie wymagane. Twoje dane są chronione, a proces jest całkowicie bezpieczny.', inline: false },
+						{ name: '🛡️ Why Verify?', value: 'Verification helps protect our server from bots and other harmful users.', inline: false },
+						{ name: '⚡ Quick Process', value: 'Complete hCaptcha verification in your browser and confirm your age. It only takes a few seconds!', inline: false },
+						{ name: '🔒 Secure & Private', value: 'Authentication via your Discord account will not be required. Your data is protected, and the process is completely secure.', inline: false },
 					])
 					.setThumbnail(guild.iconURL()),
 			],
