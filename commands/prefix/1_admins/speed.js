@@ -4,7 +4,7 @@ module.exports = {
 	name: 'speed',
 	aliases: ['speedtest', 'ping-test'],
 	description: 'Test bot response speed',
-	cooldown: 10000,
+	cooldown: 2000,
 	async execute(client, msg) {
 		const start = Date.now();
 

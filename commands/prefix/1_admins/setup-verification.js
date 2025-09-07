@@ -39,7 +39,5 @@ module.exports = {
 		});
 
 		msg.delete();
-
-		console.log(`Verifi » Setup message created in ${msg.guild.name} (${msg.guild.id}) - Channel: ${msg.channel.id}`);
 	},
 };

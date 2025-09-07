@@ -5,7 +5,7 @@ module.exports = {
 	name: 'config-diag',
 	aliases: ['cdiag', 'config-diagnostic', 'diag', 'check-migration', 'cm'],
 	description: 'Comprehensive server configuration diagnostics and health report',
-	cooldown: 3000,
+	cooldown: 1000,
 	async execute(client, msg) {
 		const allConfigs = guilds.getAllServerConfigs();
 		const botGuilds = client.guilds.cache;

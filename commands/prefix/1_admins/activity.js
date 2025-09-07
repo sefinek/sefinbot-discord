@@ -4,7 +4,7 @@ module.exports = {
 	name: 'activity',
 	aliases: ['status', 'presence'],
 	description: 'Set bot activity and status',
-	cooldown: 3000,
+	cooldown: 2000,
 	async execute(client, msg, args) {
 		if (!args.length) {
 			return msg.reply({ embeds: [new EmbedBuilder()

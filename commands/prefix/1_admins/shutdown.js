@@ -5,7 +5,7 @@ module.exports = {
 	name: 'shutdown',
 	aliases: ['stop', 'exit', 'kill'],
 	description: 'Shutdown the bot process',
-	cooldown: 5000,
+	cooldown: 4000,
 	async execute(client, msg) {
 		await msg.reply({ embeds: [new EmbedBuilder()
 			.setColor('#FF6B6B')
