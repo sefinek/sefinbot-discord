@@ -95,17 +95,21 @@ reactions: [
 - Max 4 nested callbacks
 - Prefer const over let/var
 - Arrow function spacing enforced
+- Configuration file: `eslint.config.mjs`
+
+### Common ESLint Issues
+- Unused parameters in voice channel name functions should be prefixed with `_` (e.g., `_memberCount`)
 
 ### File Organization
-- Event handlers in `events/` directory
+- Event handlers in `events/` directory (10+ event files)
 - Commands in `commands/` directory with subdirectories:
-  - `commands/prefix/` - Traditional prefix commands (loaded by `handlers/command.js`)
+  - `commands/prefix/` - Traditional prefix commands (24 files, loaded by `handlers/command.js`)
   - `commands/slashes/` - Slash commands (loaded by `handlers/slash.js`)
 - Configuration files in `config/servers/` directory
 - Utility scripts in `scripts/` directory
-- Database models likely in `models/` directory
+- Database models in `database/models/` directory (6 models: announcements, items, members, obcy, sm_subscription, verification)
 - Web routes in `www/` directory (not `web/`)
-- Automation tasks in `cron/` directory
+- Automation tasks in `cron/` directory (3 cron job files)
 
 ### Dependencies
 - **discord.js v14** - Main Discord API wrapper
@@ -154,3 +158,11 @@ Server configs in `config/servers/` are loaded with environment awareness:
 - Connection uses `MONGODB_URL` environment variable  
 - Automatic reconnection and error handling built-in
 - Process exits on connection failure for fail-fast behavior
+
+### Database Models
+- **announcements.model.js** - Server announcements and notifications
+- **items.model.js** - Server items and inventory system
+- **members.model.js** - Member data and preferences
+- **obcy.model.js** - Chat integration data
+- **sm_subscription.model.js** - Subscription management
+- **verification.model.js** - Member verification system with hCaptcha integration
