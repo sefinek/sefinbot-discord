@@ -10,7 +10,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Code Quality
 - `npx eslint .` - Run ESLint linting (uses `eslint.config.mjs`)
-- `npm run up` - Update all dependencies and run audit fix
+- `npm run up` - Update all dependencies using npm-check-updates (ncu) and run audit fix
+
+### Production Management (PM2)
+- `pm2 start ecosystem.config.js` - Start bot in production
+- `pm2 logs sefi` - View bot logs
+- `pm2 restart sefi` - Restart the bot
+- `pm2 status` - Check bot status
 
 ### Configuration Management  
 - `!reload-config` - Hot reload server configurations without restart (in Discord)
@@ -46,6 +52,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Development configs use `dev: true` flag and are preferred when `NODE_ENV=development`
 - Hot reload capability allows config changes without bot restart
 - Backward compatibility maintained for legacy property access patterns
+- See `config/README.md` for detailed configuration documentation and examples
 
 ### Reaction System Architecture
 The flexible reaction system uses an array-based approach:
@@ -76,6 +83,7 @@ reactions: [
 - Production: Uses standard configs from `config/servers/`
 - Development: Prefers configs with `dev: true` when `NODE_ENV=development`
 - Environment variables loaded via `node:process.loadEnvFile()`
+- Required environment variables: `TOKEN`, `OWNER`, `PREFIX`, `MONGODB_URL` (see `.env.default`)
 
 ## Code Style and Standards
 
@@ -107,6 +115,9 @@ reactions: [
 - **@sefinek/cleverbot-free** - Chat integration
 - **axios** - HTTP requests
 - **helmet** - Security middleware
+- **ws** - WebSocket library
+- **morgan** - HTTP request logging
+- **express-timeout-handler** - Request timeout handling
 
 ## Development Notes
 

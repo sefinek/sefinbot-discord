@@ -30,7 +30,8 @@ sefinbot/
 ├── commands/                  # Bot commands
 ├── events/                   # Discord event handlers
 ├── cron/                     # Scheduled tasks and automation
-└── web/                      # Express web server
+├── handlers/                 # Command and event loaders
+└── www/                      # Express web server
 ```
 
 ## 🔧 Installation
@@ -47,23 +48,46 @@ npm install
 ```
 
 3. **Set up environment variables**
-Create a `.env` file with your Discord bot token and other required variables.
+Copy `.env.default` to `.env` and fill in your Discord bot token and other required variables:
+```bash
+cp .env.default .env
+```
+Required variables: `TOKEN`, `OWNER`, `PREFIX`, `MONGODB_URL`
 
 4. **Configure servers**
-Create configuration files in `config/servers/` for your Discord servers.
+Create configuration files in `config/servers/` for your Discord servers. See `config/README.md` for detailed documentation.
 
 5. **Start the bot**
 ```bash
+# Development
 node index.js
+
+# Production (with PM2)
+pm2 start ecosystem.config.js
 ```
 
 
 
 
+## 🛠️ Development Commands
+
+### Code Quality
+- `npx eslint .` - Run ESLint linting
+- `npm run up` - Update all dependencies using npm-check-updates (ncu)
+
+### Production Management (PM2)
+- `pm2 logs sefi` - View bot logs
+- `pm2 restart sefi` - Restart the bot
+- `pm2 status` - Check bot status
+
+### Configuration Management
+- `!reload-config` - Hot reload server configurations (in Discord)
+- `!check-migration` - Verify server configurations (in Discord)
+
 ## 🛠️ Adding New Servers
 
 1. Create a new file in `/config/servers/` (e.g., `newServer.js`)
-2. Use the configuration format shown above
+2. Use the configuration format from `config/README.md`
 3. Set the correct server `id`
 4. Configure desired features and channels
 5. Restart the bot or use `!reload-config`
@@ -91,12 +115,15 @@ See the existing server configurations in `/config/servers/` for real-world exam
 
 ## 🔗 Dependencies
 
-- **discord.js** - Discord API wrapper
+- **discord.js v14** - Discord API wrapper
 - **express** - Web server framework
 - **mongoose** - MongoDB object modeling
 - **cron** - Scheduled task management
 - **axios** - HTTP client
 - **@sefinek/cleverbot-free** - Chat integration
+- **helmet** - Security middleware
+- **morgan** - HTTP request logging
+- **ws** - WebSocket library
 
 ---
 
