@@ -106,7 +106,7 @@ module.exports = {
 			],
 		}),
 		button: {
-			label: 'Verify',
+			label: 'Verify me',
 			emoji: '🔎',
 			style: 'Primary',
 		},
