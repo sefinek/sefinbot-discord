@@ -153,7 +153,7 @@ module.exports = {
 			embeds: [
 				new EmbedBuilder()
 					.setColor('#2EE47A')
-					.setAuthor({ name: '🔐 Genshin Stella Mod Verification', iconURL: guild.iconURL() })
+					.setAuthor({ name: '🔐 Server Verification Required', iconURL: client.user.displayAvatarURL() })
 					.setDescription(`Welcome to **${guild.name}**!\n\nTo gain access to all channels on this server, please complete the verification process successfully by clicking the button below.`)
 					.addFields([
 						{ name: '🛡️ Why Verify?', value: 'Verification helps protect our server from bots and other harmful users.', inline: false },
