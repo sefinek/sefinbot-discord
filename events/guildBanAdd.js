@@ -77,10 +77,10 @@ module.exports = {
 		results.forEach((result, index) => {
 			if (result.status === 'rejected') {
 				const handlerNames = ['banNotification', 'memberCount'];
-				console.warn(`EventB » ${handlerNames[index]} handler failed for ${user.tag}:`, result.reason);
+				console.warn(`EventB » ${handlerNames[index]} handler failed for ${user.username}:`, result.reason);
 			}
 		});
 
-		console.log(`EventB » User ${user.tag} (${user.id}) banned from "${guild.name}"`);
+		console.log(`EventB » User ${user.username} (${user.id}) banned from "${guild.name}"`);
 	},
 };

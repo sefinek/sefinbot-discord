@@ -83,7 +83,7 @@ module.exports = {
 						new EmbedBuilder()
 							.setColor('#555555')
 							.setAuthor({
-								name: `⚪ Captcha ${newSession ? newSession.attempts : '1'} - ${inter.user.tag}`,
+								name: `⚪ Captcha ${newSession ? newSession.attempts : '1'} - ${inter.user.username}`,
 								iconURL: inter.user.displayAvatarURL(),
 							})
 							.setDescription('Przepisz kod z obrazka (7 liter). Masz na to 25 sekund.')
@@ -124,7 +124,7 @@ module.exports = {
 							embeds: [
 								new EmbedBuilder()
 									.setColor('#FF6723')
-									.setAuthor({ name: `🟠 Captcha ${newSession.attempts} - ${inter.user.tag}`, iconURL: inter.user.displayAvatarURL() })
+									.setAuthor({ name: `🟠 Captcha ${newSession.attempts} - ${inter.user.username}`, iconURL: inter.user.displayAvatarURL() })
 									.setDescription('Zbyt dużo nieudanych prób. Wpisz polecenie `/obcy` ponownie.'),
 							],
 							files: [],
@@ -157,7 +157,7 @@ module.exports = {
 					const msg = await channel.send({ embeds: [
 						new EmbedBuilder()
 							.setColor('#0074BA')
-							.setAuthor({ name: `🔵 Captcha - ${inter.user.tag}`, iconURL: process.env.LOA })
+							.setAuthor({ name: `🔵 Captcha - ${inter.user.username}`, iconURL: process.env.LOA })
 							.setDescription('Captcha pomyślnie przepisana. Trwa szukanie rozmówcy...')],
 					});
 
@@ -232,7 +232,7 @@ module.exports = {
 							new EmbedBuilder()
 								.setColor('#0074BA')
 								.setAuthor({ name: `🔵 Sesja - Debug (ceId ${session.ceId})`, iconURL: i.user.displayAvatarURL() })
-								.setDescription(`\`\`\`json\n${session}\`\`\`\`\`\`Autor sesji: ${inter.user.tag}\nNazwa serwera: ${inter.guild.name}\`\`\``)
+								.setDescription(`\`\`\`json\n${session}\`\`\`\`\`\`Autor sesji: ${inter.user.username}\nNazwa serwera: ${inter.guild.name}\`\`\``)
 								.setFooter({ text: 'To są bieżące informacje o aktualnej sesji do wglądu.\nPrzydadzą się one administratorowi bota do debugowania ewentualnych problemów.' }),
 						], ephemeral: MessageFlags.Ephemeral });
 					}
@@ -245,7 +245,7 @@ module.exports = {
 				session.channelId = channel.id;
 				session.interval = setInterval(() => ws.send('2'), 25000);
 
-				console.log(`Rozpoczęto rozmowę z obcym na serwerze ${inter.guild.name} (${guildId}) przez ${inter.user.tag}`);
+				console.log(`Rozpoczęto rozmowę z obcym na serwerze ${inter.guild.name} (${guildId}) przez ${inter.user.username}`);
 				break;
 			}
 
@@ -365,7 +365,7 @@ module.exports = {
 		});
 
 		collector.on('end', collected => {
-			console.log(`Kolektor zakończył swoją prace na serwerze ${inter.guild.name}. Autor kolekcji: ${inter.user.tag} (${inter.user.id}). Zebrano ${collected.size} wiadomości.`);
+			console.log(`Kolektor zakończył swoją prace na serwerze ${inter.guild.name}. Autor kolekcji: ${inter.user.username} (${inter.user.id}). Zebrano ${collected.size} wiadomości.`);
 		});
 	},
 };

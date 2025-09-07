@@ -21,7 +21,7 @@ module.exports = {
 
 		// Check bot permissions
 		if (!msg.guild.members.me.permissions.has(PermissionsBitField.Flags.SendMessages)) {
-			return console.log(`Server » I don't have SendMessages permission on ${msg.guild.name} (${msg.guild.id}). ${msg.author.tag} (${msg.author.id}), command ${command.name}`);
+			return console.log(`Server » I don't have SendMessages permission on ${msg.guild.name} (${msg.guild.id}). ${msg.author.username} (${msg.author.id}), command ${command.name}`);
 		}
 
 		// Owner-only commands (more restrictive than category)
@@ -83,6 +83,6 @@ module.exports = {
 		}
 
 		const logPrefix = command.category === '1_admins' ? 'AdmCMD' : 'PrfCMD';
-		console.log(`${logPrefix} » Command '${command.name}' was used by '${msg.author.tag}' (${msg.author.id}) on the server '${msg.guild.name}' (${msg.guild.id})`);
+		console.log(`${logPrefix} » Command '${command.name}' was used by '${msg.author.username}' (${msg.author.id}) on the server '${msg.guild.name}' (${msg.guild.id})`);
 	},
 };

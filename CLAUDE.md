@@ -68,7 +68,7 @@ reactions: [
       enabled: true/false,
       nameTemplate: author => `${author.username}: Comments`,
       autoArchiveDuration: 1440, // minutes
-      reason: author => `Thread for ${author.tag}`,
+      reason: author => `Thread for ${author.username}`,
       startMessage: { embeds: [...] }
     },
     validation: {

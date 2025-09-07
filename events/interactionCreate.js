@@ -100,7 +100,7 @@ module.exports = {
 						flags: MessageFlags.Ephemeral,
 					});
 
-					console.log(`Verifi » Generated verification link for ${member.user.tag} (${member.id}) in guild ${inter.guild.name}`);
+					console.log(`Verifi » Generated verification link for ${member.user.username} (${member.id}) in guild ${inter.guild.name}`);
 				} catch (err) {
 					console.error('Verifi » Error generating verification token:', err);
 
@@ -134,7 +134,7 @@ module.exports = {
 				const expiredTimestamp = Math.round(expirationTime / 1000);
 				inter.reply({ content: `⏳ **Slow down!**\nYou have an active cooldown for the \`${command.data.name}\` command. You can use it again <t:${expiredTimestamp}:R>.`, flags: MessageFlags.Ephemeral });
 
-				return console.log(`SlCMD  » Interaction '${inter.commandName}' (cooldown ${expiredTimestamp}) was triggered by ${inter.user.tag} (${inter.id}) on the server ${inter.guild.name} (${inter.guild.id})`);
+				return console.log(`SlCMD  » Interaction '${inter.commandName}' (cooldown ${expiredTimestamp}) was triggered by ${inter.user.username} (${inter.id}) on the server ${inter.guild.name} (${inter.guild.id})`);
 			}
 		}
 
@@ -147,6 +147,6 @@ module.exports = {
 			require('../scripts/error.js')(EmbedBuilder, inter, err);
 		}
 
-		console.log(`SlCMD  » Interaction '${inter.commandName}' was triggered by ${inter.user.tag} (${inter.id}) on the server ${inter.guild.name} (${inter.guild.id})`);
+		console.log(`SlCMD  » Interaction '${inter.commandName}' was triggered by ${inter.user.username} (${inter.id}) on the server ${inter.guild.name} (${inter.guild.id})`);
 	},
 };

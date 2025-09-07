@@ -33,7 +33,7 @@ module.exports = {
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#0078FF')
-						.setAuthor({ name: `Ogłoszenie użytkownika ${author.user.tag}`, iconURL: msg.guild.iconURL() })
+						.setAuthor({ name: `Ogłoszenie użytkownika ${author.user.username}`, iconURL: msg.guild.iconURL() })
 						.addFields([
 							{ name: '💗 » Szukam', value: data.announcement.type },
 							{ name: '📝 » Opis', value: data.announcement.bio },
@@ -69,7 +69,7 @@ module.exports = {
 					.setAuthor({ name: `✔️️ Zatwierdzono ogłoszenie od ${author.user.username}`, iconURL: msg.author.displayAvatarURL() })
 					.setDescription(`[[Skocz do wiadomości]](${annMsg.url})`)
 					.setThumbnail(author.user.displayAvatarURL())
-					.setFooter({ text: `${msg.author.tag} • ID: ${data.id}` })],
+					.setFooter({ text: `${msg.author.username} • ID: ${data.id}` })],
 			});
 		}
 
@@ -98,7 +98,7 @@ module.exports = {
 					.setAuthor({ name: `❌ Anulowano ogłoszenie od ${author.user.username}`, iconURL: msg.author.displayAvatarURL() })
 					.addFields([{ name: '» Powód odrzucenia', value: reason }])
 					.setThumbnail(author.user.displayAvatarURL())
-					.setFooter({ text: `${msg.author.tag} • ID: ${data.id}` })],
+					.setFooter({ text: `${msg.author.username} • ID: ${data.id}` })],
 			});
 		}
 

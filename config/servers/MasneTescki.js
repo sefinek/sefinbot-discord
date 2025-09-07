@@ -9,6 +9,9 @@ const channels = {
 	propozycje: '943910441241944064',
 	memy: '943910441241944065',
 	cleverBot: '943910441241944066',
+	dating: '990080362073952296',
+
+	verification: '964724152898560070',
 };
 
 const roles = {
@@ -45,38 +48,37 @@ module.exports = {
 
 	events: {
 		welcome: {
-			channelId: channels.generaly,
+			channelId: channels.welcome,
 			content: (client, member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
-						.setColor('#FF69B4')
-						.setAuthor({ name: `🎉 ${member.user.tag} dołączył do testów!`, iconURL: member.guild.iconURL() })
-						.setDescription(`Witaj na serwerze testowym ${member}! To jest środowisko deweloperskie dla testowania funkcji bota. Jesteś **${memberCount} testerem**! 🚀`)
+						.setColor('#05ff81')
+						.setAuthor({ name: `👋 ${member.user.globalName} dołączył do nas`, iconURL: member.guild.iconURL() })
+						.setDescription(`Witaj ${member} na naszym serwerze! Mamy wielką nadzieje, że zostaniesz u nas na dłuższy czas. Miłego pobytu.\nJesteś naszym **${memberCount}. gościem**. Dziękujemy Ci za dołączenie!`)
 						.setThumbnail(member.user.displayAvatarURL()),
 				],
 			}),
 		},
 		farewell: {
-			channelId: channels.generaly,
+			channelId: channels.welcome,
 			content: (client, member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
-						.setColor('#FFA500')
-						.setAuthor({ name: `👋 ${member.user.tag} opuścił testy`, iconURL: member.guild.iconURL() })
-						.setDescription(`Użytkownik ${member} opuścił serwer deweloperski. Dziękujemy za pomoc w testowaniu! Zostało **${memberCount} testerów**. 🧪`)
+						.setColor('#61d2ff')
+						.setAuthor({ name: `😥 ${member.user.globalName} opuścił serwer`, iconURL: member.guild.iconURL() })
+						.setDescription(`Niestety osoba ${member} wyszła z naszego serwera.\nMamy nadzieję, że jeszcze wrócisz do nas. Wierzymy w Ciebie.\nPo stracie tego członka mamy w sumie **${memberCount} osób**.`)
 						.setThumbnail(member.user.displayAvatarURL()),
 				],
 			}),
 		},
 		ban: {
-			channelId: channels.generaly,
-			content: (client, guild, member, memberCount) => ({
+			channelId: channels.welcome,
+			content: (client, member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
-						.setColor('#DC143C')
-						.setAuthor({ name: `⚠️ ${member.tag} został zbanowany`, iconURL: member.guild.iconURL() })
-						.setDescription(`Użytkownik <@${member.id}> został zbanowany na serwerze testowym. Zostało **${memberCount} osób**.`)
-						.addFields([{ name: '🔧 Debug Info', value: `User ID: ${member.id}\nGuild: ${guild.name}` }])
+						.setColor('#ff4f62')
+						.setAuthor({ name: `⚠️ ${member.globalName} otrzymał bana`, iconURL: member.guild.iconURL() })
+						.setDescription(`${member} został zbanowany na naszym serwerze przez jednego z administratorów. Cóż, bywa...\nPo stracie tego osobnika mamy w sumie **${memberCount} ludzi**.`)
 						.setThumbnail(member.displayAvatarURL()),
 				],
 			}),
@@ -89,7 +91,7 @@ module.exports = {
 						new EmbedBuilder()
 							.setColor('#00FFFF')
 							.setAuthor({ name: `🔧 Witaj na ${member.guild.name}`, iconURL: member.guild.iconURL() })
-							.setDescription('Jesteś na **serwerze deweloperskim** - tutaj testujemy nowe funkcje bota przed wdrożeniem na główne serwery.'),
+							.setDescription('To jest serwer testowy. Niektóre funkcje mogą nie działać poprawnie lub być niedostępne. Jeśli masz pytania, skontaktuj się z administratorem serwera.'),
 					],
 				}),
 			},
@@ -130,9 +132,9 @@ module.exports = {
 			emojis: ['😍', '😐', '🤢'],
 			thread: {
 				enabled: true,
-				nameTemplate: author => `${author.globalName || author.username}: Komentarze`,
+				nameTemplate: author => `${author.username}: Komentarze`,
 				autoArchiveDuration: 24 * 60, // 1 day
-				reason: author => `Zdjęcie użytkownika ${author.tag} (${author.id}).`,
+				reason: author => `Zdjęcie użytkownika ${author.globalName} (${author.id}).`,
 				startMessage: {
 					embeds: [
 						new EmbedBuilder()
@@ -151,9 +153,9 @@ module.exports = {
 			emojis: ['❤️'],
 			thread: {
 				enabled: true,
-				nameTemplate: author => `${author.globalName || author.username}: Komentarze`,
+				nameTemplate: author => `${author.username}: Komentarze`,
 				autoArchiveDuration: 24 * 60, // 1 day
-				reason: author => `Przedstawienie się użytkownika ${author.tag} (${author.id}).`,
+				reason: author => `Przedstawienie się użytkownika ${author.globalName} (${author.id}).`,
 				startMessage: {
 					embeds: [
 						new EmbedBuilder()
@@ -172,9 +174,9 @@ module.exports = {
 			emojis: ['🐾', '❤️', '😍'],
 			thread: {
 				enabled: true,
-				nameTemplate: author => `${author.globalName || author.username}: O zwierzaku`,
+				nameTemplate: author => `${author.username}: O zwierzaku`,
 				autoArchiveDuration: 24 * 60, // 1 day
-				reason: author => `Zdjęcie zwierzaka użytkownika ${author.tag} (${author.id}).`,
+				reason: author => `Zdjęcie zwierzaka użytkownika ${author.globalName} (${author.id}).`,
 				startMessage: {
 					embeds: [
 						new EmbedBuilder()
@@ -203,13 +205,32 @@ module.exports = {
 			emojis: ['👍', '💭', '👎'],
 			thread: {
 				enabled: true,
-				nameTemplate: author => `${author.globalName || author.username}: Dyskusja`,
-				autoArchiveDuration: 3 * 24 * 60, // 3 days
-				reason: author => `Propozycja użytkownika ${author.tag} (${author.id}).`,
+				nameTemplate: author => `${author.username}: Dyskusja`,
+				autoArchiveDuration: 3 * 24 * 60,
+				reason: author => `Propozycja użytkownika ${author.globalName} (${author.id}).`,
 				startMessage: {
 					embeds: [
 						new EmbedBuilder()
 							.setDescription('Tutaj możesz przedyskutować tę propozycję!\nPamiętaj o konstruktywnej krytyce i szacunku dla innych opinii.'),
+					],
+				},
+			},
+			validation: {},
+		},
+		{
+			name: 'dating-reactions',
+			enabled: true,
+			channels: [channels.dating],
+			emojis: ['😻'],
+			thread: {
+				enabled: true,
+				nameTemplate: author => `${author.username}: Komentarze`,
+				autoArchiveDuration: 3 * 24 * 60,
+				reason: author => `Prezentacja użytkownika ${author.globalName} (${author.id}).`,
+				startMessage: {
+					embeds: [
+						new EmbedBuilder()
+							.setDescription('Tutaj pozostali użytkownicy mogą skomentować niniejszą wiadomość. Pamiętaj, że każdy członek serwera jest zobowiązany do [przestrzegania wytycznych](https://github.com/sefinek/Milosna_Grota/blob/main/Rules.md).'),
 					],
 				},
 			},
@@ -239,15 +260,20 @@ module.exports = {
 		content: (client, guild) => ({
 			embeds: [
 				new EmbedBuilder()
-					.setColor('#FF69B4')
-					.setAuthor({ name: '🔧 Wymagana weryfikacja serwera', iconURL: client.user.displayAvatarURL() })
-					.setDescription(`**Środowisko deweloperskie** 🚀\n\nWitaj na serwerze testowym **${guild.name}**!\n\nTo jest środowisko deweloperskie do testowania funkcji bota. Zweryfikuj swoje konto, aby uzyskać dostęp do wszystkich kanałów testowych i funkcji.`)
+					.setColor('#1ABC9C')
+					.setAuthor({ name: '🔐 Wymagana weryfikacja na serwerze', iconURL: client.user.displayAvatarURL() })
+					.setDescription(`Witamy na **${guild.name}**!\n\nAby uzyskać dostęp do wszystkich kanałów na tym serwerze, pomyślnie ukończ proces weryfikacji, klikając przycisk poniżej.`)
+					.addFields([
+						{ name: '🛡️ Dlaczego warto się zweryfikować?', value: 'Weryfikacja pomaga chronić nasz serwer przed botami oraz innymi szkodliwymi użytkownikami.', inline: false },
+						{ name: '⚡ Szybki proces', value: 'Ukończ weryfikację hCaptcha w swojej przeglądarce oraz potwierdź swój wiek. To zajmie tylko kilka sekund!', inline: false },
+						{ name: '🔒 Bezpiecznie i prywatnie', value: 'Uwierzytelnienie za pomocą konta Discord nie będzie wymagane. Twoje dane są chronione, a proces jest całkowicie bezpieczny.', inline: false },
+					])
 					.setThumbnail(guild.iconURL()),
 			],
 		}),
 		button: {
-			label: '🔧 Zweryfikuj',
-			emoji: '✅',
+			label: 'Zweryfikuj mnie',
+			emoji: '🔎',
 			style: 'Primary',
 		},
 		messages: {
@@ -255,9 +281,9 @@ module.exports = {
 				content: (guild, verificationUrl) => ({
 					embeds: [
 						new EmbedBuilder()
-							.setColor('#FF69B4')
-							.setAuthor({ name: '🔧 Weryfikacja Discord', iconURL: guild.iconURL() })
-							.setDescription(`**Środowisko deweloperskie** 🚀\n\nAby uzyskać dostęp do serwera testowego **${guild.name}**, ukończ proces weryfikacji.\n\n[Kliknij tutaj aby się zweryfikować](${verificationUrl})`),
+							.setColor('#1ABC9C')
+							.setAuthor({ name: `🔐 Weryfikacja na ${guild.name}`, iconURL: guild.iconURL() })
+							.setDescription(`[Kliknij tutaj, aby ukończyć weryfikację](${verificationUrl}) (link wygaśnie za 24h, zachowaj go w tajemnicy)`),
 					],
 				}),
 			},
@@ -266,12 +292,11 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#ff7746')
-							.setAuthor({ name: '⚠️ Verification Required', iconURL: guild.iconURL() })
-							.setDescription(`Hello ${member.user.username}!\n\nYour verification link for the **${guild.name}** test server has expired. You need to verify your account to continue testing features.`)
+							.setAuthor({ name: `⚠️ Wymagana weryfikacja - ${guild.name}`, iconURL: guild.iconURL() })
+							.setDescription(`Cześć ${member}! Twój link weryfikacyjny wygasł. Musisz zweryfikować swoje konto, aby uzyskać dostęp do wszystkich kanałów. W przeciwnym razie zostaniesz wyrzucony.`)
 							.addFields([
-								{ name: '🔗 How to verify', value: 'Click the verification button in the server to get a new verification link.', inline: false },
-								{ name: '🧪 Testing Environment', value: 'This is a development server where we test verification features.', inline: false },
-								{ name: '⏰ Important', value: 'If you don\'t verify within 4 days, you will be removed (testing auto-kick feature).', inline: false },
+								{ name: '🔗 Jak się zweryfikować?', value: 'Kliknij niebieski przycisk na serwerze, aby wygenerować nowy link weryfikacyjny.', inline: false },
+								{ name: '⏰ Ważne', value: 'Jeśli nie zweryfikujesz się w ciągu około 4 dni od dołączenia, zostaniesz wyrzucony z serwera.', inline: false },
 							]),
 					],
 				}),
@@ -281,12 +306,11 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#ff4f3d')
-							.setAuthor({ name: '🚨 Final Warning - Account Removal', iconURL: guild.iconURL() })
-							.setDescription(`**DEVELOPMENT TEST NOTICE**\n\nHello ${member.user.username},\n\nYou have been on the **${guild.name}** test server for over 3 days without completing verification. **You have 24 hours to verify or you will be removed (testing auto-kick feature).**`)
+							.setAuthor({ name: `🚨 Ostatnie ostrzeżenie - ${guild.name}`, iconURL: guild.iconURL() })
+							.setDescription(`Cześć ${member}. Jesteś na **${guild.name}** od ponad 3 dni bez ukończenia weryfikacji. Masz **24 godziny** na zweryfikowanie swojego konta, w przeciwnym razie zostaniesz wyrzucony z serwera. Cały proces zajmie mniej niż minutę.`)
 							.addFields([
-								{ name: '🔗 Verify NOW', value: 'Click the verification button in the test server immediately to get your verification link.', inline: false },
-								{ name: '⏰ Time Remaining', value: 'Less than 24 hours before automatic removal (testing feature)', inline: false },
-								{ name: '🧪 Development Note', value: 'This is a test of the automated warning system used on production servers.', inline: false },
+								{ name: '🔗 Zweryfikuj się teraz', value: `Kliknij niebieski przycisk na serwerze. Znajdziesz go na kanale ${channels.verification}.`, inline: false },
+								{ name: '❓ Potrzebujesz pomocy?', value: 'Skontaktuj się z administratorem serwera, jeśli masz problem z weryfikacją.', inline: false },
 							]),
 					],
 				}),
@@ -296,12 +320,11 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#ff331a')
-							.setAuthor({ name: '👋 Removed from Test Server', iconURL: guild.iconURL() })
-							.setDescription(`Hello ${member.user.username},\n\nYou have been removed from the **${guild.name}** test server because you did not complete verification within the 4-day testing period.`)
+							.setAuthor({ name: `👋 Zostałeś wyrzucony z ${guild.name}`, iconURL: guild.iconURL() })
+							.setDescription('Zostałeś usunięty z serwera, ponieważ nie ukończyłeś weryfikacji w wymaganym 4-dniowym okresie.')
 							.addFields([
-								{ name: '🔄 Want to test again?', value: 'You can rejoin the test server anytime, but you\'ll need to complete verification within 4 days.', inline: false },
-								{ name: '🧪 Development Test', value: 'This was a test of the automated removal system used on production servers.', inline: false },
-								{ name: '❓ Questions?', value: 'Contact the development team if you have questions about testing procedures.', inline: false },
+								{ name: '🔄 Chcesz dołączyć ponownie?', value: 'Możesz wrócić na serwer w dowolnym momencie, ale musisz ukończyć weryfikację w ciągu 4 dni.', inline: false },
+								{ name: '❓ Pytania?', value: 'Skontaktuj się z administratorem serwera, jeśli masz jakiekolwiek pytania.', inline: false },
 							]),
 					],
 				}),
@@ -311,8 +334,8 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#00d26a')
-							.setAuthor({ name: '✅ Weryfikacja ukończona', iconURL: guild.iconURL() })
-							.setDescription(`Witamy na serwerze testowym **${guild.name}**! Twoje konto zostało pomyślnie zweryfikowane.`),
+							.setAuthor({ name: '✅ Weryfikacja zakończona pomyślnie', iconURL: guild.iconURL() })
+							.setDescription(`Witamy na **${guild.name}**! Twoje konto zostało zweryfikowane. Dziękujemy za dołączenie!`),
 					],
 				}),
 			},

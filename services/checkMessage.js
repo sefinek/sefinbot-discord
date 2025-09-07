@@ -59,7 +59,7 @@ const AutoModSendBan = async (client, msg, event, serverCfg, category, { perms, 
 
 	if (category === 'Discord invitation') return;
 
-	console.log(`AutoMD » Message by ${msg.author.tag} (${msg.author.id}) in ${msg.channel.name} (${msg.channel.id}) ready for deletion; ${category}; ${event.toUpperCase()}; ${msgId}\n\n${msg.author.globalName || msg.author.tag} — ${new Date(msg.createdTimestamp).toLocaleString('pl-PL', { timeZone: 'Europe/Warsaw', hour12: false })}\n${msg.content}\n`);
+	console.log(`AutoMD » Message by ${msg.author.username} (${msg.author.id}) in ${msg.channel.name} (${msg.channel.id}) ready for deletion; ${category}; ${event.toUpperCase()}; ${msgId}\n\n${msg.author.globalName || msg.author.username} — ${new Date(msg.createdTimestamp).toLocaleString('pl-PL', { timeZone: 'Europe/Warsaw', hour12: false })}\n${msg.content}\n`);
 
 	if (reaction && msg.member && !msg.member.permissions.has(perms)) {
 		try {
@@ -75,7 +75,7 @@ const AutoModSendBan = async (client, msg, event, serverCfg, category, { perms, 
 		try {
 			await msg.delete();
 			await infoMsg.react('🗑️');
-			console.log(`AutoMD » [${msgId}] Deleted message sent by ${msg.author.tag} in ${msg.channel.name}`);
+			console.log(`AutoMD » [${msgId}] Deleted message sent by ${msg.author.username} in ${msg.channel.name}`);
 		} catch (err) {
 			if (err.status === 404) {
 				await infoMsg.react('❓');
@@ -99,20 +99,20 @@ module.exports = async (client, msg, event, serverCfg) => {
 		console.log(`AutoMD » Number of trusted servers: ${existingServers.size}`);
 
 		if (serverId === msg.guild.id || existingServers.has(serverId)) {
-			console.log(`AutoMD » Trusted server invitation detected (server ID: ${serverId}) from user ${msg.author.tag}. No action taken.`);
+			console.log(`AutoMD » Trusted server invitation detected (server ID: ${serverId}) from user ${msg.author.username}. No action taken.`);
 			return false;
 		}
 
 		try {
 			await msg.delete();
-			console.log(`AutoMD » Deleted invitation from ${msg.author.tag} to server ${result.guild.name} (${serverId}). Full message: ${msg.content}`);
+			console.log(`AutoMD » Deleted invitation from ${msg.author.username} to server ${result.guild.name} (${serverId}). Full message: ${msg.content}`);
 		} catch (err) {
 			console.warn('AutoMD » Failed to delete invitation:', err.message);
 		}
 
 		const serverName = result.guild.name;
 		if (!msg.member.bannable) {
-			console.warn(`AutoMD » Unable to ban user ${msg.author.tag} for inviting to server: ${serverName}`);
+			console.warn(`AutoMD » Unable to ban user ${msg.author.username} for inviting to server: ${serverName}`);
 			return false;
 		}
 
@@ -134,7 +134,7 @@ module.exports = async (client, msg, event, serverCfg) => {
 		const infoMsg = await msg.channel.send({ embeds: [
 			new EmbedBuilder()
 				.setColor('#F8312F')
-				.setAuthor({ name: `Banned ${msg.author.tag}`, iconURL: msg.author.displayAvatarURL() })
+				.setAuthor({ name: `Banned ${msg.author.username}`, iconURL: msg.author.displayAvatarURL() })
 				.setDescription(`This user invited to **${serverName}** and has been banned.`)
 				.setThumbnail(`https://cdn.discordapp.com/icons/${serverId}/${result.guild.icon}`)],
 		});

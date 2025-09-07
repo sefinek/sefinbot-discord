@@ -23,7 +23,7 @@ const getVerificationInfo = asyncHandler(async (req, res) => {
 	const responseData = {
 		valid: true,
 		guild: { name: guild.name, id: verification.guildId, icon: { small: guild.iconURL({ size: 128 }), large: guild.iconURL({ size: 256 }) } },
-		user: { username: member.user.tag, id: member.id, displayName: member.displayName, avatar: { small: member.user.displayAvatarURL({ size: 128 }), large: member.user.displayAvatarURL({ size: 256 }) } },
+		user: { username: member.user.username, id: member.id, displayName: member.displayName, avatar: { small: member.user.displayAvatarURL({ size: 128 }), large: member.user.displayAvatarURL({ size: 256 }) } },
 		timestamp: verification.timestamp,
 	};
 
@@ -60,7 +60,7 @@ const completeVerification = asyncHandler(async (req, res) => {
 		try {
 			await Promise.all(roleChanges);
 		} catch (roleErr) {
-			console.error(`Verification » Role update error for ${member.user.tag}:`, roleErr);
+			console.error(`Verification » Role update error for ${member.user.username}:`, roleErr);
 
 			if (roleErr.code === 50013) return res.status(403).json({ success: false, status: 403, message: 'The Discord bot lacks permission to assign roles. Please contact a server administrator.' });
 			if (roleErr.code === 50001) return res.status(403).json({ success: false, status: 403, message: 'The Discord bot lacks access to the server. Please contact a server administrator.' });
@@ -78,25 +78,25 @@ const completeVerification = asyncHandler(async (req, res) => {
 
 			const messageContent = serverConfig.verification.messages.success.content(member, guild);
 			await member.send(messageContent);
-			console.log(`Verification » Sent verification success DM to ${member.user.tag}`);
+			console.log(`Verification » Sent verification success DM to ${member.user.username}`);
 		} catch (dmErr) {
-			console.warn(`Verification » Could not send verification success DM to ${member.user.tag}:`, dmErr.message);
+			console.warn(`Verification » Could not send verification success DM to ${member.user.username}:`, dmErr.message);
 		}
 	};
 
 	await sendVerificationSuccessDM();
 
-	console.log(`Verification » Successfully verified ${member.user.tag} (${member.id}) in guild "${guild.name}"`);
+	console.log(`Verification » Successfully verified ${member.user.username} (${member.id}) in guild "${guild.name}"`);
 
 	return res.json({
 		success: true,
 		status: 200,
-		message: `Successfully verified ${member.user.tag} in ${guild.name}`,
+		message: `Successfully verified ${member.user.username} in ${guild.name}`,
 		data: {
 			user: {
 				id: member.id,
 				username: member.user.username,
-				tag: member.user.tag,
+				tag: member.user.username,
 			},
 			guild: {
 				id: guild.id,

@@ -31,7 +31,7 @@ module.exports = {
 						.setDescription(`**Message sent by ${msg.author} deleted in ${msg.channel}**\n${msg.content}`)
 						.addFields([{ name: 'Reason', value: 'Bot trap' }])
 						.setTimestamp()
-						.setFooter({ text: `ID: ${msg.author.id} • Tag: ${msg.author.tag}` }),
+						.setFooter({ text: `ID: ${msg.author.id} • Tag: ${msg.author.username}` }),
 					] });
 				}
 			} catch (err) {

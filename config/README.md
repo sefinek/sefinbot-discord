@@ -101,9 +101,9 @@ module.exports = {
       emojis: ['😍', '😐', '🤢'],
       thread: {
         enabled: true,
-        nameTemplate: author => `${author.globalName || author.username}: Comments`,
+        nameTemplate: author => `${author.globalName}: Comments`,
         autoArchiveDuration: 24 * 60, // minutes
-        reason: author => `Photo by ${author.tag}`,
+        reason: author => `Photo by ${author.username}`,
         startMessage: {
           embeds: [/* Discord embed for thread start */]
         }
@@ -163,7 +163,7 @@ thread: {
   enabled: true,                                    // Enable/disable thread creation
   nameTemplate: author => `${author.username}: Comments`, // Thread name function
   autoArchiveDuration: 24 * 60,                   // Auto-archive time (minutes)
-  reason: author => `Discussion for ${author.tag}`, // Audit log reason
+  reason: author => `Discussion for ${author.username}`, // Audit log reason
   startMessage: {                                  // Initial message in thread
     embeds: [
       new EmbedBuilder()
@@ -209,9 +209,9 @@ validation: {
   emojis: ['😍', '😐', '🤢'],
   thread: {
     enabled: true,
-    nameTemplate: author => `${author.globalName || author.username}: Photo Comments`,
+    nameTemplate: author => `${author.globalName}: Photo Comments`,
     autoArchiveDuration: 24 * 60, // 1 day
-    reason: author => `Photo shared by ${author.tag}`,
+    reason: author => `Photo shared by ${author.username}`,
     startMessage: {
       embeds: [
         new EmbedBuilder()
@@ -239,7 +239,7 @@ validation: {
     enabled: true,
     nameTemplate: author => `Welcome ${author.username}!`,
     autoArchiveDuration: 72 * 60, // 3 days
-    reason: author => `Introduction thread for ${author.tag}`,
+    reason: author => `Introduction thread for ${author.username}`,
     startMessage: {
       embeds: [
         new EmbedBuilder()

@@ -54,7 +54,7 @@ module.exports = {
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#00D26A')
-						.setAuthor({ name: `👋 Member ${member.user.tag} has joined the server`, iconURL: member.guild.iconURL() })
+						.setAuthor({ name: `👋 ${member.user.globalName} has joined the server`, iconURL: member.guild.iconURL() })
 						.setDescription(`Welcome ${member} to our server! You are our ${memberCount}th member.`)
 						.setThumbnail(member.user.displayAvatarURL()),
 				],
@@ -62,11 +62,11 @@ module.exports = {
 		},
 		farewell: {
 			channelId: channels.welcome,
-			content: (client, member, memberCount) => ({
+			content: (client, member) => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#FF6B6B')
-						.setAuthor({ name: `😥 Member ${member.user.tag} has left the server`, iconURL: member.guild.iconURL() })
+						.setAuthor({ name: `😥 ${member.user.globalName} has left the server`, iconURL: member.guild.iconURL() })
 						.setDescription(`Unfortunately, ${member} has left our server. We hope you'll come back soon.`)
 						.setThumbnail(member.user.displayAvatarURL()),
 				],
@@ -74,12 +74,12 @@ module.exports = {
 		},
 		ban: {
 			channelId: channels.welcome,
-			content: (client, member, memberCount) => ({
+			content: (client, member) => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#ff4f3d')
-						.setAuthor({ name: `⚠️ User ${member.tag} has been banned from the server`, iconURL: member.guild.iconURL() })
-						.setDescription(`The user <@${member.id}> has been permanently banned from our server due to rule violations.`)
+						.setAuthor({ name: `⚠️ ${member.globalName} has been banned from the server`, iconURL: member.guild.iconURL() })
+						.setDescription(`The user ${member} has been permanently banned from our server due to rule violations.`)
 						.setThumbnail(member.displayAvatarURL()),
 				],
 			}),
@@ -91,7 +91,7 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#8E44AD')
-							.setAuthor({ name: `Welcome ${member.user.tag} to ${member.guild.name}`, iconURL: member.guild.iconURL() })
+							.setAuthor({ name: `Welcome ${member.user.username} to ${member.guild.name}`, iconURL: member.guild.iconURL() })
 							.setDescription('Thank you for joining our server! We hope you have a great time here.')
 							.setThumbnail(member.user.displayAvatarURL()),
 					],
@@ -108,9 +108,9 @@ module.exports = {
 			emojis: ['😍', '😐', '🤢'],
 			thread: {
 				enabled: true,
-				nameTemplate: author => `${author.globalName || author.username}: Photo Comments`,
+				nameTemplate: author => `${author.globalName}: Photo Comments`,
 				autoArchiveDuration: 24 * 60, // 24 hours in minutes
-				reason: author => `Photo shared by ${author.tag}`,
+				reason: author => `Photo shared by ${author.username}`,
 				startMessage: {
 					embeds: [
 						new EmbedBuilder()
@@ -131,7 +131,7 @@ module.exports = {
 				enabled: true,
 				nameTemplate: author => `Welcome ${author.username}!`,
 				autoArchiveDuration: 72 * 60, // 3 days
-				reason: author => `Introduction thread for ${author.tag}`,
+				reason: author => `Introduction thread for ${author.username}`,
 				startMessage: {
 					embeds: [
 						new EmbedBuilder()
@@ -182,9 +182,9 @@ module.exports = {
 					.setAuthor({ name: '🔐 Server Verification Required', iconURL: guild.iconURL() })
 					.setDescription(`Welcome to **${guild.name}**!\\n\\nTo gain access to all channels and features, please complete the verification process by clicking the button below.`)
 					.addFields([
-						{ name: '🛡️ Why verify?', value: 'Verification helps keep our community safe from bots and spam.', inline: false },
-						{ name: '⚡ Quick Process', value: 'Complete hCaptcha verification in your browser - takes just a few seconds!', inline: false },
-						{ name: '🔒 Secure & Private', value: 'Your data is protected and the process is completely secure.', inline: false },
+						{ name: '🛡️ Why Verify?', value: 'Verification helps keep our community safe from bots and spam.', inline: false },
+						{ name: '⚡ Quick Process', value: 'Complete hCaptcha verification in your browser and confirm your age. It only takes a few seconds!', inline: false },
+						{ name: '🔒 Secure & Private', value: 'Authentication via your Discord account will not be required. Your data is protected, and the process is completely secure.', inline: false },
 					])
 					.setThumbnail(guild.iconURL()),
 			],
@@ -227,12 +227,11 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#ff4f3d')
-							.setAuthor({ name: '🚨 Final Warning - Account Removal', iconURL: guild.iconURL() })
+							.setAuthor({ name: 'Final Warning - ${guild.name}', iconURL: guild.iconURL() })
 							.setDescription(`**IMPORTANT NOTICE**\\n\\nHello ${member.user.username},\\n\\nYou have been on **${guild.name}** for over 3 days without completing verification. **You have 24 hours to verify your account or you will be removed from the server.**`)
 							.addFields([
-								{ name: '🔗 Verify NOW', value: 'Click the verification button in the server immediately to get your verification link.', inline: false },
-								{ name: '⏰ Time Remaining', value: 'Less than 24 hours before automatic removal', inline: false },
-								{ name: '❓ Need Help?', value: 'Contact server moderators if you\'re having trouble with verification.', inline: false },
+								{ name: '🔗 Verify Now', value: `Click the blue button on the server. You can find it in the ${channels.verification} channel.`, inline: false },
+								{ name: '❓ Need Help?', value: 'Contact the server administrator if you are having trouble with verification.', inline: false },
 							]),
 					],
 				}),

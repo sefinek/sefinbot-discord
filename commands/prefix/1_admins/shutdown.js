@@ -10,7 +10,7 @@ module.exports = {
 		await msg.reply({ embeds: [new EmbedBuilder()
 			.setColor('#FF6B6B')
 			.setTitle('🔴 Shutting Down')
-			.setDescription(`Bot process terminated by ${msg.author.tag}`)
+			.setDescription(`Bot process terminated by ${msg.author.username}`)
 			.addFields([
 				{
 					name: 'Environment',
@@ -26,7 +26,7 @@ module.exports = {
 			.setTimestamp()],
 		});
 
-		console.log(`Shutdown » Process terminated by ${msg.author.tag} (${msg.author.id})`);
+		console.log(`Shutdown » Process terminated by ${msg.author.username} (${msg.author.id})`);
 		process.exit(0);
 	},
 };

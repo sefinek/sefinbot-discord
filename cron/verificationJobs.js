@@ -73,7 +73,7 @@ class VerificationJobs {
 					await member.send(reminderContent);
 				}
 				await userStatus.sendReminder();
-				console.log(`Verifi » Sent reminder to ${member.user.tag} in ${guild.name}`);
+				console.log(`Verifi » Sent reminder to ${member.user.username} in ${guild.name}`);
 			});
 		} catch (err) {
 			console.error('Verifi » Error in sendVerificationReminders:', err);
@@ -91,7 +91,7 @@ class VerificationJobs {
 					await member.send(warningContent);
 				}
 				await userStatus.sendKickWarning();
-				console.log(`Verifi » Sent kick warning to ${member.user.tag} in ${guild.name}`);
+				console.log(`Verifi » Sent kick warning to ${member.user.username} in ${guild.name}`);
 			});
 		} catch (err) {
 			console.error('Verifi » Error in sendKickWarnings:', err);
@@ -110,12 +110,12 @@ class VerificationJobs {
 						await member.send(kickContent);
 					}
 				} catch (dmErr) {
-					console.warn(`Verifi » Could not DM ${member.user.tag} before kick:`, dmErr.message);
+					console.warn(`Verifi » Could not DM ${member.user.username} before kick:`, dmErr.message);
 				}
 
 				await member.kick('Failed to complete verification within 4 days');
 				await VerificationStatus.deleteOne({ _id: userStatus._id });
-				console.log(`Verifi » Kicked ${member.user.tag} from ${guild.name} for not verifying`);
+				console.log(`Verifi » Kicked ${member.user.username} from ${guild.name} for not verifying`);
 			});
 		} catch (err) {
 			console.error('Verifi » Error in kickUnverifiedUsers:', err);

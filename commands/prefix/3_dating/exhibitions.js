@@ -44,7 +44,7 @@ module.exports = {
 		msg.reply({ embeds: [
 			new EmbedBuilder()
 				.setColor('#005AFF')
-				.setAuthor({ name: `Pomyślnie wystawiono użytkownika ${member.user.tag}`, iconURL: member.user.displayAvatarURL() })
+				.setAuthor({ name: `Pomyślnie wystawiono użytkownika ${member.user.username}`, iconURL: member.user.displayAvatarURL() })
 				.setDescription('> Sprawdź kanał <#1127703409932382228>.')],
 		});
 	},

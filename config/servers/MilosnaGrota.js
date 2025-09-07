@@ -2,7 +2,6 @@ const { EmbedBuilder } = require('discord.js');
 
 const channels = {
 	lobby: '1122001039336423435',
-	automod: '1122003945653547038',
 	ogloszenia: '1122002213909299302',
 	oSerwerze: '1122001351564591104',
 	propozycje: '1122002037731774464',
@@ -14,12 +13,12 @@ const channels = {
 	fimly: '1122006225429725294',
 	ksiazki: '1122006384796520559',
 	waszeZwierzaki: '1122006125529792636',
-	ogloszeniaRandki: '1122025616947028130',
-	kogosLgbt: '1122002573658968076',
+
 	chlopaka: '1122002595687432296',
 	dziewczyny: '1122002614712811532',
 	przyjaciela: '1290866021820792882',
 	przyjaciolki: '1290866068147015834',
+
 	komendy: '1290866261114228823',
 	sixObcy: '1290866419176575047',
 	memy: '1122002472622379129',
@@ -27,11 +26,13 @@ const channels = {
 	cleverBot: '1290867626951839764',
 	choroszcz: '1122003307418890302',
 	wyroki: '1122003355821162516',
-	bydgoszcz: '1127708709154471987',
 	darkWeb: '1127703301824192694',
 	wspolprace: '1122001371915370496',
-	formularze: '1122003923864141844',
+
 	weryfikacja: '1122004110753927200',
+
+	formularze: '1122003923864141844',
+	automod: '1122003945653547038',
 };
 
 const roles = {
@@ -82,7 +83,7 @@ module.exports = {
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#00D26A')
-						.setAuthor({ name: `👋 Użytkownik ${member.user.tag} dołączył do nas`, iconURL: member.guild.iconURL() })
+						.setAuthor({ name: `👋 ${member.user.globalName} dołączył do nas`, iconURL: member.guild.iconURL() })
 						.setDescription(`Witaj ${member} na naszym serwerze! Mamy wielką nadzieje, że zostaniesz u nas na dłuższy czas. Miłego pobytu.\nJesteś naszym **${memberCount}. gościem**. Dziękujemy Ci za dołączenie!`)
 						.setThumbnail(member.user.displayAvatarURL()),
 				],
@@ -94,7 +95,7 @@ module.exports = {
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#FF6B6B')
-						.setAuthor({ name: `😥 Użytkownik ${member.user.tag} opuścił serwer`, iconURL: member.guild.iconURL() })
+						.setAuthor({ name: `😥 ${member.user.globalName} opuścił serwer`, iconURL: member.guild.iconURL() })
 						.setDescription(`Niestety osoba ${member} wyszła z naszego serwera.\nMamy nadzieję, że jeszcze wrócisz do nas. Wierzymy w Ciebie.\nPo stracie tego członka mamy w sumie **${memberCount} osób**.`)
 						.setThumbnail(member.user.displayAvatarURL()),
 				],
@@ -102,13 +103,13 @@ module.exports = {
 		},
 		ban: {
 			channelId: channels.lobby,
-			content: (client, guild, user, memberCount) => ({
+			content: (client, member, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#FF4757')
-						.setAuthor({ name: `⚠️ Użytkownik ${user.tag} otrzymał bana`, iconURL: guild.iconURL() })
-						.setDescription(`Osoba z nickiem <@${user.id}> została zbanowana na naszym serwerze przez jednego z administratorów. Bywa...\nPo stracie tego osobnika mamy w sumie **${memberCount} ludzi**.`)
-						.setThumbnail(user.displayAvatarURL()),
+						.setAuthor({ name: `⚠️ ${member.globalName} otrzymał bana`, iconURL: member.guild.iconURL() })
+						.setDescription(`${member} został zbanowany na naszym serwerze przez jednego z administratorów. Cóż, bywa...\nPo stracie tego osobnika mamy w sumie **${memberCount} ludzi**.`)
+						.setThumbnail(member.displayAvatarURL()),
 				],
 			}),
 		},
@@ -153,9 +154,9 @@ module.exports = {
 			emojis: ['😍', '😕', '❤️'],
 			thread: {
 				enabled: true,
-				nameTemplate: author => `${author.globalName || author.username}: Komentarze`,
-				autoArchiveDuration: 3 * 24 * 60, // 3 days
-				reason: author => `Zdjęcie użytkownika ${author.tag} (${author.id}).`,
+				nameTemplate: author => `${author.globalName}: Komentarze`,
+				autoArchiveDuration: 3 * 24 * 60,
+				reason: author => `Zdjęcie użytkownika ${author.username} (${author.id}).`,
 				startMessage: {
 					embeds: [
 						new EmbedBuilder()
@@ -174,13 +175,13 @@ module.exports = {
 			emojis: ['❤️'],
 			thread: {
 				enabled: true,
-				nameTemplate: author => `${author.globalName || author.username}: Komentarze`,
-				autoArchiveDuration: 3 * 24 * 60, // 3 days
-				reason: author => `Przedstawienie się użytkownika ${author.tag} (${author.id}).`,
+				nameTemplate: author => `${author.globalName}: Komentarze`,
+				autoArchiveDuration: 3 * 24 * 60,
+				reason: author => `Przedstawienie się użytkownika ${author.username} (${author.id}).`,
 				startMessage: {
 					embeds: [
 						new EmbedBuilder()
-							.setDescription('Tutaj pozostali użytkownicy mogą skomentować niniejszą wiadomość.\nPamiętaj, że każdy członek serwera jest zobowiązany do przestrzegania wytycznych.'),
+							.setDescription('Tutaj pozostali użytkownicy mogą skomentować niniejszą wiadomość. Pamiętaj, że każdy członek serwera jest zobowiązany do [przestrzegania wytycznych](https://github.com/sefinek/Milosna_Grota/blob/main/Rules.md).'),
 					],
 				},
 			},
@@ -195,9 +196,9 @@ module.exports = {
 			emojis: ['🐾', '❤️', '😍'],
 			thread: {
 				enabled: true,
-				nameTemplate: author => `${author.globalName || author.username}: O zwierzaku`,
-				autoArchiveDuration: 3 * 24 * 60, // 3 days
-				reason: author => `Zdjęcie zwierzaka użytkownika ${author.tag} (${author.id}).`,
+				nameTemplate: author => `${author.globalName}: O zwierzaku`,
+				autoArchiveDuration: 3 * 24 * 60,
+				reason: author => `Zdjęcie zwierzaka użytkownika ${author.username} (${author.id}).`,
 				startMessage: {
 					embeds: [
 						new EmbedBuilder()
@@ -207,6 +208,27 @@ module.exports = {
 			},
 			validation: {
 				onlyImages: { message: 'Na tym kanale dzielimy się zdjęciami naszych zwierzątek! 🐾📸' },
+			},
+		},
+		{
+			name: 'dating-reactions',
+			enabled: true,
+			channels: [channels.chlopaka, channels.dziewczyny, channels.przyjaciela, channels.przyjaciolki],
+			emojis: ['😻'],
+			thread: {
+				enabled: true,
+				nameTemplate: author => `${author.username}: Komentarze`,
+				autoArchiveDuration: 3 * 24 * 60,
+				reason: author => `Prezentacja użytkownika ${author.globalName} (${author.id}).`,
+				startMessage: {
+					embeds: [
+						new EmbedBuilder()
+							.setDescription('Tutaj inni członkowie serwera mogą zostawić swój komentarz lub reakcje do Twojego ogłoszenia randkowego. Pamiętaj, aby zawsze zachować kulturę i [przestrzegać zasad serwera](https://github.com/sefinek/Milosna_Grota/blob/main/Rules.md).'),
+					],
+				},
+			},
+			validation: {
+				textLength: { min: 10, message: minLength => `Twoje ogłoszenie jest zbyt krótkie! Napisz co najmniej ${minLength} znaków, aby inni mogli dowiedzieć się o Tobie czegoś więcej. ✍️` },
 			},
 		},
 		{
@@ -263,7 +285,6 @@ module.exports = {
 					[channels.pokazPulpit]: 0,
 					[channels.cleverBot]: 1,
 					[channels.choroszcz]: 0,
-					[channels.bydgoszcz]: 0,
 					[channels.darkWeb]: 1,
 				},
 			},
@@ -297,7 +318,6 @@ module.exports = {
 					[channels.pokazPulpit]: 1,
 					[channels.cleverBot]: 2,
 					[channels.choroszcz]: 1,
-					[channels.bydgoszcz]: 1,
 					[channels.darkWeb]: 1,
 				},
 			},
@@ -359,9 +379,9 @@ module.exports = {
 						new EmbedBuilder()
 							.setColor('#5865F2')
 							.setAuthor({ name: '🔐 Weryfikacja na serwerze Miłosna Grota', iconURL: guild.iconURL() })
-							.setDescription('Aby uzyskać dostęp do wszystkich kanałów, ukończ proces weryfikacji. Zachowaj link w tajemnicy.')
+							.setDescription('Aby uzyskać dostęp do wszystkich kanałów, ukończ proces weryfikacji. Nie udostępniaj tego linku.')
 							.addFields([
-								{ name: '🔗 Link weryfikacyjny', value: `[Kliknij tutaj aby się zweryfikować](${verificationUrl}) (wygasa za 24h)`, inline: false },
+								{ name: '🔗 Link weryfikacyjny', value: `[Kliknij tutaj, aby się zweryfikować](${verificationUrl}) (wygasa za 24h)`, inline: false },
 							]),
 					],
 				}),
@@ -371,11 +391,11 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#ff7746')
-							.setAuthor({ name: '⚠️ Wymagana weryfikacja - Przypomnienie', iconURL: guild.iconURL() })
-							.setDescription(`Cześć ${member.user.username}! ❤️\n\nTwój link weryfikacyjny dla **${guild.name}** wygasł. Musisz zweryfikować swoje konto, aby dalej korzystać z serwera.`)
+							.setAuthor({ name: `⚠️ Wymagana weryfikacja - ${guild.name}`, iconURL: guild.iconURL() })
+							.setDescription(`Cześć ${member}. Jesteś na **${guild.name}** od ponad 3 dni bez ukończenia weryfikacji. Masz **24 godziny** na zweryfikowanie swojego konta, w przeciwnym razie zostaniesz wyrzucony z serwera. Cały proces zajmie mniej niż minutę.`)
 							.addFields([
-								{ name: '🔗 Jak się zweryfikować', value: 'Kliknij przycisk weryfikacji na serwerze, aby otrzymać nowy link weryfikacyjny.', inline: false },
-								{ name: '⏰ Ważne', value: 'Jeśli nie zweryfikujesz się w ciągu 4 dni od dołączenia, zostaniesz usunięty z serwera.', inline: false },
+								{ name: '🔗 Zweryfikuj się teraz', value: `Kliknij niebieski przycisk na serwerze. Znajdziesz go na kanale ${channels.verification}.`, inline: false },
+								{ name: '❓ Potrzebujesz pomocy?', value: 'Skontaktuj się z administratorem serwera, jeśli masz problem z weryfikacją.', inline: false },
 							]),
 					],
 				}),
@@ -385,7 +405,7 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#ff4f3d')
-							.setAuthor({ name: '🚨 Ostatnie ostrzeżenie - Usunięcie konta', iconURL: guild.iconURL() })
+							.setAuthor({ name: `🚨 Ostatnie ostrzeżenie - ${guild.name}`, iconURL: guild.iconURL() })
 							.setDescription(`**WAŻNE POWIADOMIENIE**\n\nCześć ${member.user.username},\n\nJesteś na **${guild.name}** już ponad 3 dni bez ukończenia weryfikacji. **Masz 24 godziny na zweryfikowanie konta lub zostaniesz usunięty z serwera.**`)
 							.addFields([
 								{ name: '🔗 Zweryfikuj się TERAZ', value: 'Natychmiast kliknij przycisk weryfikacji na serwerze, aby otrzymać link weryfikacyjny.', inline: false },
@@ -400,11 +420,11 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#ff331a')
-							.setAuthor({ name: '👋 Usunięto z Miłosnej Groty', iconURL: guild.iconURL() })
-							.setDescription(`Cześć ${member.user.username},\n\nZostałeś usunięty z **${guild.name}**, ponieważ nie ukończyłeś weryfikacji w wymaganym 4-dniowym okresie.`)
+							.setAuthor({ name: `👋 Zostałeś wyrzucony z ${guild.name}`, iconURL: guild.iconURL() })
+							.setDescription('Zostałeś usunięty z serwera, ponieważ nie ukończyłeś weryfikacji w wymaganym 4-dniowym okresie.')
 							.addFields([
-								{ name: '🔄 Chcesz wrócić?', value: 'Możesz dołączyć ponownie na nasz serwer w każdej chwili, ale będziesz musiał ukończyć weryfikację w ciągu 4 dni.', inline: false },
-								{ name: '❓ Pytania?', value: 'Skontaktuj się z moderatorami serwera, jeśli masz pytania dotyczące tej polityki.', inline: false },
+								{ name: '🔄 Chcesz dołączyć ponownie?', value: 'Możesz wrócić na serwer w dowolnym momencie, ale musisz ukończyć weryfikację w ciągu 4 dni.', inline: false },
+								{ name: '❓ Pytania?', value: 'Skontaktuj się z administratorem serwera, jeśli masz jakiekolwiek pytania.', inline: false },
 							]),
 					],
 				}),
@@ -413,13 +433,9 @@ module.exports = {
 				content: (member, guild) => ({
 					embeds: [
 						new EmbedBuilder()
-							.setColor('#77B255')
-							.setAuthor({ name: '✅ Weryfikacja ukończona pomyślnie', iconURL: guild.iconURL() })
-							.setDescription(`Witaj na **${guild.name}**! Twoje konto zostało pomyślnie zweryfikowane.`)
-							.addFields([
-								{ name: '🎉 Dostęp przyznany', value: 'Masz teraz pełny dostęp do wszystkich kanałów i funkcji serwera!', inline: false },
-								{ name: '💕 Znajdź swoją miłość', value: 'Śmiało poznawaj nowe osoby!', inline: false },
-							]),
+							.setColor('#00d26a')
+							.setAuthor({ name: '✅ Weryfikacja zakończona pomyślnie', iconURL: guild.iconURL() })
+							.setDescription(`Witamy na **${guild.name}**! Twoje konto zostało zweryfikowane. Dziękujemy za dołączenie!`),
 					],
 				}),
 			},

@@ -29,9 +29,9 @@ const handleDirectMessage = async (member, serverCfg, client) => {
 		await member.send(dmContent);
 	} catch (err) {
 		if (err.code === 50007) {
-			console.log(`EventA » Cannot send DM to ${member.user.tag} - DMs disabled`);
+			console.log(`EventA » Cannot send DM to ${member.user.username} - DMs disabled`);
 		} else {
-			console.warn(`EventA » Failed to send DM to ${member.user.tag}:`, err.message);
+			console.warn(`EventA » Failed to send DM to ${member.user.username}:`, err.message);
 		}
 	}
 };
@@ -91,7 +91,7 @@ const handleVerification = async (member, serverCfg) => {
 	try {
 		await member.roles.add(unverifiedRole);
 	} catch (err) {
-		console.warn(`EventA » Failed to setup verification for ${member.user.tag}: ${err.message}`);
+		console.warn(`EventA » Failed to setup verification for ${member.user.username}: ${err.message}`);
 	}
 };
 
@@ -106,9 +106,9 @@ module.exports = {
 		if (!hasManageMessages && userBlacklist(member.user.username, member.user.displayName)) {
 			try {
 				await member.ban({ reason: 'User on blacklist' });
-				return console.log(`EventA » Banned blacklisted user ${member.user.tag} (${member.id})`);
+				return console.log(`EventA » Banned blacklisted user ${member.user.username} (${member.id})`);
 			} catch (err) {
-				console.warn(`EventA » Failed to ban blacklisted user ${member.user.tag}: ${err.message}`);
+				console.warn(`EventA » Failed to ban blacklisted user ${member.user.username}: ${err.message}`);
 			}
 		}
 
@@ -132,10 +132,10 @@ module.exports = {
 		results.forEach((result, index) => {
 			if (result.status === 'rejected') {
 				const handlerNames = ['welcome', 'DM', 'memberCount', 'newestMember', 'verification'];
-				console.warn(`EventA » ${handlerNames[index]} handler failed for ${member.user.tag}:`, result.reason);
+				console.warn(`EventA » ${handlerNames[index]} handler failed for ${member.user.username}:`, result.reason);
 			}
 		});
 
-		console.log(`EventA » User ${member.user.tag} (${member.id}) joined "${member.guild.name}"`);
+		console.log(`EventA » User ${member.user.username} (${member.id}) joined "${member.guild.name}"`);
 	},
 };

@@ -2,9 +2,12 @@ const { EmbedBuilder } = require('discord.js');
 
 const channels = {
 	welcome: '1328507335328661605',
-	automod: '1328507486101045340',
 	announcements: '1276628914697015337',
 	changelog: '1276628998914576404',
+
+	verification: '1412778124487426068',
+
+	automod: '1328507486101045340',
 };
 
 const roles = {
@@ -34,8 +37,8 @@ module.exports = {
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#03528E')
-						.setAuthor({ name: `👋 Member ${member.user.tag} has joined the server`, iconURL: member.guild.iconURL() })
-						.setDescription(`Welcome, ${member}, to our server!`)
+						.setAuthor({ name: `👋 ${member.user.globalName} has joined the server`, iconURL: member.guild.iconURL() })
+						.setDescription(`Welcome ${member}! You are member number **${memberCount}** on our server.`)
 						.setThumbnail(member.user.displayAvatarURL()),
 				],
 			}),
@@ -46,26 +49,36 @@ module.exports = {
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#ff9a17')
-						.setAuthor({ name: `😥 Member ${member.user.tag} has left the server`, iconURL: member.guild.iconURL() })
-						.setDescription(`Unfortunately, the user with the name ${member} has left our server. We hope that you will come back to us soon.`)
+						.setAuthor({ name: `😥 ${member.user.globalName} has left the server`, iconURL: member.guild.iconURL() })
+						.setDescription(`Unfortunately, ${member} has left our server. We now have **${memberCount} members**. We hope to see you back soon!`)
 						.setThumbnail(member.user.displayAvatarURL()),
 				],
 			}),
 		},
 		ban: {
 			channelId: channels.welcome,
-			content: (client, guild, member, memberCount) => ({
+			content: (client, guild, member) => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#ff4332')
-						.setAuthor({ name: `⚠️ User ${member.tag} has been banned from the server`, iconURL: member.guild.iconURL() })
-						.setDescription(`The user with the name <@${member.id}> has been permanently banned from our server due to violations of our rules. We hope that the community remains safe and welcoming for all. Goodbye.`)
+						.setAuthor({ name: `⚠️ ${member.globalName} has been banned from the server`, iconURL: member.guild.iconURL() })
+						.setDescription(`The user with the name ${member} has been permanently banned from our server due to violations of our rules. We hope that the community remains safe and welcoming for all. Goodbye.`)
 						.setThumbnail(member.displayAvatarURL()),
 				],
 			}),
 		},
 		directMessages: {
-			welcome: { enabled: false },
+			welcome: {
+				enabled: true,
+				content: (client, member) => ({
+					embeds: [
+						new EmbedBuilder()
+							.setColor('#37b1ff')
+							.setAuthor({ name: `Welcome ${member.user.username} to ${member.guild.name}`, iconURL: member.user.displayAvatarURL() })
+							.setDescription('If you are a Genshin Impact player and want to take your gameplay to the next level, visit [Genshin Stella Mod](https://stella.sefinek.net). Have a great day (or night)!'),
+					],
+				}),
+			},
 		},
 	},
 
@@ -95,12 +108,12 @@ module.exports = {
 			embeds: [
 				new EmbedBuilder()
 					.setColor('#1ABC9C')
-					.setAuthor({ name: '🔐 Server Verification Required', iconURL: client.user.displayAvatarURL() })
-					.setDescription(`Welcome to **${guild.name}**!\n\nTo gain access to all channels and features, please complete the verification process by clicking the button below.`)
+					.setAuthor({ name: '🔐 Wymagana weryfikacja na serwerze', iconURL: client.user.displayAvatarURL() })
+					.setDescription(`Witamy na **${guild.name}**!\n\nAby uzyskać dostęp do wszystkich kanałów na tym serwerze, pomyślnie ukończ proces weryfikacji, klikając przycisk poniżej.`)
 					.addFields([
-						{ name: '🛡️ Why verify?', value: 'Verification helps keep our server safe from bots and unauthorized access.', inline: false },
-						{ name: '⚡ Quick Process', value: 'Complete hCaptcha verification in your browser - takes just a few seconds!', inline: false },
-						{ name: '🔒 Secure & Private', value: 'Your data is protected and the process is completely secure.', inline: false },
+						{ name: '🛡️ Dlaczego warto się zweryfikować?', value: 'Weryfikacja pomaga chronić nasz serwer przed botami oraz innymi szkodliwymi użytkownikami.', inline: false },
+						{ name: '⚡ Szybki proces', value: 'Ukończ weryfikację hCaptcha w swojej przeglądarce oraz potwierdź swój wiek. To zajmie tylko kilka sekund!', inline: false },
+						{ name: '🔒 Bezpiecznie i prywatnie', value: 'Uwierzytelnienie za pomocą konta Discord nie będzie wymagane. Twoje dane są chronione, a proces jest całkowicie bezpieczny.', inline: false },
 					])
 					.setThumbnail(guild.iconURL()),
 			],
@@ -116,11 +129,8 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#1ABC9C')
-							.setAuthor({ name: '🔐 Server Verification', iconURL: guild.iconURL() })
-							.setDescription(`To gain access to **${guild.name}**, please complete the verification process.`)
-							.addFields([
-								{ name: '🔗 Verification Link', value: `[Click here to verify](${verificationUrl}) (expires in 24h)`, inline: false },
-							]),
+							.setAuthor({ name: `🔐 Verification on ${guild.name}`, iconURL: guild.iconURL() })
+							.setDescription(`[Click here to complete the verification](${verificationUrl}) (this link will expire in 24h, keep it private)`),
 					],
 				}),
 			},
@@ -130,10 +140,10 @@ module.exports = {
 						new EmbedBuilder()
 							.setColor('#ff7746')
 							.setAuthor({ name: `⚠️ Verification Required - ${guild.name}`, iconURL: guild.iconURL() })
-							.setDescription(`Hello ${member.user.username}! Your verification link has expired. You need to verify your account to continue accessing the server.`)
+							.setDescription(`Hi ${member}! Your verification link has expired. You need to verify your account to gain access to all channels. Otherwise, you will be kicked.`)
 							.addFields([
-								{ name: '🔗 How to verify', value: 'Click the verification button in the server to get a new verification link.', inline: false },
-								{ name: '⏰ Important', value: 'If you don\'t verify within 4 days of joining, you will be removed from the server.', inline: false },
+								{ name: '🔗 How to verify?', value: 'Click the blue button on the server to generate a new verification link.', inline: false },
+								{ name: '⏰ Important', value: 'If you don\'t verify within about 4 days of joining, you will be kicked from the server.', inline: false },
 							]),
 					],
 				}),
@@ -143,12 +153,11 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#ff4f3d')
-							.setAuthor({ name: '🚨 Final Warning - Account Removal', iconURL: guild.iconURL() })
-							.setDescription(`**IMPORTANT NOTICE**\n\nHello ${member.user.username},\n\nYou have been on **${guild.name}** for over 3 days without completing verification. **You have 24 hours to verify your account or you will be removed from the server.**`)
+							.setAuthor({ name: `Final Warning - ${guild.name}`, iconURL: guild.iconURL() })
+							.setDescription(`Hello ${member}. You have been on **${guild.name}** for over 3 days without completing verification. You have **24 hours** to verify your account, otherwise you will be kicked from the server. The whole process takes less than a minute.`)
 							.addFields([
-								{ name: '🔗 Verify NOW', value: 'Click the verification button in the server immediately to get your verification link.', inline: false },
-								{ name: '⏰ Time Remaining', value: 'Less than 24 hours before automatic removal', inline: false },
-								{ name: '❓ Need Help?', value: 'Contact server moderators if you\'re having trouble with verification.', inline: false },
+								{ name: '🔗 Verify Now', value: `Click the blue button on the server. You can find it in the ${channels.verification} channel.`, inline: false },
+								{ name: '❓ Need Help?', value: 'Contact the server administrator if you are having trouble with verification.', inline: false },
 							]),
 					],
 				}),
@@ -158,11 +167,11 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#ff331a')
-							.setAuthor({ name: `👋 Removed from ${guild.name}`, iconURL: guild.iconURL() })
-							.setDescription(`Hello ${member.user.username},\n\nYou have been removed from **${guild.name}** because you did not complete verification within the required 4-day period.`)
+							.setAuthor({ name: `👋 You have been kicked from ${guild.name}`, iconURL: guild.iconURL() })
+							.setDescription('You were removed from the server because you did not complete verification within the required 4-day period.')
 							.addFields([
-								{ name: '🔄 Want to rejoin?', value: 'You can rejoin server anytime, but you\'ll need to complete verification within 4 days.', inline: false },
-								{ name: '❓ Questions?', value: 'Contact server moderators if you have any questions about this policy.', inline: false },
+								{ name: '🔄 Want to rejoin?', value: 'You can rejoin the server at any time, but you must complete verification within 4 days.', inline: false },
+								{ name: '❓ Questions?', value: 'Contact the server administrator if you have any questions.', inline: false },
 							]),
 					],
 				}),
@@ -172,8 +181,8 @@ module.exports = {
 					embeds: [
 						new EmbedBuilder()
 							.setColor('#00d26a')
-							.setAuthor({ name: '✅ Verification Complete', iconURL: guild.iconURL() })
-							.setDescription(`Welcome to **${guild.name}**! Your account has been successfully verified.`),
+							.setAuthor({ name: '✅ Verification Completed Successfully', iconURL: guild.iconURL() })
+							.setDescription(`Welcome to **${guild.name}**! Your account has been verified. Thank you for joining!`),
 					],
 				}),
 			},

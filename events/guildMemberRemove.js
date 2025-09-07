@@ -77,10 +77,10 @@ module.exports = {
 		results.forEach((result, index) => {
 			if (result.status === 'rejected') {
 				const handlerNames = ['farewell', 'memberCount'];
-				console.warn(`EventR » ${handlerNames[index]} handler failed for ${member.user.tag}:`, result.reason);
+				console.warn(`EventR » ${handlerNames[index]} handler failed for ${member.user.username}:`, result.reason);
 			}
 		});
 
-		console.log(`EventR » User ${member.user.tag} (${member.id}) left "${member.guild.name}"`);
+		console.log(`EventR » User ${member.user.username} (${member.id}) left "${member.guild.name}"`);
 	},
 };

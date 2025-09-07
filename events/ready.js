@@ -6,7 +6,7 @@ const activeIntervals = new Map();
 module.exports = {
 	name: Events.ClientReady,
 	async execute(client) {
-		console.log(`Client » Bot successfully logged in as ${client.user.tag} [${process.env.PREFIX}] (${client.guilds.cache.size} guilds)`);
+		console.log(`Client » Bot successfully logged in as ${client.user.username} [${process.env.PREFIX}] (${client.guilds.cache.size} guilds)`);
 
 		require('../www/server.js')(client);
 		require('../scripts/setActivity.js')(client.user);
