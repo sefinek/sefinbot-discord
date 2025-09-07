@@ -69,13 +69,13 @@ module.exports = {
 		},
 		ban: {
 			channelId: channels.welcome,
-			content: (client, member) => ({
+			content: (client, guild, user, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#ff4f3d')
-						.setAuthor({ name: `⚠️ ${member.globalName} has been banned from the server`, iconURL: member.guild.iconURL() })
-						.setDescription(`The user with the name ${member} has been permanently banned from our server due to violations of our rules. We hope that the community remains safe and welcoming for all. Goodbye.`)
-						.setThumbnail(member.displayAvatarURL()),
+						.setAuthor({ name: `⚠️ ${user.globalName} has been banned from the server`, iconURL: guild.iconURL() })
+						.setDescription(`The user with the name ${user} has been permanently banned from our server due to violations of our rules. We now have **${memberCount} members**. We hope that the community remains safe and welcoming for all. Goodbye.`)
+						.setThumbnail(user.displayAvatarURL()),
 				],
 			}),
 		},

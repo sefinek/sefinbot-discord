@@ -1,6 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
 
 const channels = {
+	welcome: '943910440990294021',
 	generaly: '943910440990294021',
 	przedstawSie: '943910440990294022',
 	pokazRyjek: '943910440990294023',
@@ -73,13 +74,13 @@ module.exports = {
 		},
 		ban: {
 			channelId: channels.welcome,
-			content: (client, member, memberCount) => ({
+			content: (client, guild, user, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#ff4f62')
-						.setAuthor({ name: `⚠️ ${member.globalName} otrzymał bana`, iconURL: member.guild.iconURL() })
-						.setDescription(`${member} został zbanowany na naszym serwerze przez jednego z administratorów. Cóż, bywa...\nPo stracie tego osobnika mamy w sumie **${memberCount} ludzi**.`)
-						.setThumbnail(member.displayAvatarURL()),
+						.setAuthor({ name: `⚠️ ${user.globalName} otrzymał bana`, iconURL: guild.iconURL() })
+						.setDescription(`${user} został zbanowany na naszym serwerze przez jednego z administratorów. Cóż, bywa...\nPo stracie tego osobnika mamy w sumie **${memberCount} ludzi**.`)
+						.setThumbnail(user.displayAvatarURL()),
 				],
 			}),
 		},

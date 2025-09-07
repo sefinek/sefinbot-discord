@@ -14,6 +14,7 @@ const channels = {
 	photoChannel: 'CHANNEL_ID_HERE',
 	pokazRyjek: 'CHANNEL_ID_HERE',
 	introductions: 'CHANNEL_ID_HERE',
+	verification: 'CHANNEL_ID_HERE',
 };
 
 const roles = {
@@ -74,13 +75,13 @@ module.exports = {
 		},
 		ban: {
 			channelId: channels.welcome,
-			content: (client, member) => ({
+			content: (client, guild, user, memberCount) => ({
 				embeds: [
 					new EmbedBuilder()
 						.setColor('#ff4f3d')
-						.setAuthor({ name: `⚠️ ${member.globalName} has been banned from the server`, iconURL: member.guild.iconURL() })
-						.setDescription(`The user ${member} has been permanently banned from our server due to rule violations.`)
-						.setThumbnail(member.displayAvatarURL()),
+						.setAuthor({ name: `⚠️ ${user.globalName} has been banned from the server`, iconURL: guild.iconURL() })
+						.setDescription(`The user ${user} has been permanently banned from our server due to rule violations. We now have **${memberCount} members**.`)
+						.setThumbnail(user.displayAvatarURL()),
 				],
 			}),
 		},
