@@ -130,7 +130,7 @@ module.exports = {
 						new EmbedBuilder()
 							.setColor('#1ABC9C')
 							.setAuthor({ name: `🔐 Verification on ${guild.name}`, iconURL: guild.iconURL() })
-							.setDescription(`[Click here to complete the verification](${verificationUrl}) (this link will expire in 24h, keep it private)`),
+							.setDescription(`[Click here to complete the verification](${verificationUrl})\nThis link will expire in 24h, keep it private.`),
 					],
 				}),
 			},

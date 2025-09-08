@@ -40,7 +40,7 @@ module.exports = {
 					}, { token: 1, tokenUsed: 1, updatedAt: 1 }).lean();
 
 					if (existingStatus?.token && !existingStatus.tokenUsed) {
-						return inter.reply({ content: `⏱️ Please wait ${Math.ceil(cooldownTime / 60000)} minutes before requesting a new verification link.`, flags: MessageFlags.Ephemeral });
+						return inter.reply({ content: `⏱️ Please wait **${Math.ceil(cooldownTime / 60000)} minutes** before requesting a new verification link.`, flags: MessageFlags.Ephemeral });
 					}
 
 					// Generate token and URL
