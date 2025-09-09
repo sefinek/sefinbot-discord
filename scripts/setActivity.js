@@ -4,7 +4,6 @@ const activities = [
 	{ name: 'meow~~', type: ActivityType.Playing, status: 'online' },
 	{ name: '🎶🎵🎵🎶', type: ActivityType.Listening, status: 'idle' },
 	{ name: 'https://sefinek.net 🔷', type: ActivityType.Watching, status: 'online' },
-	{ name: 'https://sniffcat.com 🐈', type: ActivityType.Watching, status: 'dnd' },
 	{ name: 'you', type: ActivityType.Watching, status: 'dnd' },
 ];
 
