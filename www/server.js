@@ -4,22 +4,21 @@ const timeout = require('./middlewares/timeout.js');
 const logger = require('./middlewares/morgan.js');
 const { notFound, internalError } = require('./scripts/errors.js');
 
-// Run express instance
-const app = express();
-
-// Set
-app.set('trust proxy', 1);
-
-// Use
-app.use(helmet());
-app.use(express.json({ limit: '8kb' }));
-app.use(express.urlencoded({ limit: '8kb', extended: true }));
-
-app.use(timeout());
-app.use(logger);
-
+const MainRouter = require('./routes/Main.js');
 
 module.exports = client => {
+	const app = express();
+
+	// Set
+	app.set('trust proxy', 1);
+
+	// Use
+	app.use(helmet());
+	app.use(express.json({ limit: '3kb' }));
+	app.use(express.urlencoded({ limit: '3kb', extended: true }));
+	app.use(timeout());
+	app.use(logger);
+
 	// Discord
 	app.use(/(.*)/, (req, res, next) => {
 		req.bot = client;
@@ -27,7 +26,6 @@ module.exports = client => {
 	});
 
 	// Endpoints
-	const MainRouter = require('./routes/Main.js');
 	app.use(MainRouter);
 
 	// Errors

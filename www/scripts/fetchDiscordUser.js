@@ -16,9 +16,7 @@ module.exports = async (req, res, guildId, subscriberId) => {
 		await guild.members.fetch();
 
 		const member = guild.members.cache.get(dcUserId);
-		if (!member) {
-			return { success: false, status: 200, message: 'User was not found' };
-		}
+		if (!member) return { success: false, status: 200, message: 'User was not found' };
 
 		if (!guild.members.cache.has(member.user.id)) {
 			return { success: false, status: 200, message: `User ${member.user.username} was not found on the Discord server ${guild.name}` };
