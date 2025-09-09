@@ -81,6 +81,6 @@ module.exports = {
 			}
 		});
 
-		console.log(`EventR » User ${member.user.username} (${member.id}) left "${member.guild.name}"`);
+		console.log(`EventR » User ${member.user.username} (${member.id}) left '${member.guild.name}'`);
 	},
 };

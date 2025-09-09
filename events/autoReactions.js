@@ -112,16 +112,16 @@ const handleReactionConfig = async (msg, reactionConfig) => {
 
 		// Build log message
 		const emojis = reactionConfig.emojis?.join(' ') || 'no emojis';
-		const threadInfo = createdThreadName ? `, thread: "${createdThreadName}"` : '';
+		const threadInfo = createdThreadName ? `, thread: '${createdThreadName}'` : '';
 
 		console.log(
-			`React  » Applied "${reactionConfig.name}" (${emojis}${threadInfo}) ` +
+			`React  » Applied '${reactionConfig.name}' (${emojis}${threadInfo}) ` +
 			`for ${msg.author.username} (${msg.author.id}) ` +
 			`in #${msg.channel.name} (${msg.channel.id}) ` +
 			`on ${msg.guild.name} (${msg.guild.id})`
 		);
 	} catch (err) {
-		console.error(`React  » Failed to handle reaction config "${reactionConfig.name}":`, err.message);
+		console.error(`React  » Failed to handle reaction config '${reactionConfig.name}':`, err.message);
 	}
 };
 

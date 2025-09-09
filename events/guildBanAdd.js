@@ -81,6 +81,6 @@ module.exports = {
 			}
 		});
 
-		console.log(`EventB » User ${user.username} (${user.id}) banned from "${guild.name}"`);
+		console.log(`EventB » User ${user.username} (${user.id}) banned from '${guild.name}'`);
 	},
 };

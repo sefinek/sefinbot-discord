@@ -26,7 +26,7 @@ module.exports = {
 							: serverConfig.voiceChannels.members.name;
 						await vcMembersChannel.setName(channelName);
 					} catch (err) {
-						console.warn(`Client » Failed to initialize member count for "${guild.name}": ${err.message}`);
+						console.warn(`Client » Failed to initialize member count for '${guild.name}': ${err.message}`);
 					}
 				}
 			}
@@ -34,7 +34,7 @@ module.exports = {
 			if (serverConfig.voiceChannels?.online?.enabled && serverConfig.voiceChannels?.online?.channelId) {
 				const vcOnlineChannel = guild.channels.cache.get(serverConfig.voiceChannels.online.channelId);
 				if (!vcOnlineChannel) {
-					if (process.env.NODE_ENV === 'development') console.warn(`Client » Online count channel ${serverConfig.voiceChannels.online.channelId} not found in guild "${guild.name}" (${guild.id})`);
+					if (process.env.NODE_ENV === 'development') console.warn(`Client » Online count channel ${serverConfig.voiceChannels.online.channelId} not found in guild '${guild.name}' (${guild.id})`);
 					continue;
 				}
 
@@ -48,7 +48,7 @@ module.exports = {
 							: serverConfig.voiceChannels.online.name;
 						await vcOnlineChannel.setName(channelName);
 					} catch (err) {
-						console.warn(`Client » Failed to update online count for "${guild.name}": ${err.message}`);
+						console.warn(`Client » Failed to update online count for '${guild.name}': ${err.message}`);
 					}
 				};
 

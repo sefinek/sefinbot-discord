@@ -4,16 +4,13 @@ const prefix = '[SendUpdateMsg]:';
 module.exports = async (req, res) => {
 	const { guildId, roles, channelId, author, title, address, category, description, message } = req.body;
 
-	// Get Discord channel & check subject
 	const channel = await req.bot.channels.cache.get(channelId);
 	if (!channel) return res.status(400).send({ success: false, status: 400, message: `Channel ${channelId} was not found` });
 	if (!title || !message) return res.status(400).send({ success: false, status: 400, message: 'subject `title` or `message`' });
 
-	// Get guild
 	const guild = req.bot.guilds.cache.get(guildId);
 
 	try {
-		// Send message
 		if (message.length <= 4096) {
 			await channel.send({
 				content: `<@&${roles.stellaPlus}> <@&${roles.patreon}>`,

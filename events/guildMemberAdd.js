@@ -136,6 +136,6 @@ module.exports = {
 			}
 		});
 
-		console.log(`EventA » User ${member.user.username} (${member.id}) joined "${member.guild.name}"`);
+		console.log(`EventA » User ${member.user.username} (${member.id}) joined '${member.guild.name}'`);
 	},
 };

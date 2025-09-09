@@ -3,8 +3,8 @@ const router = require('express').Router();
 const UpdateDiscordRolesController = require('../controllers/UpdateDiscordRoles.js');
 const RemoveDiscordRolesController = require('../controllers/RemoveDiscordRoles.js');
 const SendDMMessageController = require('../controllers/SendDMMessage.js');
-const SendMsgController = require('../Channel/SendMsg.js');
-const SengLogController = require('../Channel/SendLog.js');
+const SendMsgController = require('../channel/SendMsg.js');
+const SengLogController = require('../channel/SendLog.js');
 const { validateSefinekToken, ensureBotClient } = require('../middlewares/auth.js');
 const VerificationController = require('../controllers/VerificationController.js');
 

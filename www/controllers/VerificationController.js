@@ -6,7 +6,7 @@ const isValidTokenFormat = token => token && (/^[a-f0-9]{128}$/i).test(token);
 
 const getVerificationInfo = asyncHandler(async (req, res) => {
 	const { token } = req.params;
-	if (!isValidTokenFormat(token)) return res.status(400).json({ success: false, status: 400, message: 'Invalid verification link format. Please request a new verification link from Discord.' });
+	if (!isValidTokenFormat(token)) return res.status(400).json({ success: false, status: 400, message: 'Invalid verification link format. Please request a new verification link.' });
 
 	const verification = await getPendingVerification(token);
 	if (!verification) return res.status(404).json({ success: false, status: 404, message: 'Token not found or expired' });
@@ -32,11 +32,11 @@ const getVerificationInfo = asyncHandler(async (req, res) => {
 
 const completeVerification = asyncHandler(async (req, res) => {
 	const { token } = req.params;
-	if (!isValidTokenFormat(token)) return res.status(400).json({ success: false, status: 400, message: 'Invalid verification link format. Please request a new verification link from Discord.' });
+	if (!isValidTokenFormat(token)) return res.status(400).json({ success: false, status: 400, message: 'Invalid verification link format. Please request a new verification link.' });
 
 	const verification = await completePendingVerification(token);
 	if (!verification) {
-		return res.status(404).json({ success: false, status: 404, message: 'Your verification link has expired. Please request a new verification link from Discord.' });
+		return res.status(404).json({ success: false, status: 404, message: 'Your verification link has expired. Please request a new verification link.' });
 	}
 
 	const guild = req.bot.guilds.cache.get(verification.guildId);
@@ -44,10 +44,10 @@ const completeVerification = asyncHandler(async (req, res) => {
 	if (!guild || !member) return res.status(404).json({ success: false, status: 404, message: 'Discord server or member not found. Please ensure you are still a member of the server.' });
 
 	const serverConfig = getServerConfig(verification.guildId);
-	if (!serverConfig?.verification?.enabled) return res.status(400).json({ success: false, status: 400, message: 'Verification is currently disabled on this Discord server. Please contact an administrator.' });
+	if (!serverConfig?.verification?.enabled) return res.status(400).json({ success: false, status: 400, message: 'Verification is currently disabled on this server. Please contact an administrator.' });
 
 	if (!member.roles.cache.has(serverConfig.verification.unverifiedRoleId)) {
-		return res.status(400).json({ success: false, status: 400, message: 'You are already verified or do not have the unverified role. Please check your Discord permissions.' });
+		return res.status(400).json({ success: false, status: 400, message: 'You are already verified or do not have the unverified role. Please check your permissions.' });
 	}
 
 	const roleChanges = [];
@@ -62,10 +62,10 @@ const completeVerification = asyncHandler(async (req, res) => {
 		} catch (roleErr) {
 			console.error(`Verification » Role update error for ${member.user.username}:`, roleErr);
 
-			if (roleErr.code === 50013) return res.status(403).json({ success: false, status: 403, message: 'The Discord bot lacks permission to assign roles. Please contact a server administrator.' });
-			if (roleErr.code === 50001) return res.status(403).json({ success: false, status: 403, message: 'The Discord bot lacks access to the server. Please contact a server administrator.' });
+			if (roleErr.code === 50013) return res.status(403).json({ success: false, status: 403, message: 'Bot lacks permission to assign roles. Please contact a server administrator.' });
+			if (roleErr.code === 50001) return res.status(403).json({ success: false, status: 403, message: 'Bot lacks access to the server. Please contact a server administrator.' });
 
-			return res.status(500).json({ success: false, status: 500, message: 'Failed to update your Discord roles. Please try again or contact an administrator.' });
+			return res.status(500).json({ success: false, status: 500, message: 'Failed to update your roles. Please try again or contact an administrator.' });
 		}
 	}
 
@@ -86,7 +86,7 @@ const completeVerification = asyncHandler(async (req, res) => {
 
 	await sendVerificationSuccessDM();
 
-	console.log(`Verification » Successfully verified ${member.user.username} (${member.id}) in guild "${guild.name}"`);
+	console.log(`Verification » Successfully verified ${member.user.username} (${member.id}) in '${guild.name}'`);
 
 	return res.json({
 		success: true,
