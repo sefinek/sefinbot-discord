@@ -130,3 +130,7 @@ See the existing server configurations in `/config/servers/` for real-world exam
 📝 **Documentation**: This documentation was written by [Claude AI](https://claude.ai) to provide comprehensive guidance for the SefinBot configuration system.
 
 **Note**: This bot is designed for specific Discord servers and may require customization for your use case. Please review the configuration files and adapt them to your server's needs.
+
+
+## 🔖 License
+MIT License
