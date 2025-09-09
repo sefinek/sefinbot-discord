@@ -4,7 +4,6 @@ const activities = [
 	{ name: 'meow~~', type: ActivityType.Playing, status: 'online' },
 	{ name: '🎶🎵🎵🎶', type: ActivityType.Listening, status: 'idle' },
 	{ name: 'https://sefinek.net 🔷', type: ActivityType.Watching, status: 'online' },
-	{ name: 'you', type: ActivityType.Watching, status: 'dnd' },
 ];
 
 module.exports = client => {
