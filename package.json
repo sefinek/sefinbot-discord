@@ -21,7 +21,6 @@
     "@discordjs/builders": "^1.11.3",
     "@discordjs/rest": "^2.6.0",
     "@sefinek/cleverbot-free": "^2.1.6",
-    "axios": "^1.11.0",
     "cron": "^4.3.3",
     "discord.js": "^14.22.1",
     "express": "^5.1.0",
