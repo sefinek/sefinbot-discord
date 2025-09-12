@@ -210,7 +210,7 @@ validation: {
   thread: {
     enabled: true,
     nameTemplate: author => `${author.globalName}: Photo Comments`,
-    autoArchiveDuration: 24 * 60, // 1 day
+    autoArchiveDuration: 24 * 60,
     reason: author => `Photo shared by ${author.username}`,
     startMessage: {
       embeds: [

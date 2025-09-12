@@ -134,7 +134,7 @@ module.exports = {
 			thread: {
 				enabled: true,
 				nameTemplate: author => `${author.username}: Komentarze`,
-				autoArchiveDuration: 24 * 60, // 1 day
+				autoArchiveDuration: 2 * 24 * 60,
 				reason: author => `Zdjęcie użytkownika ${author.globalName} (${author.id}).`,
 				startMessage: {
 					embeds: [
@@ -155,7 +155,7 @@ module.exports = {
 			thread: {
 				enabled: true,
 				nameTemplate: author => `${author.username}: Komentarze`,
-				autoArchiveDuration: 24 * 60, // 1 day
+				autoArchiveDuration: 2 * 24 * 60,
 				reason: author => `Przedstawienie się użytkownika ${author.globalName} (${author.id}).`,
 				startMessage: {
 					embeds: [
@@ -176,7 +176,7 @@ module.exports = {
 			thread: {
 				enabled: true,
 				nameTemplate: author => `${author.username}: O zwierzaku`,
-				autoArchiveDuration: 24 * 60, // 1 day
+				autoArchiveDuration: 2 * 24 * 60,
 				reason: author => `Zdjęcie zwierzaka użytkownika ${author.globalName} (${author.id}).`,
 				startMessage: {
 					embeds: [
@@ -222,16 +222,16 @@ module.exports = {
 			name: 'dating-reactions',
 			enabled: true,
 			channels: [channels.dating],
-			emojis: ['😻'],
+			emojis: ['😻', '🤡', '⛪'],
 			thread: {
 				enabled: true,
 				nameTemplate: author => `${author.username}: Komentarze`,
-				autoArchiveDuration: 3 * 24 * 60,
+				autoArchiveDuration: 4 * 24 * 60,
 				reason: author => `Prezentacja użytkownika ${author.globalName} (${author.id}).`,
 				startMessage: {
 					embeds: [
 						new EmbedBuilder()
-							.setDescription('Tutaj pozostali użytkownicy mogą skomentować niniejszą wiadomość. Pamiętaj, że każdy członek serwera jest zobowiązany do [przestrzegania wytycznych](https://github.com/sefinek/Milosna_Grota/blob/main/Rules.md).'),
+							.setDescription('Tutaj pozostali użytkownicy mogą skomentować niniejszą wiadomość. Pamiętaj, że każdy członek serwera jest zobowiązany do przestrzegania [wytycznych](https://github.com/sefinek/Milosna_Grota/blob/main/Rules.md).'),
 					],
 				},
 			},
