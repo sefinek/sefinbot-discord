@@ -165,7 +165,7 @@ module.exports = {
 				},
 			},
 			validation: {
-				textLength: { min: 20, message: minLength => `Twoje przedstawienie się jest za krótkie! Napisz co najmniej ${minLength} znaków, aby inni mogli Cię lepiej poznać. ✍️` },
+				textLength: { min: 20, message: minLength => `Twoje przedstawienie się jest za krótkie! Napisz co najmniej **${minLength} znaków**, aby inni mogli Cię lepiej poznać. ✍️` },
 			},
 		},
 		{

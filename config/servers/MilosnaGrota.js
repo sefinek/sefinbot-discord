@@ -186,7 +186,7 @@ module.exports = {
 				},
 			},
 			validation: {
-				textLength: { min: 68, message: minLength => `Twoje przedstawienie się jest za krótkie! Napisz co najmniej ${minLength} znaków, aby inni mogli Cię lepiej poznać. ✍️` },
+				textLength: { min: 68, message: minLength => `Twoje przedstawienie się jest za krótkie! Napisz co najmniej **${minLength} znaków**, aby inni mogli Cię lepiej poznać. ✍️` },
 			},
 		},
 		{
@@ -228,7 +228,7 @@ module.exports = {
 				},
 			},
 			validation: {
-				textLength: { min: 10, message: minLength => `Twoje ogłoszenie jest zbyt krótkie! Napisz co najmniej ${minLength} znaków, aby inni mogli dowiedzieć się o Tobie czegoś więcej. ✍️` },
+				textLength: { min: 10, message: minLength => `Twoje ogłoszenie jest zbyt krótkie! Napisz co najmniej **${minLength} znaków**, aby inni mogli dowiedzieć się o Tobie czegoś więcej. ✍️` },
 			},
 		},
 		{
