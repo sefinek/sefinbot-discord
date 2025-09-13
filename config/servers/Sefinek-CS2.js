@@ -31,7 +31,7 @@ module.exports = {
 					new EmbedBuilder()
 						.setColor('#05ff81')
 						.setAuthor({ name: `👋 ${member.user.globalName} dołączył do nas`, iconURL: member.guild.iconURL() })
-						.setDescription(`Witaj ${member} na naszym kurwidołku! Mamy wielką nadzieje, że zostaniesz u nas na dłuższy czas. Miłego pobytu.\nJesteś naszym **${memberCount}** gościem**.`)
+						.setDescription(`Witaj ${member} na naszym kurwidołku! Mamy wielką nadzieje, że zostaniesz u nas na dłuższy czas. Miłego pobytu.\nJesteś naszym **${memberCount} gościem**.`)
 						.setThumbnail(member.user.displayAvatarURL()),
 				],
 			}),

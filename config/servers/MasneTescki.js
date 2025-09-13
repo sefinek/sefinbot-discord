@@ -55,7 +55,7 @@ module.exports = {
 					new EmbedBuilder()
 						.setColor('#05ff81')
 						.setAuthor({ name: `👋 ${member.user.globalName} dołączył do nas`, iconURL: member.guild.iconURL() })
-						.setDescription(`Witaj ${member} na naszym serwerze! Mamy wielką nadzieje, że zostaniesz u nas na dłuższy czas. Miłego pobytu.\nJesteś naszym **${memberCount}** gościem**. Dziękujemy Ci za dołączenie!`)
+						.setDescription(`Witaj ${member} na naszym serwerze! Mamy wielką nadzieje, że zostaniesz u nas na dłuższy czas. Miłego pobytu.\nJesteś naszym **${memberCount} gościem**. Dziękujemy Ci za dołączenie!`)
 						.setThumbnail(member.user.displayAvatarURL()),
 				],
 			}),
