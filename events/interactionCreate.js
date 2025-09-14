@@ -46,7 +46,7 @@ module.exports = {
 					// Generate token and URL
 					const verificationToken = crypto.randomBytes(64).toString('hex');
 					const tokenExpiryTime = serverConfig.verification?.timeouts?.tokenExpiry || (24 * 60 * 60 * 1000);
-					const verificationUrl = `http${process.env.NODE_ENV === 'production' ? 's://sefinek.net' : '://127.0.0.1:4030'}/verify/${verificationToken}`;
+					const verificationUrl = `http${process.env.NODE_ENV === 'production' ? 's://sefinek.net' : '://127.0.0.1:4030'}/milosna-grota/verification2/${verificationToken}`;
 
 					// Atomic database operation to prevent race conditions
 					const updateResult = await VerificationStatus.findOneAndUpdate(
